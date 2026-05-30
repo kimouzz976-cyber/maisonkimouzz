@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>EarnOnline Dashboard</title>
+  <title>EarnOnline Pro Dashboard</title>
   <style>
     body {
       margin: 0;
@@ -13,7 +13,7 @@
 
     header {
       background: linear-gradient(90deg, #0f172a, #1e3a8a);
-      padding: 30px;
+      padding: 25px;
       text-align: center;
     }
 
@@ -22,28 +22,13 @@
       color: #38bdf8;
     }
 
-    .stats {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 10px;
-      max-width: 900px;
-      margin: auto;
-      padding: 20px;
+    .sub {
+      color: #cbd5e1;
     }
 
-    .box {
-      background: #1e293b;
-      padding: 20px;
-      border-radius: 12px;
-      text-align: center;
-    }
-
-    .box h2 {
-      margin: 0;
-      color: #38bdf8;
-    }
-
-    .container {
+    .topbar {
+      display: flex;
+      justify-content: space-around;
       max-width: 900px;
       margin: auto;
       padding: 20px;
@@ -52,11 +37,31 @@
     .card {
       background: #111827;
       padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+      flex: 1;
+      margin: 5px;
+    }
+
+    .money {
+      font-size: 28px;
+      color: #22c55e;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .box {
+      background: #1e293b;
+      padding: 20px;
       margin: 15px 0;
       border-radius: 12px;
     }
 
-    a {
+    .btn {
       display: inline-block;
       margin-top: 10px;
       padding: 10px 15px;
@@ -65,6 +70,14 @@
       text-decoration: none;
       border-radius: 8px;
       font-weight: bold;
+    }
+
+    input {
+      padding: 10px;
+      width: 80%;
+      margin-top: 10px;
+      border-radius: 8px;
+      border: none;
     }
 
     footer {
@@ -79,53 +92,72 @@
 <body>
 
 <header>
-  <h1>💰 EarnOnline Dashboard</h1>
-  <p>Suivi des méthodes pour gagner de l'argent en ligne</p>
+  <h1>💰 EarnOnline Pro</h1>
+  <p class="sub">Plateforme de micro-revenus en ligne</p>
 </header>
 
-<!-- STATS -->
-<div class="stats">
-  <div class="box">
-    <h2>3</h2>
-    <p>Plateformes</p>
+<!-- TOP STATS -->
+<div class="topbar">
+
+  <div class="card">
+    <h3>💰 Gains estimés</h3>
+    <div class="money" id="money">0€</div>
   </div>
 
-  <div class="box">
-    <h2>0€</h2>
-    <p>Gains réels</p>
+  <div class="card">
+    <h3>📊 Activité</h3>
+    <p>Active</p>
   </div>
 
-  <div class="box">
-    <h2>100%</h2>
-    <p>Débutant</p>
+  <div class="card">
+    <h3>👤 Utilisateur</h3>
+    <p>Invité</p>
   </div>
+
 </div>
 
 <div class="container">
 
-  <div class="card">
+  <!-- LOGIN FAKE -->
+  <div class="box">
+    <h2>🔐 Connexion</h2>
+    <input type="text" placeholder="Pseudo">
+    <br>
+    <input type="password" placeholder="Mot de passe">
+    <br>
+    <a class="btn" href="#">Se connecter</a>
+  </div>
+
+  <!-- PLATEFORMES -->
+  <div class="box">
     <h2>📊 Sondages</h2>
-    <p>Réponds à des questions simples et gagne de petites récompenses.</p>
-    <a href="https://www.attapoll.com" target="_blank">AttaPoll</a>
+    <a class="btn" href="https://www.attapoll.com" target="_blank">AttaPoll</a>
   </div>
 
-  <div class="card">
+  <div class="box">
     <h2>💼 Freelance</h2>
-    <p>Vends tes services (logo, vidéo, texte...)</p>
-    <a href="https://www.fiverr.com" target="_blank">Fiverr</a>
+    <a class="btn" href="https://www.fiverr.com" target="_blank">Fiverr</a>
   </div>
 
-  <div class="card">
+  <div class="box">
     <h2>🎮 Micro-tâches</h2>
-    <p>Petites missions en ligne payées.</p>
-    <a href="https://www.swagbucks.com" target="_blank">Swagbucks</a>
+    <a class="btn" href="https://www.swagbucks.com" target="_blank">Swagbucks</a>
   </div>
 
 </div>
 
 <footer>
-  © 2026 EarnOnline Dashboard - Projet éducatif
+  © 2026 EarnOnline Pro - Dashboard éducatif
 </footer>
+
+<!-- SIMPLE ANIMATION -->
+<script>
+  let money = 0;
+  setInterval(() => {
+    money += Math.floor(Math.random() * 3);
+    document.getElementById("money").innerText = money + "€";
+  }, 2000);
+</script>
 
 </body>
 </html>
