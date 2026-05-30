@@ -20,14 +20,15 @@
 
     h1 {
       margin: 0;
-      font-size: 40px;
+      font-size: 42px;
       color: #38bdf8;
     }
 
     .subtitle {
-      max-width: 650px;
+      max-width: 700px;
       margin: 10px auto;
       color: #cbd5e1;
+      line-height: 1.5;
     }
 
     .btn {
@@ -42,15 +43,22 @@
     }
 
     .container {
-      max-width: 1000px;
+      max-width: 1100px;
       margin: auto;
       padding: 20px;
+    }
+
+    .section-title {
+      margin-top: 40px;
+      font-size: 24px;
+      color: #38bdf8;
     }
 
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 15px;
+      margin-top: 20px;
     }
 
     .card {
@@ -66,18 +74,17 @@
 
     .card p {
       color: #cbd5e1;
+      line-height: 1.4;
     }
 
-    .small {
-      font-size: 13px;
-      color: #94a3b8;
-    }
-
-    footer {
-      text-align: center;
-      padding: 30px;
+    .tag {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 5px 10px;
+      background: #0ea5e9;
+      color: black;
+      border-radius: 8px;
       font-size: 12px;
-      color: #94a3b8;
     }
 
     .warning {
@@ -87,6 +94,13 @@
       margin-top: 20px;
       border-left: 4px solid #38bdf8;
     }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      font-size: 12px;
+      color: #94a3b8;
+    }
   </style>
 </head>
 
@@ -95,45 +109,68 @@
 <header>
   <h1>💰 EarnFlow</h1>
   <p class="subtitle">
-    Un guide simple pour découvrir des méthodes légales pour générer des revenus en ligne grâce aux plateformes digitales et au freelance.
+    Un guide simple pour apprendre à générer des revenus en ligne grâce aux plateformes digitales,
+    au freelance et aux micro-services. Débutant ou curieux, tout est expliqué simplement.
   </p>
 
-  <a class="btn" href="#methods">Explorer les méthodes</a>
+  <a class="btn" href="#methods">🚀 Explorer les méthodes</a>
 </header>
 
 <div class="container">
 
   <div class="warning">
-    ⚠️ Important : ce site est éducatif. Les revenus en ligne demandent du temps et des efforts.
+    ⚠️ Important : Il n’existe pas de revenus rapides sans effort. Ce site a un but éducatif.
   </div>
 
-</div>
+  <h2 class="section-title">📌 Pourquoi ce site existe ?</h2>
+  <p>
+    EarnFlow a été créé pour aider les débutants à comprendre comment fonctionne l’argent en ligne,
+    éviter les arnaques et découvrir des méthodes accessibles à tous.
+  </p>
 
-<div class="container" id="methods">
-
-  <h2>🚀 Méthodes principales</h2>
+  <h2 class="section-title" id="methods">🚀 Méthodes principales</h2>
 
   <div class="grid">
 
     <div class="card">
-      <h3>📊 Sondages</h3>
-      <p>Répondre à des enquêtes en ligne pour gagner des récompenses.</p>
+      <h3>📊 Sondages payés</h3>
+      <p>Réponds à des enquêtes simples pour gagner des récompenses.</p>
+      <span class="tag">Débutant</span><br><br>
       <a class="btn" href="https://www.attapoll.com" target="_blank">Accéder</a>
-      <p class="small">Idéal débutant</p>
     </div>
 
     <div class="card">
       <h3>💼 Freelance</h3>
-      <p>Vendre ses compétences : design, texte, vidéo, etc.</p>
+      <p>Vends tes compétences : design, rédaction, montage vidéo.</p>
+      <span class="tag">Revenu réel</span><br><br>
       <a class="btn" href="https://www.fiverr.com" target="_blank">Accéder</a>
-      <p class="small">Compétences utiles</p>
     </div>
 
     <div class="card">
       <h3>🎮 Micro-tâches</h3>
-      <p>Petites missions rapides sur internet.</p>
+      <p>Petites missions rapides comme tester des apps ou répondre à des tâches.</p>
+      <span class="tag">Simple</span><br><br>
       <a class="btn" href="https://www.swagbucks.com" target="_blank">Accéder</a>
-      <p class="small">Simple mais lent</p>
+    </div>
+
+    <div class="card">
+      <h3>📱 Marketing d’affiliation</h3>
+      <p>Recommander des produits et toucher une commission sur les ventes.</p>
+      <span class="tag">Business</span><br><br>
+      <a class="btn" href="#" target="_blank">Bientôt</a>
+    </div>
+
+    <div class="card">
+      <h3>🧠 Compétences digitales</h3>
+      <p>Apprendre des compétences (design, code, marketing) pour gagner plus.</p>
+      <span class="tag">Long terme</span><br><br>
+      <a class="btn" href="#" target="_blank">Guide</a>
+    </div>
+
+    <div class="card">
+      <h3>💡 Conseil important</h3>
+      <p>Concentre-toi sur une méthode à la fois et sois régulier.</p>
+      <span class="tag">Réaliste</span>
     </div>
 
   </div>
