@@ -2,87 +2,79 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>EarnOnline Pro Dashboard</title>
+  <title>EarnFlow - Gagner de l'argent en ligne</title>
   <style>
     body {
       margin: 0;
       font-family: Arial;
-      background: #050816;
+      background: #070a14;
       color: white;
     }
 
     header {
-      background: linear-gradient(90deg, #0f172a, #1e3a8a);
-      padding: 25px;
+      padding: 60px 20px;
       text-align: center;
+      background: radial-gradient(circle at top, #1e3a8a, #050816);
     }
 
     h1 {
+      font-size: 42px;
       margin: 0;
       color: #38bdf8;
     }
 
-    .sub {
+    p {
       color: #cbd5e1;
+      max-width: 600px;
+      margin: 10px auto;
     }
 
-    .topbar {
-      display: flex;
-      justify-content: space-around;
-      max-width: 900px;
+    .btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 20px;
+      background: #38bdf8;
+      color: black;
+      font-weight: bold;
+      border-radius: 10px;
+      text-decoration: none;
+    }
+
+    .section {
+      max-width: 1000px;
       margin: auto;
-      padding: 20px;
+      padding: 40px 20px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 15px;
     }
 
     .card {
       background: #111827;
       padding: 20px;
       border-radius: 12px;
-      text-align: center;
-      flex: 1;
-      margin: 5px;
+      transition: 0.3s;
     }
 
-    .money {
-      font-size: 28px;
-      color: #22c55e;
+    .card:hover {
+      transform: scale(1.03);
     }
 
-    .container {
-      max-width: 900px;
-      margin: auto;
-      padding: 20px;
-    }
-
-    .box {
-      background: #1e293b;
-      padding: 20px;
-      margin: 15px 0;
-      border-radius: 12px;
-    }
-
-    .btn {
+    .tag {
       display: inline-block;
-      margin-top: 10px;
-      padding: 10px 15px;
-      background: #38bdf8;
+      padding: 5px 10px;
+      background: #0ea5e9;
       color: black;
-      text-decoration: none;
       border-radius: 8px;
-      font-weight: bold;
-    }
-
-    input {
-      padding: 10px;
-      width: 80%;
-      margin-top: 10px;
-      border-radius: 8px;
-      border: none;
+      font-size: 12px;
     }
 
     footer {
       text-align: center;
-      padding: 20px;
+      padding: 30px;
       font-size: 12px;
       color: #94a3b8;
     }
@@ -92,72 +84,64 @@
 <body>
 
 <header>
-  <h1>💰 EarnOnline Pro</h1>
-  <p class="sub">Plateforme de micro-revenus en ligne</p>
+  <h1>💰 EarnFlow</h1>
+  <p>Apprends comment générer des revenus en ligne grâce aux plateformes digitales et aux compétences freelance.</p>
+  <a class="btn" href="#start">Commencer</a>
 </header>
 
-<!-- TOP STATS -->
-<div class="topbar">
+<div class="section" id="start">
 
-  <div class="card">
-    <h3>💰 Gains estimés</h3>
-    <div class="money" id="money">0€</div>
-  </div>
-
-  <div class="card">
-    <h3>📊 Activité</h3>
-    <p>Active</p>
-  </div>
-
-  <div class="card">
-    <h3>👤 Utilisateur</h3>
-    <p>Invité</p>
-  </div>
+  <h2>📌 Comment ça fonctionne</h2>
+  <p>
+    EarnFlow t’aide à découvrir des méthodes simples pour commencer à gagner de l’argent en ligne :
+    micro-tâches, sondages, freelance et compétences digitales.
+  </p>
 
 </div>
 
-<div class="container">
+<div class="section">
 
-  <!-- LOGIN FAKE -->
-  <div class="box">
-    <h2>🔐 Connexion</h2>
-    <input type="text" placeholder="Pseudo">
-    <br>
-    <input type="password" placeholder="Mot de passe">
-    <br>
-    <a class="btn" href="#">Se connecter</a>
-  </div>
+  <h2>🚀 Méthodes recommandées</h2>
 
-  <!-- PLATEFORMES -->
-  <div class="box">
-    <h2>📊 Sondages</h2>
-    <a class="btn" href="https://www.attapoll.com" target="_blank">AttaPoll</a>
-  </div>
+  <div class="grid">
 
-  <div class="box">
-    <h2>💼 Freelance</h2>
-    <a class="btn" href="https://www.fiverr.com" target="_blank">Fiverr</a>
-  </div>
+    <div class="card">
+      <h3>📊 Sondages</h3>
+      <p>Réponds à des sondages et gagne des récompenses.</p>
+      <span class="tag">Débutant</span><br><br>
+      <a class="btn" href="https://www.attapoll.com" target="_blank">Accéder</a>
+    </div>
 
-  <div class="box">
-    <h2>🎮 Micro-tâches</h2>
-    <a class="btn" href="https://www.swagbucks.com" target="_blank">Swagbucks</a>
+    <div class="card">
+      <h3>💼 Freelance</h3>
+      <p>Propose tes services en ligne (design, texte, vidéo).</p>
+      <span class="tag">Compétence</span><br><br>
+      <a class="btn" href="https://www.fiverr.com" target="_blank">Accéder</a>
+    </div>
+
+    <div class="card">
+      <h3>🎮 Micro-tâches</h3>
+      <p>Petites missions rapides payées en ligne.</p>
+      <span class="tag">Simple</span><br><br>
+      <a class="btn" href="https://www.swagbucks.com" target="_blank">Accéder</a>
+    </div>
+
   </div>
+</div>
+
+<div class="section">
+
+  <h2>⚠️ Important</h2>
+  <p>
+    Les revenus en ligne ne sont pas automatiques. Ils dépendent du temps, de la régularité et des compétences.
+  </p>
+  <span class="tag">Réaliste</span>
 
 </div>
 
 <footer>
-  © 2026 EarnOnline Pro - Dashboard éducatif
+  © 2026 EarnFlow - Projet éducatif sur les revenus en ligne
 </footer>
-
-<!-- SIMPLE ANIMATION -->
-<script>
-  let money = 0;
-  setInterval(() => {
-    money += Math.floor(Math.random() * 3);
-    document.getElementById("money").innerText = money + "€";
-  }, 2000);
-</script>
 
 </body>
 </html>
