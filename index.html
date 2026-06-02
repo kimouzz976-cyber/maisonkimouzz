@@ -20,15 +20,8 @@ body{
   background:rgba(0,0,0,0.25);
 }
 
-.hero h1{
-  font-size:40px;
-  margin:0;
-}
-
-.hero p{
-  color:#ffe8a3;
-  font-size:18px;
-}
+.hero h1{font-size:40px;margin:0;}
+.hero p{color:#ffe8a3;font-size:18px;}
 
 .hero button{
   margin-top:15px;
@@ -81,16 +74,6 @@ header{
   border-radius:14px;
 }
 
-/* BADGE */
-.badge{
-  display:inline-block;
-  background:#25D366;
-  padding:4px 10px;
-  border-radius:12px;
-  font-size:12px;
-  margin-top:5px;
-}
-
 /* PRIX */
 .price{
   color:#ffe066;
@@ -120,7 +103,6 @@ header{
   border-radius:15px;
 }
 
-/* ITEM */
 .item{
   display:flex;
   justify-content:space-between;
@@ -128,13 +110,13 @@ header{
   font-size:14px;
 }
 
-/* TOTAL */
 .total{
   margin-top:10px;
   font-weight:bold;
+  font-size:18px;
+  color:#ffe066;
 }
 
-/* ORDER */
 .order-btn{
   width:100%;
   margin-top:10px;
@@ -186,7 +168,6 @@ footer{
   <div class="card">
     <img src="https://upload.wikimedia.org/wikipedia/commons/8/8a/Banana-Single.jpg">
     <h3>Banane</h3>
-    <span class="badge">Frais 🍌</span>
     <div class="price">20€ / kg</div>
     <button onclick="add('Banane',20)">Ajouter</button>
   </div>
@@ -194,7 +175,6 @@ footer{
   <div class="card">
     <img src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Eggs_in_a_carton.jpg">
     <h3>Œufs</h3>
-    <span class="badge">Local 🥚</span>
     <div class="price">8€ / plateau</div>
     <button onclick="add('Œufs',8)">Ajouter</button>
   </div>
@@ -202,7 +182,6 @@ footer{
   <div class="card">
     <img src="https://upload.wikimedia.org/wikipedia/commons/5/50/Roast_chicken.jpg">
     <h3>Poulet</h3>
-    <span class="badge">Promo 🔥</span>
     <div class="price">10€</div>
     <button onclick="add('Poulet',10)">Ajouter</button>
   </div>
@@ -210,7 +189,6 @@ footer{
   <div class="card">
     <img src="https://upload.wikimedia.org/wikipedia/commons/5/50/Whole_roast_duck.jpg">
     <h3>Canard</h3>
-    <span class="badge">Premium 🦆</span>
     <div class="price">35€ - 40€</div>
     <button onclick="add('Canard',35)">Ajouter</button>
   </div>
@@ -221,7 +199,11 @@ footer{
 <div class="cart">
   <h3>🧺 Panier</h3>
   <div id="cart"></div>
-  <div class="total">Total : <span id="total">0</span>€</div>
+
+  <div class="total">
+    Total : <span id="total">0</span>€
+  </div>
+
   <button class="order-btn" onclick="order()">Commander WhatsApp</button>
 </div>
 
@@ -265,11 +247,16 @@ function render(){
 }
 
 function order(){
-  let msg = "Bonjour, je souhaite commander :\n\n";
+  let total = 0;
+  let msg = "🛒 Commande Maison Kimouzz\n\n";
+
   cart.forEach(item=>{
-    msg += "- " + item.name + " " + item.price + "€\n";
+    msg += "- " + item.name + " : " + item.price + "€\n";
+    total += item.price;
   });
-  msg += "\nMerci !";
+
+  msg += "\n💰 Total à payer : " + total + "€";
+  msg += "\n\nMerci pour votre commande 🙏";
 
   let url = "https://wa.me/33789583650?text=" + encodeURIComponent(msg);
   window.open(url, "_blank");
