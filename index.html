@@ -257,6 +257,42 @@ display:block;
 margin-bottom:15px;
 }
 
+/* AVIS */
+.review-box{
+background:rgba(255,255,255,0.08);
+padding:30px;
+border-radius:25px;
+max-width:700px;
+margin:auto;
+backdrop-filter:blur(10px);
+}
+
+.review-box input,
+.review-box textarea{
+width:100%;
+padding:14px;
+border:none;
+border-radius:12px;
+outline:none;
+margin-bottom:15px;
+font-family:'Poppins',sans-serif;
+}
+
+.review-box textarea{
+height:120px;
+resize:none;
+}
+
+.review-box button{
+width:100%;
+padding:15px;
+border:none;
+border-radius:14px;
+background:linear-gradient(90deg,#ffdd00,#ff7b00);
+font-weight:bold;
+cursor:pointer;
+}
+
 /* CART */
 .cart{
 position:fixed;
@@ -434,6 +470,7 @@ class="logo">
 <nav>
 <a href="#products">Produits</a>
 <a href="#services">Services</a>
+<a href="#avis">Avis</a>
 <a href="#contact">Contact</a>
 </nav>
 
@@ -484,16 +521,16 @@ Découvrez nos produits frais et locaux
 <div class="card">
 
 <img
-src="https://images.unsplash.com/photo-1603833665858-e61d17a86224?q=80&w=800"
-alt="Régime de bananes">
+src="https://images.unsplash.com/photo-1528825871115-3581a5387919?q=80&w=800"
+alt="Bananes vertes">
 
 <div class="card-content">
 
-<h3>Bananes</h3>
+<h3>Banane verte</h3>
 
-<div class="price">20€ / kg</div>
+<div class="price">20€ / régime</div>
 
-<button onclick="add('Bananes',20)">
+<button onclick="add('Banane verte',20)">
 Ajouter au panier
 </button>
 
@@ -505,7 +542,8 @@ Ajouter au panier
 <div class="card">
 
 <img
-src="https://images.unsplash.com/photo-1587486913049-53fc88980cfc?q=80&w=800">
+src="https://images.unsplash.com/photo-1587486913049-53fc88980cfc?q=80&w=800"
+alt="Œufs frais">
 
 <div class="card-content">
 
@@ -525,16 +563,16 @@ Ajouter au panier
 <div class="card">
 
 <img
-src="https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?q=80&w=800"
-alt="Poule">
+src="https://images.unsplash.com/photo-1500595046743-cd271d694d30?q=80&w=800"
+alt="Poule à la plage">
 
 <div class="card-content">
 
-<h3>Poulet fermier</h3>
+<h3>Poule à la plage</h3>
 
 <div class="price">10€</div>
 
-<button onclick="add('Poulet',10)">
+<button onclick="add('Poule',10)">
 Ajouter au panier
 </button>
 
@@ -546,8 +584,8 @@ Ajouter au panier
 <div class="card">
 
 <img
-src="https://images.unsplash.com/photo-1502780402662-acc019177f9e?q=80&w=800"
-alt="Canard vivant">
+src="https://images.unsplash.com/photo-1474511320723-9a56873867b5?q=80&w=800"
+alt="Canard">
 
 <div class="card-content">
 
@@ -614,6 +652,69 @@ style="border:0;"
 allowfullscreen=""
 loading="lazy">
 </iframe>
+
+</div>
+
+</section>
+
+<!-- AVIS CLIENTS -->
+
+<section class="section" id="avis">
+
+<h2 class="section-title">Avis des clients</h2>
+
+<p class="section-sub">
+Les retours de nos clients ❤️
+</p>
+
+<div class="services">
+
+<div class="service">
+<span>⭐ ⭐ ⭐ ⭐ ⭐</span>
+<h3>Fatima</h3>
+<p>
+Produits très frais et livraison rapide.
+Je recommande Maison Kimouzz !
+</p>
+</div>
+
+<div class="service">
+<span>⭐ ⭐ ⭐ ⭐ ⭐</span>
+<h3>Ali</h3>
+<p>
+Les bananes sont excellentes et de très bonne qualité.
+</p>
+</div>
+
+<div class="service">
+<span>⭐ ⭐ ⭐ ⭐ ⭐</span>
+<h3>Sofia</h3>
+<p>
+Service sérieux et très professionnel.
+Merci beaucoup !
+</p>
+</div>
+
+</div>
+
+<br><br>
+
+<div class="review-box">
+
+<h3 style="margin-bottom:20px;text-align:center;">
+Donnez votre avis
+</h3>
+
+<input
+type="text"
+placeholder="Votre prénom">
+
+<textarea
+placeholder="Votre avis..."></textarea>
+
+<button>
+Envoyer mon avis
+</button>
 
 </div>
 
