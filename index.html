@@ -3,17 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Maison Kimouzz - E-commerce</title>
+<title>Maison Kimouzz - E-commerce Pro</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Poppins,sans-serif;}
 
-body{
-background:#081420;
-color:white;
-}
+body{background:#081420;color:white;}
 
 /* HEADER */
 header{
@@ -23,13 +20,13 @@ width:100%;
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:15px 20px;
+padding:15px;
 background:rgba(0,0,0,0.4);
 backdrop-filter:blur(10px);
 z-index:1000;
 }
 
-.logo-area{display:flex;align-items:center;gap:10px}
+.logo-area{display:flex;gap:10px;align-items:center}
 .logo{width:50px;height:50px;border-radius:12px}
 
 /* HERO */
@@ -45,6 +42,7 @@ url('https://images.unsplash.com/photo-1542838132-92c53300491e') center/cover;
 
 /* PRODUCTS */
 .section{padding:100px 20px;max-width:1100px;margin:auto;}
+
 .products{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
@@ -54,21 +52,19 @@ gap:20px;
 .card{
 background:rgba(255,255,255,0.08);
 border-radius:15px;
-overflow:hidden;
-transition:0.3s;
-}
-.card:hover{transform:scale(1.03)}
-
-.card img{width:100%;height:160px;object-fit:cover}
-
-.card-content{padding:10px}
-
-.price{color:#ffdd00;font-weight:bold;margin:8px 0}
-
-button{
 padding:10px;
+}
+
+.card img{width:100%;height:150px;object-fit:cover;border-radius:10px}
+
+.price{color:#ffdd00;font-weight:bold}
+
+/* BUTTON */
+button{
+padding:8px;
 border:none;
 width:100%;
+margin-top:5px;
 cursor:pointer;
 border-radius:8px;
 background:linear-gradient(90deg,#ffdd00,#ff7b00);
@@ -78,11 +74,9 @@ font-weight:bold;
 /* CART */
 .cart{
 position:fixed;
-right:15px;
-bottom:15px;
+right:10px;
+bottom:10px;
 width:320px;
-max-height:80vh;
-overflow:auto;
 background:rgba(0,0,0,0.9);
 padding:15px;
 border-radius:15px;
@@ -92,29 +86,23 @@ z-index:2000;
 .cart-item{
 display:flex;
 justify-content:space-between;
-margin:5px 0;
 font-size:14px;
+margin:5px 0;
 }
 
-.total{color:#ffdd00;margin-top:10px;font-weight:bold}
-
-.small-btn{
-background:#333;
-color:white;
-margin-top:5px;
-}
+.total{color:#ffdd00;font-weight:bold}
 
 /* ADMIN */
 #adminPanel{
 display:none;
 position:fixed;
 top:80px;
-right:20px;
+right:10px;
 background:#000;
 padding:15px;
 border-radius:10px;
+width:260px;
 z-index:3000;
-width:250px;
 }
 
 #adminPanel input{
@@ -123,12 +111,9 @@ margin:5px 0;
 padding:5px;
 }
 
-/* ORDERS */
-.orders{
-background:rgba(255,255,255,0.05);
-padding:10px;
-border-radius:10px;
-margin-top:10px;
+/* EDIT MODE */
+.editable{
+outline:1px dashed #ffdd00;
 }
 </style>
 </head>
@@ -141,9 +126,7 @@ margin-top:10px;
 <h3>Maison Kimouzz</h3>
 </div>
 
-<button onclick="toggleAdmin()" style="background:#222;color:white;padding:8px;border-radius:8px;">
-Admin
-</button>
+<button onclick="loginAdmin()">Admin</button>
 </header>
 
 <!-- HERO -->
@@ -154,81 +137,64 @@ Admin
 </div>
 </section>
 
-<!-- PRODUITS -->
+<!-- PRODUCTS -->
 <section class="section">
-<h2>Nos Produits</h2>
+<h2>Produits</h2>
 <div class="products" id="productList"></div>
 </section>
 
-<!-- PANIER -->
+<!-- CART -->
 <div class="cart">
 <h3>🛒 Panier</h3>
 <div id="cartList"></div>
-
 <div class="total">Total: <span id="total">0</span>€</div>
-
 <button onclick="checkout()">Commander</button>
-<button class="small-btn" onclick="clearCart()">Vider panier</button>
-<button class="small-btn" onclick="facture()">Facture</button>
+<button onclick="clearCart()" style="background:#333;color:white;">Vider</button>
 </div>
 
-<!-- ADMIN PANEL -->
+<!-- ADMIN -->
 <div id="adminPanel">
-<h3>⚙ Admin Panel</h3>
+<h3>Admin</h3>
 
-<input id="newName" placeholder="Nom produit">
-<input id="newPrice" placeholder="Prix">
-<input id="newImg" placeholder="Image URL">
+<input id="name" placeholder="Nom">
+<input id="price" placeholder="Prix">
+<input id="img" placeholder="Image URL">
+<input id="stock" placeholder="Stock">
 
-<button onclick="addProduct()">Ajouter produit</button>
+<button onclick="addProduct()">Ajouter</button>
 </div>
-
-<!-- COMMANDES -->
-<section class="section">
-<h2>📦 Commandes</h2>
-<div id="ordersList"></div>
-</section>
 
 <script>
 
-/* PRODUITS (avec sauvegarde localStorage) */
-let products = JSON.parse(localStorage.getItem("products")) || [
-{name:"Banane verte",price:20,img:"https://images.unsplash.com/photo-1603833665858-e61d17a86224"},
-{name:"Œufs",price:8,img:"https://images.unsplash.com/photo-1587486913049-53fc88980cfc"},
-{name:"Poule",price:10,img:"https://images.unsplash.com/photo-1500595046743-cd271d694d30"},
-{name:"Canard",price:35,img:"https://images.unsplash.com/photo-1474511320723-9a56873867b5"}
+/* ADMIN LOGIN */
+let isAdmin=false;
+
+function loginAdmin(){
+let pass=prompt("Mot de passe admin ?");
+if(pass==="1234"){
+isAdmin=true;
+document.getElementById("adminPanel").style.display="block";
+alert("Accès admin OK");
+}else{
+alert("Mauvais mot de passe");
+}
+}
+
+/* DATA */
+let products=JSON.parse(localStorage.getItem("products"))||[
+{name:"Banane verte",price:20,stock:10,img:"https://images.unsplash.com/photo-1603833665858-e61d17a86224"},
+{name:"Œufs",price:8,stock:20,img:"https://images.unsplash.com/photo-1587486913049-53fc88980cfc"}
 ];
 
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
-let orders = JSON.parse(localStorage.getItem("orders")) || [];
+let cart=JSON.parse(localStorage.getItem("cart"))||[];
 
-/* ADMIN */
-function toggleAdmin(){
-let panel=document.getElementById("adminPanel");
-panel.style.display = panel.style.display==="block"?"none":"block";
-}
-
-function addProduct(){
-let name=document.getElementById("newName").value;
-let price=parseFloat(document.getElementById("newPrice").value);
-let img=document.getElementById("newImg").value;
-
-if(!name || !price || !img){
-alert("Remplis tout !");
-return;
-}
-
-products.push({name,price,img});
+/* SAVE */
+function save(){
 localStorage.setItem("products",JSON.stringify(products));
-
-document.getElementById("newName").value="";
-document.getElementById("newPrice").value="";
-document.getElementById("newImg").value="";
-
-renderProducts();
+localStorage.setItem("cart",JSON.stringify(cart));
 }
 
-/* PRODUITS */
+/* PRODUCTS */
 function renderProducts(){
 let box=document.getElementById("productList");
 box.innerHTML="";
@@ -237,124 +203,118 @@ products.forEach((p,i)=>{
 box.innerHTML+=`
 <div class="card">
 <img src="${p.img}">
-<div class="card-content">
-<h3>${p.name}</h3>
-<div class="price">${p.price}€</div>
-<button onclick="add(${i})">Ajouter</button>
+
+<h3 contenteditable="${isAdmin}" onblur="edit(${i},'name',this.innerText)">${p.name}</h3>
+
+<div class="price">
+<span contenteditable="${isAdmin}" onblur="edit(${i},'price',this.innerText)">
+${p.price}
+</span>€
 </div>
+
+<p>Stock: ${p.stock}</p>
+
+<button onclick="add(${i})">Ajouter</button>
+
+${isAdmin?`
+<button onclick="del(${i})" style="background:red;color:white;">❌ Supprimer</button>
+`:``}
+
 </div>`;
 });
 }
 
+/* EDIT */
+function edit(i,key,val){
+if(key==="price") val=parseFloat(val);
+products[i][key]=val;
+save();
+renderProducts();
+}
+
+/* ADD PRODUCT */
+function addProduct(){
+products.push({
+name:name.value,
+price:parseFloat(price.value),
+img:img.value,
+stock:parseInt(stock.value)
+});
+save();
+renderProducts();
+}
+
+/* DELETE */
+function del(i){
+if(confirm("Supprimer ?")){
+products.splice(i,1);
+save();
+renderProducts();
+}
+}
+
 /* CART */
 function add(i){
-let item=products[i];
-let found=cart.find(c=>c.name===item.name);
+if(products[i].stock<=0){alert("Rupture");return;}
 
-if(found){
-found.qty++;
-}else{
-cart.push({...item,qty:1});
-}
+products[i].stock--;
 
-saveCart();
+let found=cart.find(c=>c.name===products[i].name);
+
+if(found) found.qty++;
+else cart.push({...products[i],qty:1});
+
+save();
 renderCart();
+renderProducts();
 }
 
-function removeItem(i){
-cart.splice(i,1);
-saveCart();
-renderCart();
-}
-
-function clearCart(){
-cart=[];
-saveCart();
-renderCart();
-}
-
-function saveCart(){
-localStorage.setItem("cart",JSON.stringify(cart));
-}
-
-/* CART DISPLAY */
 function renderCart(){
 let box=document.getElementById("cartList");
 box.innerHTML="";
 let total=0;
 
-cart.forEach((c,i)=>{
+cart.forEach(c=>{
 total+=c.price*c.qty;
 box.innerHTML+=`
 <div class="cart-item">
 <span>${c.name} x${c.qty}</span>
 <span>${c.price*c.qty}€</span>
-<button onclick="removeItem(${i})">❌</button>
 </div>`;
 });
 
 document.getElementById("total").innerText=total;
 }
 
+/* CLEAR */
+function clearCart(){
+cart=[];
+save();
+renderCart();
+}
+
 /* CHECKOUT */
 function checkout(){
-if(cart.length===0)return;
-
-let total=cart.reduce((a,b)=>a+b.price*b.qty,0);
-
 let msg="Commande Maison Kimouzz%0A%0A";
+let total=0;
 
 cart.forEach(i=>{
-msg+=`${i.name} x${i.qty} - ${i.price*i.qty}€%0A`;
+total+=i.price*i.qty;
+msg+=`${i.name} x${i.qty} = ${i.price*i.qty}€%0A`;
 });
 
 msg+=`%0ATotal: ${total}€`;
 
-orders.push({cart,total,date:new Date().toLocaleString()});
-localStorage.setItem("orders",JSON.stringify(orders));
-
-window.open("https://wa.me/33789583650?text="+msg,"_blank");
+window.open("https://wa.me/33789583650?text="+msg);
 
 cart=[];
-saveCart();
+save();
 renderCart();
-renderOrders();
-}
-
-/* FACTURE */
-function facture(){
-let total=cart.reduce((a,b)=>a+b.price*b.qty,0);
-
-let w=window.open("");
-w.document.write("<h1>Facture Maison Kimouzz</h1>");
-
-cart.forEach(i=>{
-w.document.write(`<p>${i.name} x${i.qty} = ${i.price*i.qty}€</p>`);
-});
-
-w.document.write(`<h2>Total: ${total}€</h2>`);
-w.print();
-}
-
-/* COMMANDES */
-function renderOrders(){
-let box=document.getElementById("ordersList");
-box.innerHTML="";
-
-orders.forEach((o,i)=>{
-box.innerHTML+=`
-<div class="orders">
-<b>Commande #${i+1}</b>
-<p>${o.date}</p>
-<p>${o.total}€</p>
-</div>`;
-});
 }
 
 /* INIT */
 renderProducts();
 renderCart();
-renderOrders();
 
 </script>
 
