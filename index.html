@@ -18,21 +18,53 @@ header{
   position:sticky;
   top:0;
   z-index:1000;
-  padding:15px;
+  padding:20px;
   text-align:center;
   background:rgba(0,0,0,0.4);
   backdrop-filter: blur(10px);
+}
+
+/* LOGO */
+.logo{
+  width:180px;
+  max-width:90%;
+  border-radius:20px;
+  margin-bottom:10px;
+  box-shadow:0 8px 25px rgba(0,0,0,0.35);
+}
+
+header h1{
+  margin:5px 0;
+  font-size:32px;
+  color:#ffe066;
+}
+
+header p{
+  margin:0;
+  color:#ffffff;
+  font-size:15px;
 }
 
 /* HERO */
 .hero{
   text-align:center;
   padding:60px 20px;
-  background:rgba(0,0,0,0.25);
+  background:
+  linear-gradient(rgba(0,0,0,0.45),rgba(0,0,0,0.45)),
+  url('IMG-20260602-WA0002.jpg');
+  background-size:cover;
+  background-position:center;
 }
 
-.hero h1{font-size:40px;margin:0;}
-.hero p{color:#ffe8a3;font-size:18px;}
+.hero h2{
+  font-size:40px;
+  margin:0;
+}
+
+.hero p{
+  color:#ffe8a3;
+  font-size:18px;
+}
 
 .hero button{
   margin-top:15px;
@@ -42,6 +74,7 @@ header{
   background:#25D366;
   font-weight:bold;
   cursor:pointer;
+  font-size:16px;
 }
 
 /* SEARCH */
@@ -100,17 +133,8 @@ header{
 }
 
 /* ICON */
-.icon{font-size:50px;}
-
-/* BADGE */
-.badge{
-  background:#ffdd00;
-  color:black;
-  font-size:12px;
-  padding:3px 8px;
-  border-radius:10px;
-  display:inline-block;
-  font-weight:bold;
+.icon{
+  font-size:50px;
 }
 
 /* PRICE */
@@ -158,7 +182,8 @@ header{
   color:#ffe066;
 }
 
-.order-btn, .clear-btn{
+.order-btn,
+.clear-btn{
   width:100%;
   margin-top:10px;
   padding:12px;
@@ -168,8 +193,14 @@ header{
   cursor:pointer;
 }
 
-.order-btn{background:#25D366;}
-.clear-btn{background:#ff3b3b; color:white;}
+.order-btn{
+  background:#25D366;
+}
+
+.clear-btn{
+  background:#ff3b3b;
+  color:white;
+}
 
 /* FLOAT BTN TOP */
 .top-btn{
@@ -220,6 +251,10 @@ footer{
     width:90%;
     margin:20px auto;
   }
+
+  .hero h2{
+    font-size:30px;
+  }
 }
 </style>
 </head>
@@ -227,12 +262,16 @@ footer{
 <body>
 
 <header>
-🌴 Maison Kimouzz - Produits tropicaux
+  <img src="IMG-20260602-WA0002.jpg" alt="Maison Kimouzz Logo" class="logo">
+
+  <h1>Maison Kimouzz</h1>
+  <p>🌴 Produits locaux de Mayotte</p>
 </header>
 
 <div class="hero">
-  <h1>🥭 Saveurs de Mayotte</h1>
+  <h2>🥭 Saveurs de Mayotte</h2>
   <p>Produits frais • locaux • livraison rapide 🚚</p>
+
   <button onclick="document.querySelector('.products').scrollIntoView({behavior:'smooth'})">
     Commander maintenant
   </button>
@@ -313,17 +352,25 @@ footer{
 <!-- PANIER -->
 <div class="cart">
   <h3>🧺 Panier (<span id="count">0</span>)</h3>
+
   <div id="cart"></div>
 
   <div class="total">
     Total : <span id="total">0</span>€
   </div>
 
-  <button id="orderBtn" class="order-btn" onclick="order()">Commander WhatsApp</button>
-  <button class="clear-btn" onclick="clearCart()">Vider panier</button>
+  <button id="orderBtn" class="order-btn" onclick="order()">
+    Commander WhatsApp
+  </button>
+
+  <button class="clear-btn" onclick="clearCart()">
+    Vider panier
+  </button>
 </div>
 
-<button class="top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})">⬆</button>
+<button class="top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+⬆
+</button>
 
 <a class="whatsapp-float" href="https://wa.me/33789583650" target="_blank">
 💬 WhatsApp
@@ -333,6 +380,7 @@ footer{
   <h2>Maison Kimouzz</h2>
   <p>📍 281 route Ampadza, 97670 Chiconi</p>
   <p>📩 maisonkimouzz@gmail.com</p>
+  <p>📞 07 89 58 36 50</p>
 </footer>
 
 <script>
@@ -350,8 +398,12 @@ function clearCart(){
 
 function filterProducts(){
   let input = document.getElementById("search").value.toLowerCase();
+
   document.querySelectorAll(".card").forEach(card=>{
-    card.style.display = card.innerText.toLowerCase().includes(input) ? "block" : "none";
+    card.style.display =
+      card.innerText.toLowerCase().includes(input)
+      ? "block"
+      : "none";
   });
 }
 
@@ -367,7 +419,10 @@ function render(){
     cartDiv.innerHTML += `
       <div class="item">
         ${item.name} - ${item.price}€
-        <span onclick="removeItem(${i})" style="color:red;cursor:pointer">x</span>
+        <span onclick="removeItem(${i})"
+        style="color:red;cursor:pointer">
+        x
+        </span>
       </div>
     `;
   });
@@ -375,7 +430,8 @@ function render(){
   document.getElementById("total").innerText = total;
   document.getElementById("count").innerText = cart.length;
 
-  document.getElementById("orderBtn").disabled = cart.length === 0;
+  document.getElementById("orderBtn").disabled =
+    cart.length === 0;
 }
 
 function removeItem(i){
@@ -384,6 +440,7 @@ function removeItem(i){
 }
 
 function order(){
+
   let msg = "🛒 Commande Maison Kimouzz\n\n";
   let total = 0;
 
@@ -394,7 +451,11 @@ function order(){
 
   msg += "\n💰 Total : " + total + "€";
 
-  window.open("https://wa.me/33789583650?text=" + encodeURIComponent(msg), "_blank");
+  window.open(
+    "https://wa.me/33789583650?text="
+    + encodeURIComponent(msg),
+    "_blank"
+  );
 }
 </script>
 
