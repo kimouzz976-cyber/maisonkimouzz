@@ -422,8 +422,7 @@ justify-content:center;
 
 <img
 src="https://images.unsplash.com/photo-1606787366850-de6330128bfc?q=80&w=300"
-class="logo"
->
+class="logo">
 
 <div class="brand">
 <h1>Maison Kimouzz</h1>
@@ -480,47 +479,86 @@ Découvrez nos produits frais et locaux
 
 <div class="products">
 
+<!-- BANANES -->
+
 <div class="card">
-<img src="https://images.unsplash.com/photo-1574226516831-e1dff420e37f?q=80&w=800">
+
+<img
+src="https://images.unsplash.com/photo-1603833665858-e61d17a86224?q=80&w=800"
+alt="Régime de bananes">
+
 <div class="card-content">
+
 <h3>Bananes</h3>
+
 <div class="price">20€ / kg</div>
+
 <button onclick="add('Bananes',20)">
 Ajouter au panier
 </button>
+
 </div>
 </div>
 
+<!-- OEUFS -->
+
 <div class="card">
-<img src="https://images.unsplash.com/photo-1587486913049-53fc88980cfc?q=80&w=800">
+
+<img
+src="https://images.unsplash.com/photo-1587486913049-53fc88980cfc?q=80&w=800">
+
 <div class="card-content">
+
 <h3>Œufs frais</h3>
+
 <div class="price">8€</div>
+
 <button onclick="add('Œufs',8)">
 Ajouter au panier
 </button>
+
 </div>
 </div>
 
+<!-- POULE -->
+
 <div class="card">
-<img src="https://images.unsplash.com/photo-1604503468506-a8da13d82791?q=80&w=800">
+
+<img
+src="https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?q=80&w=800"
+alt="Poule">
+
 <div class="card-content">
+
 <h3>Poulet fermier</h3>
+
 <div class="price">10€</div>
+
 <button onclick="add('Poulet',10)">
 Ajouter au panier
 </button>
+
 </div>
 </div>
 
+<!-- CANARD -->
+
 <div class="card">
-<img src="https://images.unsplash.com/photo-1518492104633-130d0cc84637?q=80&w=800">
+
+<img
+src="https://images.unsplash.com/photo-1502780402662-acc019177f9e?q=80&w=800"
+alt="Canard vivant">
+
 <div class="card-content">
+
 <h3>Canard</h3>
+
 <div class="price">35€</div>
+
 <button onclick="add('Canard',35)">
 Ajouter au panier
 </button>
+
 </div>
 </div>
 
@@ -532,7 +570,9 @@ Ajouter au panier
 
 <section class="section" id="services">
 
-<h2 class="section-title">Pourquoi nous choisir ?</h2>
+<h2 class="section-title">
+Pourquoi nous choisir ?
+</h2>
 
 <div class="services">
 
@@ -601,6 +641,15 @@ Commander WhatsApp
 Payer maintenant
 </button>
 
+<p style="
+text-align:center;
+margin-top:10px;
+color:#ccc;
+font-size:13px;
+">
+💳 Paiement par carte bancaire disponible bientôt.
+</p>
+
 </div>
 
 <!-- FOOTER -->
@@ -663,21 +712,21 @@ total += item.price;
 cartItems.innerHTML += `
 <div class="item">
 ${item.name} - ${item.price}€
+
 <span
 style="color:red;cursor:pointer"
 onclick="removeItem(${index})">
 ✕
 </span>
+
 </div>
 `;
 
 });
 
-document.getElementById("total")
-.innerText = total;
+document.getElementById("total").innerText = total;
 
-document.getElementById("count")
-.innerText = cart.length;
+document.getElementById("count").innerText = cart.length;
 
 }
 
@@ -694,15 +743,15 @@ function orderWhatsapp(){
 let msg =
 "🛒 Bonjour Maison Kimouzz %0A%0A";
 
-msg += "Je souhaite commander : %0A";
+msg +=
+"Je souhaite commander : %0A";
 
 let total = 0;
 
 cart.forEach(item=>{
 
 msg +=
-"- " + item.name +
-" : " + item.price + "€%0A";
+"- " + item.name + " : " + item.price + "€%0A";
 
 total += item.price;
 
@@ -710,7 +759,8 @@ total += item.price;
 
 msg += "%0A💰 Total : " + total + "€";
 
-msg += "%0A%0A🙏 Merci pour votre confiance.";
+msg +=
+"%0A%0A🙏 Merci pour votre confiance.";
 
 window.open(
 "https://wa.me/33789583650?text="+msg,
@@ -722,7 +772,7 @@ window.open(
 function payNow(){
 
 alert(
-"💳 Paiement bientôt disponible."
+"💳 Le paiement par carte bancaire sera disponible très bientôt."
 );
 
 }
@@ -730,4 +780,4 @@ alert(
 </script>
 
 </body>
-</html>
+  </html>
