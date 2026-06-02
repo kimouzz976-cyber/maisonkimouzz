@@ -31,6 +31,7 @@ header{
   border-radius:20px;
   margin-bottom:10px;
   box-shadow:0 8px 25px rgba(0,0,0,0.35);
+  object-fit:cover;
 }
 
 header h1{
@@ -51,7 +52,7 @@ header p{
   padding:60px 20px;
   background:
   linear-gradient(rgba(0,0,0,0.45),rgba(0,0,0,0.45)),
-  url('IMG-20260602-WA0002.jpg');
+  url('images/logo.jpg');
   background-size:cover;
   background-position:center;
 }
@@ -262,7 +263,14 @@ footer{
 <body>
 
 <header>
-  <img src="IMG-20260602-WA0002.jpg" alt="Maison Kimouzz Logo" class="logo">
+
+  <!-- LOGO AVEC IMAGE DE SECOURS -->
+  <img 
+  src="images/logo.jpg"
+  alt="Maison Kimouzz Logo"
+  class="logo"
+  onerror="this.src='https://via.placeholder.com/300x300.png?text=Maison+Kimouzz';"
+  >
 
   <h1>Maison Kimouzz</h1>
   <p>🌴 Produits locaux de Mayotte</p>
