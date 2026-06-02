@@ -3,14 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Maison Kimouzz - Boutique</title>
+<title>Maison Kimouzz - Tropical Market</title>
 
 <style>
 body{
   margin:0;
   font-family:Arial, sans-serif;
-  background:linear-gradient(180deg,#0b1220,#050814);
   color:white;
+
+  /* 🌴 fond tropical */
+  background: linear-gradient(
+    180deg,
+    #ffb703,
+    #fb8500,
+    #023047
+  );
 }
 
 /* HEADER */
@@ -18,21 +25,22 @@ header{
   position:sticky;
   top:0;
   z-index:1000;
-  padding:20px;
+  padding:25px;
   text-align:center;
-  background:rgba(17,24,39,0.9);
+  background:rgba(0,0,0,0.3);
   backdrop-filter: blur(10px);
-  border-bottom:1px solid #1f2937;
+  border-bottom:1px solid rgba(255,255,255,0.2);
 }
 
 header h1{
   margin:0;
-  font-size:28px;
+  font-size:30px;
+  color:#fff;
 }
 
 header p{
   margin-top:5px;
-  color:#9ca3af;
+  color:#ffe8a3;
 }
 
 /* PRODUITS */
@@ -43,14 +51,15 @@ header p{
   padding:25px;
 }
 
-/* CARD */
+/* CARD TROPICALE */
 .card{
-  background:linear-gradient(145deg,#1f2937,#111827);
+  background:rgba(255,255,255,0.12);
+  backdrop-filter: blur(10px);
   padding:15px;
-  border-radius:16px;
+  border-radius:18px;
   text-align:center;
   transition:0.3s ease;
-  box-shadow:0 10px 25px rgba(0,0,0,0.3);
+  border:1px solid rgba(255,255,255,0.2);
 
   opacity:0;
   transform:translateY(20px);
@@ -58,8 +67,8 @@ header p{
 }
 
 .card:hover{
-  transform:translateY(-10px) scale(1.03);
-  box-shadow:0 20px 40px rgba(0,0,0,0.5);
+  transform:translateY(-10px) scale(1.05);
+  box-shadow:0 20px 40px rgba(0,0,0,0.3);
 }
 
 @keyframes fadeIn{
@@ -74,32 +83,34 @@ header p{
   width:100%;
   height:160px;
   object-fit:cover;
-  border-radius:12px;
-  margin-bottom:10px;
+  border-radius:14px;
+  border:2px solid rgba(255,255,255,0.3);
 }
 
 /* TITRE */
 .card h3{
-  margin:8px 0 5px;
+  margin:10px 0 5px;
+  color:#fff;
 }
 
 /* PRIX */
 .price{
-  color:#38bdf8;
+  color:#ffe066;
   font-weight:bold;
   margin-bottom:8px;
 }
 
 /* BOUTON */
 .card button{
-  background:linear-gradient(90deg,#38bdf8,#0ea5e9);
+  background:linear-gradient(90deg,#ffdd00,#ff7b00);
   border:none;
   padding:10px;
-  border-radius:10px;
+  border-radius:12px;
   cursor:pointer;
   font-weight:bold;
   width:100%;
   color:black;
+  transition:0.2s;
 }
 
 .card button:hover{
@@ -112,10 +123,11 @@ header p{
   right:15px;
   top:90px;
   width:280px;
-  background:#111827;
+  background:rgba(0,0,0,0.4);
+  backdrop-filter: blur(10px);
   padding:15px;
-  border-radius:14px;
-  border:1px solid #1f2937;
+  border-radius:16px;
+  border:1px solid rgba(255,255,255,0.2);
 }
 
 .cart h3{
@@ -137,38 +149,33 @@ header p{
 .total{
   margin-top:10px;
   font-weight:bold;
-  font-size:16px;
 }
 
-/* BOUTON WHATSAPP */
+/* WHATSAPP */
 .order-btn{
   width:100%;
   margin-top:12px;
   padding:12px;
   background:#25D366;
   border:none;
-  border-radius:10px;
+  border-radius:12px;
   font-weight:bold;
   cursor:pointer;
   color:black;
 }
 
-.order-btn:hover{
-  transform:scale(1.05);
-}
-
 /* FOOTER */
 footer{
   margin-top:40px;
-  background:#0b1220;
-  padding:25px;
+  padding:30px;
   text-align:center;
-  border-top:1px solid #1f2937;
-  color:#cbd5e1;
+  background:rgba(0,0,0,0.3);
+  border-top:1px solid rgba(255,255,255,0.2);
+  color:#fff;
 }
 
 footer h2{
-  color:white;
+  color:#ffe066;
 }
 
 /* MOBILE */
@@ -185,8 +192,8 @@ footer h2{
 <body>
 
 <header>
-  <h1>🛒 Maison Kimouzz</h1>
-  <p>Produits frais de Mayotte - Vente directe & qualité locale</p>
+  <h1>🌴 Maison Kimouzz</h1>
+  <p>Produits frais de Mayotte • Saveurs tropicales 🌺</p>
 </header>
 
 <!-- PRODUITS -->
@@ -196,28 +203,28 @@ footer h2{
     <img src="https://upload.wikimedia.org/wikipedia/commons/8/8a/Banana-Single.jpg">
     <h3>Banane</h3>
     <div class="price">20€ / kg</div>
-    <button onclick="add('Banane',20)">Ajouter au panier</button>
+    <button onclick="add('Banane',20)">Ajouter</button>
   </div>
 
   <div class="card">
     <img src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Eggs_in_a_carton.jpg">
     <h3>Œufs</h3>
     <div class="price">8€ / plateau</div>
-    <button onclick="add('Œufs',8)">Ajouter au panier</button>
+    <button onclick="add('Œufs',8)">Ajouter</button>
   </div>
 
   <div class="card">
     <img src="https://upload.wikimedia.org/wikipedia/commons/5/50/Roast_chicken.jpg">
     <h3>Poulet</h3>
     <div class="price">10€</div>
-    <button onclick="add('Poulet',10)">Ajouter au panier</button>
+    <button onclick="add('Poulet',10)">Ajouter</button>
   </div>
 
   <div class="card">
     <img src="https://upload.wikimedia.org/wikipedia/commons/5/50/Whole_roast_duck.jpg">
     <h3>Canard</h3>
     <div class="price">35€ - 40€</div>
-    <button onclick="add('Canard',35)">Ajouter au panier</button>
+    <button onclick="add('Canard',35)">Ajouter</button>
   </div>
 
 </div>
@@ -237,9 +244,9 @@ footer h2{
 <!-- FOOTER -->
 <footer>
   <h2>Maison Kimouzz</h2>
-  <p>Email : maisonkimouzz@gmail.com</p>
-  <p>Adresse : 281 route Ampadza, 97670 Chiconi</p>
-  <p>Livraison disponible via WhatsApp 📦</p>
+  <p>📍 281 route Ampadza, 97670 Chiconi</p>
+  <p>📩 maisonkimouzz@gmail.com</p>
+  <p>🚚 Livraison disponible sur demande</p>
 </footer>
 
 <script>
