@@ -1,31 +1,127 @@
-<section id="contact" style="padding:60px;background:#0f172a;color:white;text-align:center;">
-  <h2 style="font-size:32px;margin-bottom:10px;">📞 Contactez-nous</h2>
-  <p style="margin-bottom:30px;color:#cbd5e1;">
-    Une question ? Une commande ? Nous sommes disponibles 7j/7.
-  </p>
+<style>
+body {
+  font-family: Arial, sans-serif;
+}
 
-  <div style="max-width:600px;margin:auto;background:#111827;padding:20px;border-radius:12px;">
-    
-    <h3>🏠 Adresse</h3>
-    <p>281 route Ampadza, 97670 Chiconi</p>
+/* SECTION BOUTIQUE */
+.boutique {
+  padding: 50px;
+  background: #f7f7f7;
+  text-align: center;
+}
 
-    <h3>📱 Téléphone</h3>
-    <p><a href="tel:0789583650" style="color:#38bdf8;">0789 58 36 50</a></p>
+.boutique h2 {
+  font-size: 32px;
+  margin-bottom: 30px;
+  color: #222;
+}
 
-    <h3>✉️ Email</h3>
-    <p><a href="mailto:contact@maisonkimouzz.com" style="color:#38bdf8;">contact@maisonkimouzz.com</a></p>
+.produits {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
 
-    <hr style="margin:20px 0;border:1px solid #334155;">
+/* CARTE PRODUIT */
+.produit {
+  background: white;
+  width: 250px;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  transition: 0.3s;
+}
 
-    <h3>💬 Envoyez un message</h3>
-    <form>
-      <input type="text" placeholder="Votre nom" style="width:100%;padding:10px;margin:5px 0;">
-      <input type="email" placeholder="Votre email" style="width:100%;padding:10px;margin:5px 0;">
-      <textarea placeholder="Votre message" style="width:100%;padding:10px;margin:5px 0;"></textarea>
-      <button type="submit" style="background:#38bdf8;color:black;padding:10px;width:100%;border:none;margin-top:10px;">
-        Envoyer
-      </button>
-    </form>
+.produit:hover {
+  transform: translateY(-5px);
+}
+
+.produit img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+}
+
+.produit h3 {
+  margin: 10px 0;
+}
+
+.produit p {
+  color: #666;
+  font-size: 14px;
+  padding: 0 10px;
+}
+
+.btn {
+  display: inline-block;
+  margin: 15px 0;
+  padding: 10px 15px;
+  background: #28a745;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  background: #1e7e34;
+}
+</style>
+
+<section class="boutique">
+
+  <h2>🛒 Nos produits frais</h2>
+
+  <div class="produits">
+
+    <!-- BANANES -->
+    <div class="produit">
+      <img src="https://images.unsplash.com/photo-1603833665858-e61d17a86224" alt="Bananes">
+      <h3>Bananes</h3>
+      <p>Fruits frais et sucrés du local.</p>
+      <a class="btn" href="tel:0789583650">Commander</a>
+    </div>
+
+    <!-- MANGUES -->
+    <div class="produit">
+      <img src="https://images.unsplash.com/photo-1553279768-865429fa0078" alt="Mangues">
+      <h3>Mangues</h3>
+      <p>Juteuses et naturelles.</p>
+      <a class="btn" href="tel:0789583650">Commander</a>
+    </div>
+
+    <!-- ANANAS -->
+    <div class="produit">
+      <img src="https://images.unsplash.com/photo-1550258987-190a2d41a8ba" alt="Ananas">
+      <h3>Ananas</h3>
+      <p>Goût tropical frais.</p>
+      <a class="btn" href="tel:0789583650">Commander</a>
+    </div>
+
+    <!-- ŒUFS -->
+    <div class="produit">
+      <img src="https://images.unsplash.com/photo-1587486913049-53fc88980cfc" alt="Œufs">
+      <h3>Œufs frais</h3>
+      <p>Produits directement de la ferme.</p>
+      <a class="btn" href="tel:0789583650">Commander</a>
+    </div>
+
+    <!-- POULE -->
+    <div class="produit">
+      <img src="https://images.unsplash.com/photo-1548550023-2bdb3c5beed7" alt="Poule">
+      <h3>Poules</h3>
+      <p>Élevage local de qualité.</p>
+      <a class="btn" href="tel:0789583650">Commander</a>
+    </div>
+
+    <!-- CANARD -->
+    <div class="produit">
+      <img src="https://images.unsplash.com/photo-1604948501466-4b0c3b3b6f8a" alt="Canard">
+      <h3>Canards</h3>
+      <p>Élevés naturellement.</p>
+      <a class="btn" href="tel:0789583650">Commander</a>
+    </div>
 
   </div>
 </section>
