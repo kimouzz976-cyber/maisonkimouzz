@@ -104,6 +104,25 @@ color:white;
 margin-top:5px;
 }
 
+/* ADMIN */
+#adminPanel{
+display:none;
+position:fixed;
+top:80px;
+right:20px;
+background:#000;
+padding:15px;
+border-radius:10px;
+z-index:3000;
+width:250px;
+}
+
+#adminPanel input{
+width:100%;
+margin:5px 0;
+padding:5px;
+}
+
 /* ORDERS */
 .orders{
 background:rgba(255,255,255,0.05);
@@ -121,6 +140,10 @@ margin-top:10px;
 <img class="logo" src="https://images.unsplash.com/photo-1606787366850-de6330128bfc">
 <h3>Maison Kimouzz</h3>
 </div>
+
+<button onclick="toggleAdmin()" style="background:#222;color:white;padding:8px;border-radius:8px;">
+Admin
+</button>
 </header>
 
 <!-- HERO -->
@@ -147,7 +170,17 @@ margin-top:10px;
 <button onclick="checkout()">Commander</button>
 <button class="small-btn" onclick="clearCart()">Vider panier</button>
 <button class="small-btn" onclick="facture()">Facture</button>
+</div>
 
+<!-- ADMIN PANEL -->
+<div id="adminPanel">
+<h3>⚙ Admin Panel</h3>
+
+<input id="newName" placeholder="Nom produit">
+<input id="newPrice" placeholder="Prix">
+<input id="newImg" placeholder="Image URL">
+
+<button onclick="addProduct()">Ajouter produit</button>
 </div>
 
 <!-- COMMANDES -->
@@ -158,21 +191,48 @@ margin-top:10px;
 
 <script>
 
-/* PRODUITS */
-const products=[
+/* PRODUITS (avec sauvegarde localStorage) */
+let products = JSON.parse(localStorage.getItem("products")) || [
 {name:"Banane verte",price:20,img:"https://images.unsplash.com/photo-1603833665858-e61d17a86224"},
 {name:"Œufs",price:8,img:"https://images.unsplash.com/photo-1587486913049-53fc88980cfc"},
 {name:"Poule",price:10,img:"https://images.unsplash.com/photo-1500595046743-cd271d694d30"},
 {name:"Canard",price:35,img:"https://images.unsplash.com/photo-1474511320723-9a56873867b5"}
 ];
 
-let cart=JSON.parse(localStorage.getItem("cart"))||[];
-let orders=JSON.parse(localStorage.getItem("orders"))||[];
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let orders = JSON.parse(localStorage.getItem("orders")) || [];
 
-/* DISPLAY PRODUCTS */
+/* ADMIN */
+function toggleAdmin(){
+let panel=document.getElementById("adminPanel");
+panel.style.display = panel.style.display==="block"?"none":"block";
+}
+
+function addProduct(){
+let name=document.getElementById("newName").value;
+let price=parseFloat(document.getElementById("newPrice").value);
+let img=document.getElementById("newImg").value;
+
+if(!name || !price || !img){
+alert("Remplis tout !");
+return;
+}
+
+products.push({name,price,img});
+localStorage.setItem("products",JSON.stringify(products));
+
+document.getElementById("newName").value="";
+document.getElementById("newPrice").value="";
+document.getElementById("newImg").value="";
+
+renderProducts();
+}
+
+/* PRODUITS */
 function renderProducts(){
 let box=document.getElementById("productList");
 box.innerHTML="";
+
 products.forEach((p,i)=>{
 box.innerHTML+=`
 <div class="card">
@@ -190,11 +250,13 @@ box.innerHTML+=`
 function add(i){
 let item=products[i];
 let found=cart.find(c=>c.name===item.name);
+
 if(found){
 found.qty++;
 }else{
 cart.push({...item,qty:1});
 }
+
 saveCart();
 renderCart();
 }
@@ -215,6 +277,7 @@ function saveCart(){
 localStorage.setItem("cart",JSON.stringify(cart));
 }
 
+/* CART DISPLAY */
 function renderCart(){
 let box=document.getElementById("cartList");
 box.innerHTML="";
@@ -240,14 +303,14 @@ if(cart.length===0)return;
 let total=cart.reduce((a,b)=>a+b.price*b.qty,0);
 
 let msg="Commande Maison Kimouzz%0A%0A";
+
 cart.forEach(i=>{
 msg+=`${i.name} x${i.qty} - ${i.price*i.qty}€%0A`;
 });
+
 msg+=`%0ATotal: ${total}€`;
 
-let ordersData={cart,total,date:new Date().toLocaleString()};
-orders.push(ordersData);
-
+orders.push({cart,total,date:new Date().toLocaleString()});
 localStorage.setItem("orders",JSON.stringify(orders));
 
 window.open("https://wa.me/33789583650?text="+msg,"_blank");
@@ -261,19 +324,23 @@ renderOrders();
 /* FACTURE */
 function facture(){
 let total=cart.reduce((a,b)=>a+b.price*b.qty,0);
+
 let w=window.open("");
 w.document.write("<h1>Facture Maison Kimouzz</h1>");
+
 cart.forEach(i=>{
 w.document.write(`<p>${i.name} x${i.qty} = ${i.price*i.qty}€</p>`);
 });
+
 w.document.write(`<h2>Total: ${total}€</h2>`);
 w.print();
 }
 
-/* ORDERS */
+/* COMMANDES */
 function renderOrders(){
 let box=document.getElementById("ordersList");
 box.innerHTML="";
+
 orders.forEach((o,i)=>{
 box.innerHTML+=`
 <div class="orders">
