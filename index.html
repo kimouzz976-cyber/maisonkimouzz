@@ -1,127 +1,142 @@
-<style>
-body {
-  font-family: Arial, sans-serif;
-}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact - Maison Kimouzz</title>
 
-/* SECTION BOUTIQUE */
-.boutique {
-  padding: 50px;
-  background: #f7f7f7;
-  text-align: center;
-}
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      color: white;
+    }
 
-.boutique h2 {
-  font-size: 32px;
-  margin-bottom: 30px;
-  color: #222;
-}
+    header {
+      text-align: center;
+      padding: 40px 20px;
+    }
 
-.produits {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
-}
+    header h1 {
+      font-size: 40px;
+      margin-bottom: 10px;
+    }
 
-/* CARTE PRODUIT */
-.produit {
-  background: white;
-  width: 250px;
-  border-radius: 15px;
-  overflow: hidden;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-  transition: 0.3s;
-}
+    header p {
+      color: #cbd5e1;
+    }
 
-.produit:hover {
-  transform: translateY(-5px);
-}
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      padding: 20px;
+    }
 
-.produit img {
-  width: 100%;
-  height: 160px;
-  object-fit: cover;
-}
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      margin-top: 30px;
+    }
 
-.produit h3 {
-  margin: 10px 0;
-}
+    .box h3 {
+      color: #38bdf8;
+      margin-top: 15px;
+    }
 
-.produit p {
-  color: #666;
-  font-size: 14px;
-  padding: 0 10px;
-}
+    .box p, .box a {
+      color: #e2e8f0;
+      text-decoration: none;
+    }
 
-.btn {
-  display: inline-block;
-  margin: 15px 0;
-  padding: 10px 15px;
-  background: #28a745;
-  color: white;
-  text-decoration: none;
-  border-radius: 8px;
-  transition: 0.3s;
-}
+    .box a {
+      color: #facc15;
+    }
 
-.btn:hover {
-  background: #1e7e34;
-}
-</style>
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      background: rgba(255,255,255,0.05);
+      padding: 20px;
+      border-radius: 15px;
+    }
 
-<section class="boutique">
+    input, textarea {
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      outline: none;
+    }
 
-  <h2>🛒 Nos produits frais</h2>
+    button {
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      background: #38bdf8;
+      font-weight: bold;
+      cursor: pointer;
+    }
 
-  <div class="produits">
+    button:hover {
+      background: #0ea5e9;
+    }
 
-    <!-- BANANES -->
-    <div class="produit">
-      <img src="https://images.unsplash.com/photo-1603833665858-e61d17a86224" alt="Bananes">
-      <h3>Bananes</h3>
-      <p>Fruits frais et sucrés du local.</p>
-      <a class="btn" href="tel:0789583650">Commander</a>
-    </div>
+    footer {
+      text-align: center;
+      padding: 30px;
+      color: #94a3b8;
+      margin-top: 40px;
+    }
 
-    <!-- MANGUES -->
-    <div class="produit">
-      <img src="https://images.unsplash.com/photo-1553279768-865429fa0078" alt="Mangues">
-      <h3>Mangues</h3>
-      <p>Juteuses et naturelles.</p>
-      <a class="btn" href="tel:0789583650">Commander</a>
-    </div>
+    @media (max-width: 768px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
 
-    <!-- ANANAS -->
-    <div class="produit">
-      <img src="https://images.unsplash.com/photo-1550258987-190a2d41a8ba" alt="Ananas">
-      <h3>Ananas</h3>
-      <p>Goût tropical frais.</p>
-      <a class="btn" href="tel:0789583650">Commander</a>
-    </div>
+<body>
 
-    <!-- ŒUFS -->
-    <div class="produit">
-      <img src="https://images.unsplash.com/photo-1587486913049-53fc88980cfc" alt="Œufs">
-      <h3>Œufs frais</h3>
-      <p>Produits directement de la ferme.</p>
-      <a class="btn" href="tel:0789583650">Commander</a>
-    </div>
+  <header>
+    <h1>Contact</h1>
+    <p>Une question ou une commande ? On vous répond rapidement.</p>
+  </header>
 
-    <!-- POULE -->
-    <div class="produit">
-      <img src="https://images.unsplash.com/photo-1548550023-2bdb3c5beed7" alt="Poule">
-      <h3>Poules</h3>
-      <p>Élevage local de qualité.</p>
-      <a class="btn" href="tel:0789583650">Commander</a>
-    </div>
+  <div class="container">
 
-    <!-- CANARD -->
-    <div class="produit">
-      <img src="https://images.unsplash.com/photo-1604948501466-4b0c3b3b6f8a" alt="Canard">
-      <h3>Canards</h3>
-      <p>Élevés naturellement.</p>
-      <a class="btn" href="tel:0789583650">Commander</a>
+    <div class="grid">
+
+      <div class="box">
+        <h3>📍 Adresse</h3>
+        <p>281 route Ampadza<br>97670 Chiconi</p>
+
+        <h3>📞 Téléphone</h3>
+        <p><a href="tel:0789583650">07 89 58 36 50</a></p>
+
+        <h3>✉️ Email</h3>
+        <p><a href="mailto:contact@kimouzz.yt">contact@kimouzz.yt</a></p>
+
+        <h3>🕒 Horaires</h3>
+        <p>Lun - Sam : 8h00 - 18h00</p>
+      </div>
+
+      <form>
+        <input type="text" placeholder="Votre nom" required>
+        <input type="email" placeholder="Votre email" required>
+        <textarea rows="5" placeholder="Votre message ou commande..." required></textarea>
+        <button type="submit">Envoyer</button>
+      </form>
+
     </div>
 
   </div>
-</section>
+
+  <footer>
+    © 2026 Maison Kimouzz - Tous droits réservés
+  </footer>
+
+</body>
+</html>
