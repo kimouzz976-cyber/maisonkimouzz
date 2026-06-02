@@ -67,6 +67,7 @@ header{
   padding:25px;
 }
 
+/* CARD */
 .card{
   background:rgba(255,255,255,0.15);
   backdrop-filter: blur(10px);
@@ -75,16 +76,11 @@ header{
   text-align:center;
   transition:0.3s;
   border:1px solid rgba(255,255,255,0.2);
-  animation:fadeIn 0.5s ease;
-}
-
-@keyframes fadeIn{
-  from{opacity:0; transform:translateY(20px);}
-  to{opacity:1; transform:translateY(0);}
 }
 
 .card:hover{
   transform:translateY(-8px) scale(1.03);
+  box-shadow:0 10px 25px rgba(0,0,0,0.3);
 }
 
 /* ICON */
@@ -101,7 +97,6 @@ header{
   padding:3px 8px;
   border-radius:10px;
   display:inline-block;
-  margin-bottom:5px;
   font-weight:bold;
 }
 
@@ -129,13 +124,14 @@ header{
   right:15px;
   top:90px;
   width:300px;
-  background:rgba(0,0,0,0.6);
+  background:rgba(0,0,0,0.65);
   padding:15px;
   border-radius:15px;
   max-height:70vh;
   overflow:auto;
 }
 
+/* ITEM */
 .item{
   display:flex;
   justify-content:space-between;
@@ -143,6 +139,7 @@ header{
   font-size:14px;
 }
 
+/* TOTAL */
 .total{
   margin-top:10px;
   font-weight:bold;
@@ -150,6 +147,7 @@ header{
   color:#ffe066;
 }
 
+/* BUTTONS */
 .order-btn, .clear-btn{
   width:100%;
   margin-top:10px;
@@ -162,6 +160,19 @@ header{
 
 .order-btn{background:#25D366;}
 .clear-btn{background:#ff3b3b; color:white;}
+
+/* FLOAT BTN TOP */
+.top-btn{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  background:#000;
+  color:white;
+  border:none;
+  padding:10px 15px;
+  border-radius:50px;
+  cursor:pointer;
+}
 
 /* FOOTER */
 footer{
@@ -196,7 +207,7 @@ footer{
   </button>
 
   <div class="search">
-    <input type="text" id="search" placeholder="🔎 Rechercher un produit..." onkeyup="filterProducts()">
+    <input type="text" id="search" placeholder="🔎 Rechercher..." onkeyup="filterProducts()">
   </div>
 </div>
 
@@ -232,55 +243,38 @@ footer{
     <button onclick="add('Canard',35)">Ajouter</button>
   </div>
 
-  <div class="card">
-    <div class="icon">🌶️</div>
-    <h3>Piments</h3>
-    <div class="price">4,50€ / kg</div>
-    <button onclick="add('Piments',4.5)">Ajouter</button>
-  </div>
-
-  <div class="card">
-    <div class="icon">🥥</div>
-    <h3>Noix de coco</h3>
-    <div class="price">Sur demande</div>
-    <button onclick="add('Noix de coco',0)">Ajouter</button>
-  </div>
-
-  <div class="card">
-    <div class="icon">🌿</div>
-    <h3>Vanille</h3>
-    <div class="price">Sur demande</div>
-    <button onclick="add('Vanille',0)">Ajouter</button>
-  </div>
-
 </div>
 
 <!-- PANIER -->
 <div class="cart">
-  <h3>🧺 Panier</h3>
+  <h3>🧺 Panier (<span id="count">0</span>)</h3>
   <div id="cart"></div>
 
   <div class="total">
     Total : <span id="total">0</span>€
   </div>
 
-  <button class="order-btn" onclick="order()">Commander WhatsApp</button>
+  <button id="orderBtn" class="order-btn" onclick="order()">Commander WhatsApp</button>
   <button class="clear-btn" onclick="clearCart()">Vider panier</button>
 </div>
+
+<button class="top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})">⬆</button>
 
 <footer>
   <h2>Maison Kimouzz</h2>
   <p>📍 281 route Ampadza, 97670 Chiconi</p>
   <p>📩 maisonkimouzz@gmail.com</p>
-  <p>🚚 Livraison rapide & produits frais</p>
 </footer>
 
 <script>
 let cart = [];
 
 function add(name, price){
-  cart.push({name, price, isCustom: price === 0});
+  cart.push({name, price});
   render();
+
+  // petite animation
+  alert(name + " ajouté 🛒");
 }
 
 function clearCart(){
@@ -290,54 +284,51 @@ function clearCart(){
 
 function filterProducts(){
   let input = document.getElementById("search").value.toLowerCase();
-  let cards = document.querySelectorAll(".card");
-
-  cards.forEach(card=>{
-    let text = card.innerText.toLowerCase();
-    card.style.display = text.includes(input) ? "block" : "none";
+  document.querySelectorAll(".card").forEach(card=>{
+    card.style.display = card.innerText.toLowerCase().includes(input) ? "block" : "none";
   });
 }
 
 function render(){
   let cartDiv = document.getElementById("cart");
-  cartDiv.innerHTML = "";
   let total = 0;
 
+  cartDiv.innerHTML = "";
+
   cart.forEach((item,i)=>{
-    let priceText = item.isCustom ? "Prix sur demande" : item.price + "€";
-    if(!item.isCustom) total += item.price;
+    total += item.price;
 
     cartDiv.innerHTML += `
       <div class="item">
-        ${item.name} - ${priceText}
+        ${item.name} - ${item.price}€
         <span onclick="removeItem(${i})" style="color:red;cursor:pointer">x</span>
       </div>
     `;
   });
 
   document.getElementById("total").innerText = total;
+  document.getElementById("count").innerText = cart.length;
+
+  document.getElementById("orderBtn").disabled = cart.length === 0;
 }
 
-function removeItem(index){
-  cart.splice(index,1);
+function removeItem(i){
+  cart.splice(i,1);
   render();
 }
 
 function order(){
-  let total = 0;
+  if(cart.length === 0) return;
+
   let msg = "🛒 Commande Maison Kimouzz\n\n";
+  let total = 0;
 
   cart.forEach(item=>{
-    if(item.isCustom){
-      msg += "- " + item.name + " : Prix sur demande\n";
-    } else {
-      msg += "- " + item.name + " : " + item.price + "€\n";
-      total += item.price;
-    }
+    msg += "- " + item.name + " : " + item.price + "€\n";
+    total += item.price;
   });
 
   msg += "\n💰 Total : " + total + "€";
-  msg += "\n\nMerci pour votre commande 🙏";
 
   window.open("https://wa.me/33789583650?text=" + encodeURIComponent(msg), "_blank");
 }
