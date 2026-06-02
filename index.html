@@ -10,14 +10,34 @@ body{
   margin:0;
   font-family:Arial, sans-serif;
   color:white;
+  background: linear-gradient(180deg,#ffb703,#fb8500,#023047);
+}
 
-  /* 🌴 fond tropical */
-  background: linear-gradient(
-    180deg,
-    #ffb703,
-    #fb8500,
-    #023047
-  );
+/* HERO */
+.hero{
+  text-align:center;
+  padding:60px 20px;
+  background:rgba(0,0,0,0.25);
+}
+
+.hero h1{
+  font-size:40px;
+  margin:0;
+}
+
+.hero p{
+  color:#ffe8a3;
+  font-size:18px;
+}
+
+.hero button{
+  margin-top:15px;
+  padding:12px 20px;
+  border:none;
+  border-radius:25px;
+  background:#25D366;
+  font-weight:bold;
+  cursor:pointer;
 }
 
 /* HEADER */
@@ -25,22 +45,10 @@ header{
   position:sticky;
   top:0;
   z-index:1000;
-  padding:25px;
+  padding:15px;
   text-align:center;
-  background:rgba(0,0,0,0.3);
+  background:rgba(0,0,0,0.4);
   backdrop-filter: blur(10px);
-  border-bottom:1px solid rgba(255,255,255,0.2);
-}
-
-header h1{
-  margin:0;
-  font-size:30px;
-  color:#fff;
-}
-
-header p{
-  margin-top:5px;
-  color:#ffe8a3;
 }
 
 /* PRODUITS */
@@ -51,70 +59,54 @@ header p{
   padding:25px;
 }
 
-/* CARD TROPICALE */
+/* CARD */
 .card{
-  background:rgba(255,255,255,0.12);
+  background:rgba(255,255,255,0.15);
   backdrop-filter: blur(10px);
   padding:15px;
   border-radius:18px;
   text-align:center;
-  transition:0.3s ease;
+  transition:0.3s;
   border:1px solid rgba(255,255,255,0.2);
-
-  opacity:0;
-  transform:translateY(20px);
-  animation:fadeIn 0.6s forwards;
 }
 
 .card:hover{
-  transform:translateY(-10px) scale(1.05);
-  box-shadow:0 20px 40px rgba(0,0,0,0.3);
+  transform:translateY(-8px) scale(1.03);
 }
 
-@keyframes fadeIn{
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
-}
-
-/* IMAGE */
 .card img{
   width:100%;
   height:160px;
   object-fit:cover;
   border-radius:14px;
-  border:2px solid rgba(255,255,255,0.3);
 }
 
-/* TITRE */
-.card h3{
-  margin:10px 0 5px;
-  color:#fff;
+/* BADGE */
+.badge{
+  display:inline-block;
+  background:#25D366;
+  padding:4px 10px;
+  border-radius:12px;
+  font-size:12px;
+  margin-top:5px;
 }
 
 /* PRIX */
 .price{
   color:#ffe066;
   font-weight:bold;
-  margin-bottom:8px;
+  margin:8px 0;
 }
 
-/* BOUTON */
+/* BUTTON */
 .card button{
-  background:linear-gradient(90deg,#ffdd00,#ff7b00);
-  border:none;
-  padding:10px;
-  border-radius:12px;
-  cursor:pointer;
-  font-weight:bold;
   width:100%;
-  color:black;
-  transition:0.2s;
-}
-
-.card button:hover{
-  transform:scale(1.05);
+  padding:10px;
+  border:none;
+  border-radius:12px;
+  background:linear-gradient(90deg,#ffdd00,#ff7b00);
+  font-weight:bold;
+  cursor:pointer;
 }
 
 /* PANIER */
@@ -122,60 +114,44 @@ header p{
   position:fixed;
   right:15px;
   top:90px;
-  width:280px;
-  background:rgba(0,0,0,0.4);
-  backdrop-filter: blur(10px);
+  width:300px;
+  background:rgba(0,0,0,0.5);
   padding:15px;
-  border-radius:16px;
-  border:1px solid rgba(255,255,255,0.2);
+  border-radius:15px;
 }
 
-.cart h3{
-  margin-top:0;
-}
-
+/* ITEM */
 .item{
   display:flex;
   justify-content:space-between;
-  margin:6px 0;
+  margin:5px 0;
   font-size:14px;
 }
 
-.remove{
-  color:#ff4d4d;
-  cursor:pointer;
-}
-
+/* TOTAL */
 .total{
   margin-top:10px;
   font-weight:bold;
 }
 
-/* WHATSAPP */
+/* ORDER */
 .order-btn{
   width:100%;
-  margin-top:12px;
+  margin-top:10px;
   padding:12px;
   background:#25D366;
   border:none;
   border-radius:12px;
   font-weight:bold;
   cursor:pointer;
-  color:black;
 }
 
 /* FOOTER */
 footer{
-  margin-top:40px;
-  padding:30px;
   text-align:center;
-  background:rgba(0,0,0,0.3);
-  border-top:1px solid rgba(255,255,255,0.2);
-  color:#fff;
-}
-
-footer h2{
-  color:#ffe066;
+  padding:30px;
+  background:rgba(0,0,0,0.4);
+  margin-top:40px;
 }
 
 /* MOBILE */
@@ -192,9 +168,17 @@ footer h2{
 <body>
 
 <header>
-  <h1>🌴 Maison Kimouzz</h1>
-  <p>Produits frais de Mayotte • Saveurs tropicales 🌺</p>
+  🌴 Maison Kimouzz - Produits tropicaux
 </header>
+
+<!-- HERO -->
+<div class="hero">
+  <h1>🥭 Saveurs de Mayotte</h1>
+  <p>Produits frais • locaux • livraison rapide 🚚</p>
+  <button onclick="document.querySelector('.products').scrollIntoView({behavior:'smooth'})">
+    Commander maintenant
+  </button>
+</div>
 
 <!-- PRODUITS -->
 <div class="products">
@@ -202,6 +186,7 @@ footer h2{
   <div class="card">
     <img src="https://upload.wikimedia.org/wikipedia/commons/8/8a/Banana-Single.jpg">
     <h3>Banane</h3>
+    <span class="badge">Frais 🍌</span>
     <div class="price">20€ / kg</div>
     <button onclick="add('Banane',20)">Ajouter</button>
   </div>
@@ -209,6 +194,7 @@ footer h2{
   <div class="card">
     <img src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Eggs_in_a_carton.jpg">
     <h3>Œufs</h3>
+    <span class="badge">Local 🥚</span>
     <div class="price">8€ / plateau</div>
     <button onclick="add('Œufs',8)">Ajouter</button>
   </div>
@@ -216,6 +202,7 @@ footer h2{
   <div class="card">
     <img src="https://upload.wikimedia.org/wikipedia/commons/5/50/Roast_chicken.jpg">
     <h3>Poulet</h3>
+    <span class="badge">Promo 🔥</span>
     <div class="price">10€</div>
     <button onclick="add('Poulet',10)">Ajouter</button>
   </div>
@@ -223,6 +210,7 @@ footer h2{
   <div class="card">
     <img src="https://upload.wikimedia.org/wikipedia/commons/5/50/Whole_roast_duck.jpg">
     <h3>Canard</h3>
+    <span class="badge">Premium 🦆</span>
     <div class="price">35€ - 40€</div>
     <button onclick="add('Canard',35)">Ajouter</button>
   </div>
@@ -233,11 +221,7 @@ footer h2{
 <div class="cart">
   <h3>🧺 Panier</h3>
   <div id="cart"></div>
-
-  <div class="total">
-    Total : <span id="total">0</span>€
-  </div>
-
+  <div class="total">Total : <span id="total">0</span>€</div>
   <button class="order-btn" onclick="order()">Commander WhatsApp</button>
 </div>
 
@@ -246,7 +230,7 @@ footer h2{
   <h2>Maison Kimouzz</h2>
   <p>📍 281 route Ampadza, 97670 Chiconi</p>
   <p>📩 maisonkimouzz@gmail.com</p>
-  <p>🚚 Livraison disponible sur demande</p>
+  <p>🚚 Livraison rapide & produits frais</p>
 </footer>
 
 <script>
@@ -272,7 +256,7 @@ function render(){
     cartDiv.innerHTML += `
       <div class="item">
         ${item.name} - ${item.price}€
-        <span class="remove" onclick="removeItem(${i})">x</span>
+        <span onclick="removeItem(${i})" style="color:red;cursor:pointer">x</span>
       </div>
     `;
   });
@@ -281,10 +265,11 @@ function render(){
 }
 
 function order(){
-  let msg = "Bonjour, je veux commander :\n";
+  let msg = "Bonjour, je souhaite commander :\n\n";
   cart.forEach(item=>{
     msg += "- " + item.name + " " + item.price + "€\n";
   });
+  msg += "\nMerci !";
 
   let url = "https://wa.me/33789583650?text=" + encodeURIComponent(msg);
   window.open(url, "_blank");
