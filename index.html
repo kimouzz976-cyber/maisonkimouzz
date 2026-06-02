@@ -67,12 +67,11 @@ header{
   transform:translateY(-8px) scale(1.03);
 }
 
-.card img{
-  width:100%;
-  height:160px;
-  object-fit:cover;
-  border-radius:14px;
-  background:#222;
+/* ICONES */
+.icon{
+  font-size:55px;
+  margin:10px 0;
+  filter: drop-shadow(0 5px 10px rgba(0,0,0,0.3));
 }
 
 /* PRIX */
@@ -166,96 +165,77 @@ footer{
 <div class="products">
 
   <div class="card">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/8/8a/Banana-Single.jpg"
-    onerror="imgError(this,'Banane')">
+    <div class="icon">🍌</div>
     <h3>Banane</h3>
     <div class="price">20€ / kg</div>
     <button onclick="add('Banane',20)">Ajouter</button>
   </div>
 
   <div class="card">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Eggs_in_a_carton.jpg"
-    onerror="imgError(this,'Œufs')">
+    <div class="icon">🥚</div>
     <h3>Œufs</h3>
     <div class="price">8€ / plateau</div>
     <button onclick="add('Œufs',8)">Ajouter</button>
   </div>
 
   <div class="card">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/5/50/Roast_chicken.jpg"
-    onerror="imgError(this,'Poulet')">
+    <div class="icon">🍗</div>
     <h3>Poulet</h3>
     <div class="price">10€</div>
     <button onclick="add('Poulet',10)">Ajouter</button>
   </div>
 
   <div class="card">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/5/50/Whole_roast_duck.jpg"
-    onerror="imgError(this,'Canard')">
+    <div class="icon">🦆</div>
     <h3>Canard</h3>
     <div class="price">35€ - 40€</div>
     <button onclick="add('Canard',35)">Ajouter</button>
   </div>
 
   <div class="card">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/1/10/Red_chili_peppers.jpg"
-    onerror="imgError(this,'Piments')">
+    <div class="icon">🌶️</div>
     <h3>Piments</h3>
     <div class="price">4,50€ / kg</div>
     <button onclick="add('Piments',4.5)">Ajouter</button>
   </div>
 
   <div class="card">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Cassava_roots.jpg"
-    onerror="imgError(this,'Manioc')">
-    <h3>Manioc</h3>
-    <div class="price">Sur demande</div>
-    <button onclick="add('Manioc',0)">Ajouter</button>
-  </div>
-
-  <div class="card">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Coconut.jpg"
-    onerror="imgError(this,'Noix de coco')">
+    <div class="icon">🥥</div>
     <h3>Noix de coco</h3>
     <div class="price">Sur demande</div>
     <button onclick="add('Noix de coco',0)">Ajouter</button>
   </div>
 
   <div class="card">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/9/9c/Vanilla_pods.jpg"
-    onerror="imgError(this,'Vanille')">
+    <div class="icon">🌿</div>
     <h3>Vanille</h3>
     <div class="price">Sur demande</div>
     <button onclick="add('Vanille',0)">Ajouter</button>
   </div>
 
   <div class="card">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/3/33/Green_lettuce.jpg"
-    onerror="imgError(this,'Salade')">
+    <div class="icon">🥬</div>
     <h3>Salade</h3>
     <div class="price">Sur demande</div>
     <button onclick="add('Salade',0)">Ajouter</button>
   </div>
 
   <div class="card">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/8/88/Tomatoes.jpg"
-    onerror="imgError(this,'Tomate')">
+    <div class="icon">🍅</div>
     <h3>Tomate</h3>
     <div class="price">Sur demande</div>
     <button onclick="add('Tomate',0)">Ajouter</button>
   </div>
 
   <div class="card">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/Turmeric_Powder_and_Root.jpg"
-    onerror="imgError(this,'Curcuma')">
+    <div class="icon">🟡</div>
     <h3>Curcuma</h3>
     <div class="price">Sur demande</div>
     <button onclick="add('Curcuma',0)">Ajouter</button>
   </div>
 
   <div class="card">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/Taro_root.jpg"
-    onerror="imgError(this,'Songe')">
+    <div class="icon">🌱</div>
     <h3>Songe</h3>
     <div class="price">Sur demande</div>
     <button onclick="add('Songe',0)">Ajouter</button>
@@ -333,12 +313,6 @@ function order(){
   msg += "\n\nMerci pour votre commande 🙏";
 
   window.open("https://wa.me/33789583650?text=" + encodeURIComponent(msg), "_blank");
-}
-
-/* 🔥 IMAGE FALLBACK GLOBAL */
-function imgError(img, text){
-  img.onerror = null;
-  img.src = "https://via.placeholder.com/300x200?text=" + encodeURIComponent(text);
 }
 </script>
 
