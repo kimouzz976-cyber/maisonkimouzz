@@ -150,10 +150,9 @@ footer{
 <body>
 
 <header>
-  🌴 Maison Kimouzz - Produits tropicaux
+🌴 Maison Kimouzz - Produits tropicaux
 </header>
 
-<!-- HERO -->
 <div class="hero">
   <h1>🥭 Saveurs de Mayotte</h1>
   <p>Produits frais • locaux • livraison rapide 🚚</p>
@@ -193,6 +192,64 @@ footer{
     <button onclick="add('Canard',35)">Ajouter</button>
   </div>
 
+  <!-- PRODUITS SUR DEMANDE -->
+
+  <div class="card">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/1/10/Red_chili_peppers.jpg">
+    <h3>Piments</h3>
+    <div class="price">4,50€ / kg</div>
+    <button onclick="add('Piments',4.5)">Ajouter</button>
+  </div>
+
+  <div class="card">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Cassava_roots.jpg">
+    <h3>Manioc</h3>
+    <div class="price">Sur demande</div>
+    <button onclick="add('Manioc',0)">Ajouter</button>
+  </div>
+
+  <div class="card">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Coconut.jpg">
+    <h3>Noix de coco</h3>
+    <div class="price">Sur demande</div>
+    <button onclick="add('Noix de coco',0)">Ajouter</button>
+  </div>
+
+  <div class="card">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/9/9c/Vanilla_pods.jpg">
+    <h3>Vanille</h3>
+    <div class="price">Sur demande</div>
+    <button onclick="add('Vanille',0)">Ajouter</button>
+  </div>
+
+  <div class="card">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/3/33/Green_lettuce.jpg">
+    <h3>Salade</h3>
+    <div class="price">Sur demande</div>
+    <button onclick="add('Salade',0)">Ajouter</button>
+  </div>
+
+  <div class="card">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/8/88/Tomatoes.jpg">
+    <h3>Tomate</h3>
+    <div class="price">Sur demande</div>
+    <button onclick="add('Tomate',0)">Ajouter</button>
+  </div>
+
+  <div class="card">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/Turmeric_Powder_and_Root.jpg">
+    <h3>Curcuma</h3>
+    <div class="price">Sur demande</div>
+    <button onclick="add('Curcuma',0)">Ajouter</button>
+  </div>
+
+  <div class="card">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/Taro_root.jpg">
+    <h3>Songe</h3>
+    <div class="price">Sur demande</div>
+    <button onclick="add('Songe',0)">Ajouter</button>
+  </div>
+
 </div>
 
 <!-- PANIER -->
@@ -207,7 +264,6 @@ footer{
   <button class="order-btn" onclick="order()">Commander WhatsApp</button>
 </div>
 
-<!-- FOOTER -->
 <footer>
   <h2>Maison Kimouzz</h2>
   <p>📍 281 route Ampadza, 97670 Chiconi</p>
@@ -219,7 +275,11 @@ footer{
 let cart = [];
 
 function add(name, price){
-  cart.push({name, price});
+  cart.push({
+    name: name,
+    price: price,
+    isCustom: price === 0
+  });
   render();
 }
 
@@ -234,10 +294,15 @@ function render(){
   let total = 0;
 
   cart.forEach((item,i)=>{
-    total += item.price;
+    let priceText = item.isCustom ? "Prix sur demande" : item.price + "€";
+
+    if(!item.isCustom){
+      total += item.price;
+    }
+
     cartDiv.innerHTML += `
       <div class="item">
-        ${item.name} - ${item.price}€
+        ${item.name} - ${priceText}
         <span onclick="removeItem(${i})" style="color:red;cursor:pointer">x</span>
       </div>
     `;
@@ -251,11 +316,16 @@ function order(){
   let msg = "🛒 Commande Maison Kimouzz\n\n";
 
   cart.forEach(item=>{
-    msg += "- " + item.name + " : " + item.price + "€\n";
-    total += item.price;
+    if(item.isCustom){
+      msg += "- " + item.name + " : Prix sur demande\n";
+    } else {
+      msg += "- " + item.name + " : " + item.price + "€\n";
+      total += item.price;
+    }
   });
 
-  msg += "\n💰 Total à payer : " + total + "€";
+  msg += "\n💰 Total estimé : " + total + "€";
+  msg += "\n⚠️ Certains produits nécessitent confirmation du prix";
   msg += "\n\nMerci pour votre commande 🙏";
 
   let url = "https://wa.me/33789583650?text=" + encodeURIComponent(msg);
