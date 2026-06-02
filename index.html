@@ -3,16 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Maison Kimouzz - Shop Clean</title>
+<title>Maison Kimouzz - Stable Shop</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Poppins,sans-serif;}
-
 body{background:#081420;color:white;}
 
-/* HEADER */
 header{
 position:fixed;
 top:0;
@@ -26,11 +24,10 @@ backdrop-filter:blur(10px);
 z-index:1000;
 }
 
-.logo{width:50px;height:50px;border-radius:12px}
+.logo{width:45px;height:45px;border-radius:10px}
 
-/* HERO */
 .hero{
-height:90vh;
+height:80vh;
 display:flex;
 justify-content:center;
 align-items:center;
@@ -39,7 +36,6 @@ background:linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.7)),
 url('https://images.unsplash.com/photo-1542838132-92c53300491e') center/cover;
 }
 
-/* PRODUCTS */
 .section{padding:100px 20px;max-width:1100px;margin:auto;}
 
 .products{
@@ -59,17 +55,16 @@ border-radius:12px;
 .price{color:#ffdd00;font-weight:bold}
 
 button{
-padding:8px;
 width:100%;
+padding:8px;
 margin-top:5px;
 border:none;
 border-radius:8px;
+cursor:pointer;
 background:linear-gradient(90deg,#ffdd00,#ff7b00);
 font-weight:bold;
-cursor:pointer;
 }
 
-/* CART */
 .cart{
 position:fixed;
 right:10px;
@@ -78,6 +73,7 @@ width:300px;
 background:rgba(0,0,0,0.9);
 padding:15px;
 border-radius:12px;
+z-index:2000;
 }
 
 .cart-item{
@@ -89,7 +85,6 @@ margin:5px 0;
 
 .total{color:#ffdd00;font-weight:bold}
 
-/* ADMIN */
 #adminPanel{
 display:none;
 position:fixed;
@@ -98,32 +93,11 @@ right:10px;
 background:#000;
 padding:15px;
 border-radius:10px;
-width:250px;
+width:260px;
 z-index:3000;
 }
 
-#adminPanel input{
-width:100%;
-margin:5px 0;
-padding:5px;
-}
-
-/* POPUP */
-#popup{
-display:none;
-position:fixed;
-top:50%;
-left:50%;
-transform:translate(-50%,-50%);
-background:#111;
-padding:15px;
-border-radius:10px;
-width:280px;
-z-index:5000;
-}
-
-/* TOAST */
-.toast{
+#toast{
 position:fixed;
 bottom:20px;
 left:50%;
@@ -148,7 +122,6 @@ z-index:9999;
 <button onclick="loginAdmin()">Admin</button>
 </header>
 
-<!-- HERO -->
 <section class="hero">
 <div>
 <h1>Produits de Mayotte</h1>
@@ -156,13 +129,11 @@ z-index:9999;
 </div>
 </section>
 
-<!-- PRODUCTS -->
 <section class="section">
 <h2>Produits</h2>
 <div class="products" id="productList"></div>
 </section>
 
-<!-- CART -->
 <div class="cart">
 <h3>🛒 Panier</h3>
 <div id="cartList"></div>
@@ -180,36 +151,25 @@ z-index:9999;
 <button onclick="addProduct()">Ajouter</button>
 </div>
 
-<!-- EDIT POPUP -->
-<div id="popup">
-<h3>Modifier produit</h3>
-<input id="eName">
-<input id="ePrice">
-<input id="eImg">
-<input id="eStock">
-<button onclick="saveEdit()">Sauvegarder</button>
-</div>
-
-<!-- TOAST -->
-<div class="toast" id="toast"></div>
+<div id="toast"></div>
 
 <script>
 
-console.log("SITE OK");
+console.log("SITE STABLE OK");
 
-/* DATA */
+/* DATA SAFE */
 let products = JSON.parse(localStorage.getItem("products")) || [
-{name:"Banane verte",price:20,img:"https://images.unsplash.com/photo-1603833665858-e61d17a86224",stock:10},
-{name:"Œufs",price:8,img:"https://images.unsplash.com/photo-1587486913049-53fc88980cfc",stock:20}
+{name:"Banane verte",price:20,stock:10,img:"https://images.unsplash.com/photo-1603833665858-e61d17a86224"},
+{name:"Œufs",price:8,stock:20,img:"https://images.unsplash.com/photo-1587486913049-53fc88980cfc"}
 ];
 
-let cart=[];
-let isAdmin=false;
-let editIndex=null;
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let isAdmin = false;
 
 /* SAVE */
 function save(){
 localStorage.setItem("products",JSON.stringify(products));
+localStorage.setItem("cart",JSON.stringify(cart));
 }
 
 /* TOAST */
@@ -222,12 +182,14 @@ setTimeout(()=>t.style.display="none",2000);
 
 /* ADMIN LOGIN */
 function loginAdmin(){
-let pass=prompt("Mot de passe admin ?");
+let pass=prompt("Mot de passe ?");
 if(pass==="1234"){
 isAdmin=true;
 document.getElementById("adminPanel").style.display="block";
-toast("Admin OK");
-}else toast("Erreur");
+toast("Admin activé");
+}else{
+toast("Erreur mot de passe");
+}
 }
 
 /* PRODUCTS */
@@ -245,10 +207,7 @@ box.innerHTML+=`
 
 <button onclick="add(${i})">Ajouter</button>
 
-${isAdmin?`
-<button onclick="openEdit(${i})">✏ Modifier</button>
-<button onclick="del(${i})" style="background:red;color:white;">❌</button>
-`:``}
+${isAdmin?`<button onclick="del(${i})" style="background:red;color:white;">❌ Supprimer</button>`:""}
 
 </div>`;
 });
@@ -257,20 +216,20 @@ ${isAdmin?`
 /* ADD PRODUCT */
 function addProduct(){
 
-let name=document.getElementById("name").value;
+let name=document.getElementById("name").value.trim();
 let price=parseFloat(document.getElementById("price").value);
-let img=document.getElementById("img").value;
+let img=document.getElementById("img").value.trim();
 let stock=parseInt(document.getElementById("stock").value);
 
 if(!name||!price||!img||!stock){
-toast("Remplis tout");
+toast("Remplis tout !");
 return;
 }
 
 products.push({name,price,img,stock});
 save();
 renderProducts();
-toast("Ajout OK");
+toast("Produit ajouté");
 }
 
 /* DELETE */
@@ -278,37 +237,16 @@ function del(i){
 products.splice(i,1);
 save();
 renderProducts();
-toast("Supprimé");
-}
-
-/* EDIT */
-function openEdit(i){
-editIndex=i;
-document.getElementById("popup").style.display="block";
-
-eName.value=products[i].name;
-ePrice.value=products[i].price;
-eImg.value=products[i].img;
-eStock.value=products[i].stock;
-}
-
-function saveEdit(){
-products[editIndex]={
-name:eName.value,
-price:parseFloat(ePrice.value),
-img:eImg.value,
-stock:parseInt(eStock.value)
-};
-
-save();
-renderProducts();
-document.getElementById("popup").style.display="none";
-toast("Modifié");
+toast("Produit supprimé");
 }
 
 /* CART */
 function add(i){
-if(products[i].stock<=0){toast("Rupture");return;}
+
+if(products[i].stock<=0){
+toast("Rupture stock");
+return;
+}
 
 products[i].stock--;
 
@@ -339,11 +277,12 @@ document.getElementById("total").innerText=total;
 
 /* CHECKOUT */
 function checkout(){
-toast("Commande envoyée");
+toast("Commande envoyée !");
 cart=[];
 renderCart();
 }
 
+/* INIT */
 renderProducts();
 renderCart();
 
