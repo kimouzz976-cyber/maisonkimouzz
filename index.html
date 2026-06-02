@@ -1,46 +1,69 @@
-<section id="contact" style="
+<section id="contact" class="contact-section">
+
+<div class="contact-container">
+
+<h2>Contactez Maison Kimouzzz</h2>
+
+<p>
+Produits locaux de Mayotte 🇾🇹<br>
+Commandes • Livraison • Informations
+</p>
+
+<form class="contact-form">
+
+<input type="text" placeholder="Votre nom" required>
+
+<input type="email" placeholder="Votre email" required>
+
+<textarea placeholder="Votre message..." required></textarea>
+
+<button type="submit">Envoyer le message</button>
+
+</form>
+
+</div>
+
+</section>
+
+<style>
+
+.contact-section{
 min-height:100vh;
 display:flex;
 justify-content:center;
 align-items:center;
 padding:40px;
-background:linear-gradient(135deg,#0f172a,#1e293b,#2563eb);
-color:white;
+background:
+linear-gradient(135deg,#0f172a,#1e3a8a,#2563eb);
 font-family:Arial,sans-serif;
-">
+}
 
-<div style="
+.contact-container{
 width:100%;
 max-width:700px;
 background:rgba(255,255,255,0.08);
-backdrop-filter:blur(12px);
-padding:40px;
-border-radius:25px;
-box-shadow:0 10px 40px rgba(0,0,0,0.4);
-">
+backdrop-filter:blur(15px);
+padding:50px;
+border-radius:30px;
+box-shadow:0 15px 40px rgba(0,0,0,0.4);
+text-align:center;
+color:white;
+}
 
-<h2 style="
+.contact-container h2{
 font-size:42px;
-text-align:center;
-margin-bottom:10px;
-color:#ffffff;
-">
-Contactez Maison Kimouzzz
-</h2>
+margin-bottom:15px;
+}
 
-<p style="
-text-align:center;
-margin-bottom:35px;
-color:#dbeafe;
+.contact-container p{
 font-size:18px;
-">
-Produits locaux de Mayotte 🇾🇹  
-Livraison • Informations • Commandes
-</p>
+color:#dbeafe;
+margin-bottom:35px;
+line-height:1.6;
+}
 
-<form>
-
-<input type="text" placeholder="Votre nom" style="
+.contact-form input,
+.contact-form textarea{
 width:100%;
 padding:18px;
 margin-bottom:20px;
@@ -48,31 +71,14 @@ border:none;
 border-radius:15px;
 font-size:16px;
 outline:none;
-">
+}
 
-<input type="email" placeholder="Votre email" style="
-width:100%;
-padding:18px;
-margin-bottom:20px;
-border:none;
-border-radius:15px;
-font-size:16px;
-outline:none;
-">
-
-<textarea placeholder="Votre message..." style="
-width:100%;
+.contact-form textarea{
 height:180px;
-padding:18px;
-border:none;
-border-radius:15px;
-font-size:16px;
 resize:none;
-outline:none;
-margin-bottom:25px;
-"></textarea>
+}
 
-<button type="submit" style="
+.contact-form button{
 width:100%;
 padding:18px;
 border:none;
@@ -83,11 +89,11 @@ font-size:18px;
 font-weight:bold;
 cursor:pointer;
 transition:0.3s;
-">
-Envoyer le message
-</button>
+}
 
-</form>
+.contact-form button:hover{
+background:#60a5fa;
+transform:scale(1.02);
+}
 
-</div>
-</section>
+</style>
