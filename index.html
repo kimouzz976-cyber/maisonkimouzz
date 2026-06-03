@@ -197,10 +197,6 @@ footer{
 
 <script>
 
-/* ========================= */
-/* PRODUITS */
-/* ========================= */
-
 const products = [
   {name:"Banane", price:20, icon:"🍌"},
   {name:"Œufs", price:8, icon:"🥚"},
@@ -208,19 +204,11 @@ const products = [
   {name:"Canard", price:35, icon:"🦆"}
 ];
 
-/* ========================= */
-/* DATA */
-/* ========================= */
-
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 let client = JSON.parse(localStorage.getItem("client")) || {name:"", address:""};
 
 document.getElementById("clientName").value = client.name;
 document.getElementById("clientAddress").value = client.address;
-
-/* ========================= */
-/* SAVE */
-/* ========================= */
 
 function save(){
   localStorage.setItem("cart", JSON.stringify(cart));
@@ -236,17 +224,10 @@ function saveClient(){
 
 document.addEventListener("input", saveClient);
 
-/* ========================= */
-/* DELIVERY */
-/* ========================= */
-
+/* Livraison gratuite dès 70€ */
 function getDelivery(total){
   return total >= 70 ? 0 : 5;
 }
-
-/* ========================= */
-/* CART */
-/* ========================= */
 
 function add(name, price){
   let item = cart.find(p=>p.name===name);
@@ -271,10 +252,6 @@ function decrease(i){
   renderCart();
 }
 
-/* ========================= */
-/* RENDER PRODUCTS */
-/* ========================= */
-
 function renderProducts(){
   let search = document.getElementById("search").value.toLowerCase();
   let box = document.getElementById("products");
@@ -294,10 +271,6 @@ function renderProducts(){
     `;
   });
 }
-
-/* ========================= */
-/* CART DISPLAY */
-/* ========================= */
 
 function renderCart(){
   let box=document.getElementById("cart");
@@ -337,14 +310,10 @@ function renderCart(){
 
   box.innerHTML += `
     <div class="status">
-      ${delivery===0?"🚚 Livraison gratuite":"🚚 Livraison : 5€"}
+      ${delivery===0 ? "🚚 Livraison gratuite dès 70€" : "🚚 Livraison : 5€"}
     </div>
   `;
 }
-
-/* ========================= */
-/* ACTIONS */
-/* ========================= */
 
 function toggleCart(){
   let c=document.getElementById("cartBox");
@@ -357,10 +326,6 @@ function openMaps(){
 
   window.open("https://www.google.com/maps/search/"+encodeURIComponent(address));
 }
-
-/* ========================= */
-/* WHATSAPP */
-/* ========================= */
 
 function orderWhatsApp(){
   if(cart.length===0) return alert("Panier vide");
@@ -381,7 +346,7 @@ function orderWhatsApp(){
   let delivery=getDelivery(total);
   let final=total+delivery;
 
-  msg+=`\n🚚 Livraison : ${delivery===0?"Gratuite 🟢":"5€"}`;
+  msg+=`\n🚚 Livraison : ${delivery===0?"Gratuite dès 70€":"5€"}`;
   msg+=`\n💰 Total : ${final}€`;
 
   window.open("https://wa.me/33789583650?text="+encodeURIComponent(msg));
@@ -392,10 +357,6 @@ function orderWhatsApp(){
 
   showStatus("✔ Commande envoyée");
 }
-
-/* ========================= */
-/* EMAIL */
-/* ========================= */
 
 function orderEmail(){
   if(cart.length===0) return alert("Panier vide");
@@ -416,7 +377,7 @@ function orderEmail(){
   let delivery=getDelivery(total);
   let final=total+delivery;
 
-  body+=`\n🚚 Livraison : ${delivery===0?"Gratuite 🟢":"5€"}`;
+  body+=`\n🚚 Livraison : ${delivery===0?"Gratuite dès 70€":"5€"}`;
   body+=`\n💰 Total : ${final}€`;
 
   window.location.href=
@@ -429,19 +390,11 @@ function orderEmail(){
   showStatus("✔ Email prêt");
 }
 
-/* ========================= */
-/* STATUS */
-/* ========================= */
-
 function showStatus(msg){
   let s=document.getElementById("status");
   s.innerText=msg;
   setTimeout(()=>{ s.innerText=""; },3000);
 }
-
-/* ========================= */
-/* INIT */
-/* ========================= */
 
 renderProducts();
 renderCart();
