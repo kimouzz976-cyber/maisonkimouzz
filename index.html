@@ -6,168 +6,125 @@
 
 <title>Maison Kimouzz</title>
 
-<meta name="description" content="Produits frais et locaux de Mayotte - Maison Kimouzz">
-<meta name="keywords" content="Mayotte, fruits, légumes, livraison, boutique en ligne">
-
-<meta property="og:title" content="Maison Kimouzz">
-<meta property="og:description" content="Produits frais locaux avec livraison rapide">
-<meta property="og:type" content="website">
+<meta name="description" content="Produits locaux de Mayotte - Agriculture, pêche, élevage et restauration">
+<meta name="keywords" content="Mayotte, fruits, légumes, poisson, livraison, KMZ">
 
 <meta name="theme-color" content="#0f172a">
 
+<script src="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap"></script>
+
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter;}
 
-*{margin:0;padding:0;box-sizing:border-box;}
-
-body{
-  font-family:Inter;
-  background:#f6f7fb;
-  color:#111;
-}
+body{background:#f6f7fb;color:#111;}
 
 /* HEADER */
 header{
-  position:sticky;
-  top:0;
-  background:white;
-  padding:15px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  font-weight:800;
-  box-shadow:0 2px 10px rgba(0,0,0,0.05);
-  z-index:10;
-}
-
-.cart-btn{
-  background:#0f172a;
-  color:white;
-  border:none;
-  width:45px;
-  height:45px;
-  border-radius:50%;
-  cursor:pointer;
+position:sticky;
+top:0;
+background:white;
+padding:15px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+font-weight:800;
+box-shadow:0 2px 10px rgba(0,0,0,0.05);
+z-index:10;
 }
 
 /* HERO */
 .hero{
-  background:#0f172a;
-  color:white;
-  text-align:center;
-  padding:50px 20px;
+background:#0f172a;
+color:white;
+text-align:center;
+padding:60px 20px;
 }
 
-/* SEARCH */
-.search-box{
-  display:flex;
-  justify-content:center;
-  padding:15px;
-}
+.hero h1{font-size:38px;margin-bottom:10px;}
+.hero h2{color:#4ade80;margin-bottom:15px;}
 
-.search-box input{
-  width:90%;
-  max-width:500px;
-  padding:14px;
-  border-radius:12px;
-  border:none;
-  outline:none;
+.add-btn{
+margin-top:10px;
+width:100%;
+padding:12px;
+border-radius:12px;
+background:#0f172a;
+color:white;
+border:none;
+cursor:pointer;
+font-weight:700;
 }
 
 /* PRODUCTS */
 .products{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:15px;
-  padding:20px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:15px;
+padding:20px;
 }
 
 .card{
-  background:white;
-  border-radius:18px;
-  padding:18px;
-  text-align:center;
-  box-shadow:0 10px 20px rgba(0,0,0,0.05);
+background:white;
+border-radius:18px;
+padding:18px;
+text-align:center;
+box-shadow:0 10px 20px rgba(0,0,0,0.05);
+transition:.25s;
 }
 
-.price{
-  color:#16a34a;
-  font-weight:800;
-}
+.card:hover{transform:translateY(-5px);}
 
-.add-btn{
-  margin-top:10px;
-  width:100%;
-  padding:12px;
-  border-radius:12px;
-  background:#0f172a;
-  color:white;
-  border:none;
-  cursor:pointer;
-}
-
-/* OVERLAY */
-.overlay{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.25);
-  display:none;
-  z-index:998;
-}
+.price{color:#16a34a;font-weight:800;}
 
 /* CART */
+.cart-btn{
+background:#0f172a;
+color:white;
+border:none;
+width:45px;
+height:45px;
+border-radius:50%;
+cursor:pointer;
+}
+
 .cart{
-  position:fixed;
-  right:20px;
-  top:70px;
-  width:360px;
-  background:white;
-  border-radius:18px;
-  padding:15px;
-  display:none;
-  z-index:999;
-  box-shadow:0 15px 35px rgba(0,0,0,0.2);
-  max-height:80vh;
-  overflow:auto;
+position:fixed;
+right:20px;
+top:70px;
+width:360px;
+background:white;
+border-radius:18px;
+padding:15px;
+display:none;
+z-index:999;
+box-shadow:0 15px 35px rgba(0,0,0,0.2);
+max-height:80vh;
+overflow:auto;
 }
 
-.close-cart{
-  background:#ef4444;
-  color:white;
-  border:none;
-  padding:8px 12px;
-  border-radius:10px;
-  cursor:pointer;
-  margin-bottom:10px;
+.overlay{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.25);
+display:none;
+z-index:998;
 }
 
-/* MOBILE */
+/* KMZ */
+.kmz{
+background:#16a34a;
+color:white;
+padding:10px;
+border-radius:12px;
+margin-top:10px;
+font-weight:700;
+}
+
 @media(max-width:768px){
-  .cart{
-    width:100%;
-    height:100vh;
-    top:0;
-    right:0;
-    border-radius:0;
-  }
-}
-
-/* WHATSAPP FLOAT */
-.whatsapp-float{
-  position:fixed;
-  bottom:20px;
-  right:20px;
-  width:60px;
-  height:60px;
-  background:#25d366;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:white;
-  font-size:28px;
+.cart{width:100%;height:100vh;top:0;right:0;border-radius:0;}
 }
 </style>
+
 </head>
 
 <body>
@@ -179,245 +136,175 @@ header{
 <button class="cart-btn" onclick="toggleCart()">🧺 <span id="count">0</span></button>
 </header>
 
+<!-- HERO -->
 <section class="hero">
-<h1>Produits frais de Mayotte</h1>
+
+<h1>🌴 Produire localement</h1>
+<h2>Nourrir Mayotte</h2>
+
+<p>Agriculture • Pêche • Élevage • Restauration</p>
+
+<button class="add-btn">🛒 Commander</button>
+<button class="add-btn" style="background:#16a34a;">🪙 KMZ Fidélité</button>
+
 </section>
 
-<div class="search-box">
-<input id="search" placeholder="Rechercher..." oninput="App.renderProducts()">
+<!-- VISION -->
+<section style="padding:40px;text-align:center;">
+<h2>🌍 Notre mission</h2>
+<p>Créer une économie locale autonome à Mayotte grâce à la production et consommation locale.</p>
+</section>
+
+<!-- PRODUCTS -->
+<div class="products" id="products"></div>
+
+<!-- RESTAURANTS -->
+<section style="padding:40px;background:white;">
+<h2 style="text-align:center;">🍽️ Restaurants Kimouzz</h2>
+
+<div class="products">
+
+<div class="card">🐟 Poisson grillé local</div>
+<div class="card">🥘 Cuisine mahoraise</div>
+<div class="card">🥩 Boucherie locale</div>
+
 </div>
+</section>
+
+<!-- TRUST -->
+<section style="padding:40px;text-align:center;">
+<h2>⭐ Pourquoi Kimouzz ?</h2>
+<div class="products">
+<div class="card">🚚 Livraison rapide</div>
+<div class="card">🌴 Produits locaux</div>
+<div class="card">🪙 KMZ récompenses</div>
+<div class="card">💚 Économie locale</div>
+</div>
+</section>
 
 <!-- CART -->
 <div class="cart" id="cartBox">
-<h3>🛒 Panier</h3>
 
-<button class="close-cart" onclick="closeCart()">Fermer ✖</button>
+<h3>🛒 Panier</h3>
+<button onclick="closeCart()" class="add-btn" style="background:red;">Fermer</button>
 
 <div id="cart"></div>
 
+<p class="kmz">🪙 KMZ : <span id="kmz">0</span></p>
+
 <p><b>Total :</b> <span id="total">0</span>€</p>
 
-<select id="orderType" style="width:100%;padding:10px;margin-top:10px;border-radius:10px;">
-<option value="pickup">📦 Retrait</option>
-<option value="delivery">🚚 Livraison</option>
-</select>
+<button class="add-btn" onclick="clearCart()" style="background:red;">Vider</button>
 
-<p id="deliveryInfo" style="font-size:12px;color:green;margin-top:8px;"></p>
-
-<!-- 🧾 NOUVEAU BOUTON -->
-<button onclick="orderChoice()" class="add-btn">
-🧾 Commander
-</button>
-
-<input id="clientName" placeholder="Nom et prénom">
-<input id="clientAddress" placeholder="Adresse (livraison uniquement)">
-<input id="clientPhone" placeholder="Téléphone">
-
-<button onclick="orderWhatsApp()" class="add-btn">
-💬 WhatsApp
-</button>
-
-<button onclick="orderEmail()" class="add-btn">
-✉️ Email
-</button>
-
-<button onclick="clearCart()" style="background:red;color:white;width:100%;margin-top:8px;padding:12px;border-radius:12px;border:none;">
-Vider
-</button>
 </div>
-
-<div class="products" id="products"></div>
-
-<a class="whatsapp-float" href="https://wa.me/33789583650">💬</a>
 
 <script>
 
-function loadCart(){
-  try{
-    return JSON.parse(localStorage.getItem("cart")) || [];
-  }catch(e){
-    return [];
-  }
-}
+let kmz = 0;
 
 const App = {
-  products:[
-    {name:"Banane",price:20,icon:"🍌"},
-    {name:"Œufs",price:8,icon:"🥚"},
-    {name:"Poule",price:10,icon:"🐔"},
-    {name:"Canard",price:35,icon:"🦆"}
-  ],
+products:[
+{name:"Banane",price:20,icon:"🍌"},
+{name:"Œufs",price:8,icon:"🥚"},
+{name:"Poulet",price:10,icon:"🐔"},
+{name:"Poisson",price:25,icon:"🐟"},
+{name:"Fromage",price:15,icon:"🧀"},
+{name:"Mangue",price:5,icon:"🥭"}
+],
 
-  cart: loadCart(),
+cart:[],
 
-  save(){
-    localStorage.setItem("cart",JSON.stringify(this.cart));
-  },
+add(name,price){
 
-  add(name,price){
-    let item=this.cart.find(i=>i.name===name);
-    if(item) item.qty++;
-    else this.cart.push({name,price,qty:1});
-    this.save();
-    this.renderCart();
-  },
+let item=this.cart.find(i=>i.name===name);
 
-  renderProducts(){
-    const box=document.getElementById("products");
-    const search=document.getElementById("search").value.toLowerCase();
-    box.innerHTML="";
+if(item) item.qty++;
+else this.cart.push({name,price,qty:1});
 
-    this.products
-    .filter(p=>p.name.toLowerCase().includes(search))
-    .forEach(p=>{
-      const card=document.createElement("div");
-      card.className="card";
+kmz += 1; // 🪙 KMZ reward
 
-      card.innerHTML=`
-        <div style="font-size:50px">${p.icon}</div>
-        <h3>${p.name}</h3>
-        <div class="price">${p.price}€</div>
-      `;
+this.render();
+},
 
-      const btn=document.createElement("button");
-      btn.className="add-btn";
-      btn.textContent="Ajouter";
-      btn.onclick=()=>this.add(p.name,p.price);
+renderProducts(){
 
-      card.appendChild(btn);
-      box.appendChild(card);
-    });
-  },
+const box=document.getElementById("products");
 
-  renderCart(){
-    const box=document.getElementById("cart");
-    box.innerHTML="";
+box.innerHTML="";
 
-    this.cart.forEach(i=>{
-      const div=document.createElement("div");
-      div.textContent=`${i.name} x${i.qty}`;
-      box.appendChild(div);
-    });
+this.products.forEach(p=>{
 
-    const total=this.cart.reduce((t,i)=>t+i.price*i.qty,0);
-    document.getElementById("total").textContent=total;
-    document.getElementById("count").textContent=
-      this.cart.reduce((a,b)=>a+b.qty,0);
+const div=document.createElement("div");
 
-    const orderType=document.getElementById("orderType");
-    const info=document.getElementById("deliveryInfo");
+div.className="card";
 
-    if(total>=70){
-      orderType.value="delivery";
-      orderType.disabled=true;
-      info.textContent="🚚 Livraison activée automatiquement (commande ≥ 70€)";
-    } else {
-      orderType.disabled=false;
-      info.textContent="";
-    }
-  }
-};
+div.innerHTML=`
+<div style="font-size:50px">${p.icon}</div>
+<h3>${p.name}</h3>
+<p class="price">${p.price}€</p>
+`;
 
-/* 🧾 CHOIX COMMANDE */
-function orderChoice(){
-  if(App.cart.length === 0) return alert("Panier vide");
+const btn=document.createElement("button");
 
-  let choice = prompt("Commander via :\n1 = WhatsApp\n2 = Email");
+btn.className="add-btn";
 
-  if(choice === "1") orderWhatsApp();
-  else if(choice === "2") orderEmail();
-  else alert("Choix invalide");
+btn.innerText="Ajouter";
+
+btn.onclick=()=>this.add(p.name,p.price);
+
+div.appendChild(btn);
+
+box.appendChild(div);
+
+});
+
+},
+
+render(){
+
+const cart=document.getElementById("cart");
+
+cart.innerHTML="";
+
+let total=0;
+
+this.cart.forEach(i=>{
+
+total+=i.price*i.qty;
+
+const div=document.createElement("div");
+
+div.innerText=`${i.name} x${i.qty}`;
+
+cart.appendChild(div);
+
+});
+
+document.getElementById("total").innerText=total;
+document.getElementById("count").innerText=this.cart.length;
+document.getElementById("kmz").innerText=kmz;
+
 }
 
-/* CART */
-function openCart(){
-  document.getElementById("cartBox").style.display="block";
-  document.getElementById("overlay").style.display="block";
+};
+
+function toggleCart(){
+document.getElementById("cartBox").style.display="block";
+document.getElementById("overlay").style.display="block";
 }
 
 function closeCart(){
-  document.getElementById("cartBox").style.display="none";
-  document.getElementById("overlay").style.display="none";
+document.getElementById("cartBox").style.display="none";
+document.getElementById("overlay").style.display="none";
 }
 
-function toggleCart(){
-  const c=document.getElementById("cartBox");
-  if(c.style.display==="block") closeCart();
-  else openCart();
-}
-
-/* WHATSAPP */
-function orderWhatsApp(){
-
-  let total=App.cart.reduce((t,i)=>t+i.price*i.qty,0);
-  let type = document.getElementById("orderType").value;
-
-  let name=document.getElementById("clientName").value;
-  let address=document.getElementById("clientAddress").value;
-  let phone=document.getElementById("clientPhone").value;
-
-  if(App.cart.length===0) return alert("Panier vide");
-
-  let msg=`🛒 Maison Kimouzz\n\n`;
-
-  if(type==="delivery"){
-    if(!name || !address || !phone)
-      return alert("Nom + Adresse + Téléphone requis");
-
-    msg+=`🚚 Livraison\n${name}\n${address}\n${phone}\n`;
-  } else {
-    if(!name || !phone)
-      return alert("Nom + Téléphone requis");
-
-    msg+=`📦 Retrait\n281 route ampadza 97670 Chiconi\n${name}\n${phone}\n`;
-  }
-
-  App.cart.forEach(i=>{
-    msg+=`- ${i.name} x${i.qty}\n`;
-  });
-
-  msg+=`\n💰 Total : ${total}€`;
-
-  window.open("https://wa.me/33789583650?text="+encodeURIComponent(msg));
-  closeCart();
-}
-
-/* EMAIL (OBJET = COMMANDE) */
-function orderEmail(){
-
-  let type=document.getElementById("orderType").value;
-
-  let body="Commande Maison Kimouzz\n\n";
-
-  if(type==="delivery"){
-    body+="🚚 Livraison\n";
-    body+=document.getElementById("clientName").value+"\n";
-    body+=document.getElementById("clientAddress").value+"\n";
-    body+=document.getElementById("clientPhone").value+"\n\n";
-  } else {
-    body+="📦 Retrait\n281 route ampadza 97670 Chiconi\n";
-    body+=document.getElementById("clientName").value+"\n";
-    body+=document.getElementById("clientPhone").value+"\n\n";
-  }
-
-  App.cart.forEach(i=>{
-    body+=`${i.name} x${i.qty}\n`;
-  });
-
-  window.location.href =
-    "mailto:maisonkimouzzz@gmail.com?subject=Commande&body="
-    + encodeURIComponent(body);
-}
-
-/* CLEAR */
 function clearCart(){
-  App.cart=[];
-  App.save();
-  App.renderCart();
+App.cart=[];
+App.render();
 }
 
 App.renderProducts();
-App.renderCart();
+App.render();
 
 </script>
 
