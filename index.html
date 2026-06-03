@@ -45,6 +45,13 @@ header small{
   color:#64748b;
 }
 
+header a{
+  color:#0f172a;
+  text-decoration:none;
+  margin-left:10px;
+  font-weight:600;
+}
+
 .cart-btn{
   background:#0f172a;
   color:white;
@@ -55,7 +62,7 @@ header small{
   cursor:pointer;
 }
 
-/* HERO STARTUP */
+/* HERO */
 .hero{
   background: linear-gradient(135deg, #0f172a, #1e293b);
   color: white;
@@ -164,6 +171,42 @@ header small{
   margin-bottom:10px;
 }
 
+/* INVESTISSEURS */
+.invest{
+  max-width:1000px;
+  margin:60px auto;
+  padding:0 20px;
+}
+
+.invest h2{
+  text-align:center;
+  margin-bottom:30px;
+  color:#0f172a;
+}
+
+.invest-card{
+  background:white;
+  padding:20px;
+  border-radius:15px;
+  margin-bottom:15px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.05);
+}
+
+.invest-cta{
+  text-align:center;
+  margin-top:30px;
+}
+
+.invest-cta a{
+  display:inline-block;
+  margin-top:10px;
+  padding:12px 20px;
+  background:#0f172a;
+  color:white;
+  border-radius:10px;
+  text-decoration:none;
+}
+
 /* MOBILE */
 @media(max-width:768px){
   .cart{
@@ -201,13 +244,18 @@ header small{
 
 <div class="overlay" id="overlay" onclick="closeCart()"></div>
 
-<!-- HEADER AMÉLIORÉ -->
+<!-- HEADER -->
 <header>
 🌴 Maison Kimouzz <small>• En construction</small>
+
+<div>
+<a href="#investisseurs">💼 Investisseurs</a>
+</div>
+
 <button class="cart-btn" onclick="toggleCart()">🧺 <span id="count">0</span></button>
 </header>
 
-<!-- HERO STARTUP -->
+<!-- HERO -->
 <section class="hero">
   <div class="hero-content">
     <h1>Maison Kimouzz</h1>
@@ -234,31 +282,50 @@ header small{
 
 <p><b>Total :</b> <span id="total">0</span>€</p>
 
-<select id="orderType" style="width:100%;padding:10px;margin-top:10px;border-radius:10px;">
-<option value="pickup">📦 Retrait</option>
-<option value="delivery">🚚 Livraison</option>
-</select>
-
-<p id="deliveryInfo" style="font-size:12px;color:green;margin-top:8px;"></p>
-
-<button onclick="orderChoice()" class="add-btn">🧾 Commander</button>
-
-<input id="clientName" placeholder="Nom et prénom">
-<input id="clientAddress" placeholder="Adresse (livraison uniquement)">
-<input id="clientPhone" placeholder="Téléphone">
-
-<button onclick="orderWhatsApp()" class="add-btn">💬 WhatsApp</button>
-<button onclick="orderEmail()" class="add-btn">✉️ Email</button>
-
-<button onclick="clearCart()" style="background:red;color:white;width:100%;margin-top:8px;padding:12px;border-radius:12px;border:none;">
-Vider
-</button>
+<button onclick="clearCart()" class="add-btn" style="background:red;">Vider</button>
 </div>
 
 <!-- PRODUCTS -->
 <div class="products" id="products"></div>
 
-<!-- WHATSAPP FLOAT -->
+<!-- INVESTISSEURS -->
+<section id="investisseurs" class="invest">
+
+<h2>💼 Projet Investisseurs – Maison Kimouzz</h2>
+
+<div class="invest-card">
+<h3>🌍 Vision</h3>
+<p>Structurer un circuit court alimentaire à Mayotte via une plateforme digitale et logistique locale.</p>
+</div>
+
+<div class="invest-card">
+<h3>🎯 Problématique</h3>
+<p>Dépendance aux importations, prix élevés, absence de structuration locale.</p>
+</div>
+
+<div class="invest-card">
+<h3>💡 Solution</h3>
+<p>Plateforme e-commerce + logistique locale pour connecter producteurs et consommateurs.</p>
+</div>
+
+<div class="invest-card">
+<h3>💰 Modèle économique</h3>
+<p>Vente de produits + livraison + marges distribution.</p>
+</div>
+
+<div class="invest-card">
+<h3>📈 Potentiel</h3>
+<p>Marché alimentaire local important avec faible concurrence digitale.</p>
+</div>
+
+<div class="invest-cta">
+<p><b>📩 Intéressé par le projet ?</b></p>
+<a href="mailto:maisonkimouzzz@gmail.com">Contacter Maison Kimouzz</a>
+</div>
+
+</section>
+
+<!-- WHATSAPP -->
 <a class="whatsapp-float" href="https://wa.me/33789583650">💬</a>
 
 <script>
@@ -335,30 +402,6 @@ const App={
 function openCart(){document.getElementById("cartBox").style.display="block";document.getElementById("overlay").style.display="block";}
 function closeCart(){document.getElementById("cartBox").style.display="none";document.getElementById("overlay").style.display="none";}
 function toggleCart(){document.getElementById("cartBox").style.display==="block"?closeCart():openCart();}
-
-/* COMMANDES */
-function orderChoice(){
-  if(App.cart.length===0)return alert("Panier vide");
-  let c=prompt("1 WhatsApp / 2 Email");
-  if(c==="1")orderWhatsApp();
-  else if(c==="2")orderEmail();
-}
-
-function orderWhatsApp(){
-  let msg="🛒 Maison Kimouzz\n\n";
-  App.cart.forEach(i=>msg+=`${i.name} x${i.qty}\n`);
-  window.open("https://wa.me/33789583650?text="+encodeURIComponent(msg));
-}
-
-function orderEmail(){
-  let body="Commande Maison Kimouzz\n\n";
-  App.cart.forEach(i=>body+=`${i.name} x${i.qty}\n`);
-  location.href="mailto:maisonkimouzzz@gmail.com?subject=Commande&body="+encodeURIComponent(body);
-}
-
-function clearCart(){
-  App.cart=[];App.save();App.renderCart();
-}
 
 App.renderProducts();
 App.renderCart();
