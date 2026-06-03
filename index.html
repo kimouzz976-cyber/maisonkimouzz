@@ -76,11 +76,6 @@ header{
   padding:18px;
   text-align:center;
   box-shadow:0 10px 20px rgba(0,0,0,0.05);
-  transition:0.2s;
-}
-
-.card:hover{
-  transform:translateY(-4px);
 }
 
 .price{
@@ -110,15 +105,9 @@ header{
   padding:15px;
   display:none;
   box-shadow:0 15px 35px rgba(0,0,0,0.2);
-  animation:pop .25s ease;
 }
 
-@keyframes pop{
-  from{transform:translateY(-10px);opacity:0}
-  to{transform:translateY(0);opacity:1}
-}
-
-/* MOBILE CART */
+/* MOBILE */
 @media(max-width:768px){
   .cart{
     width:100%;
@@ -129,7 +118,7 @@ header{
   }
 }
 
-/* FLOAT BTN */
+/* FLOAT */
 .whatsapp-float{
   position:fixed;
   bottom:20px;
@@ -142,24 +131,16 @@ header{
   align-items:center;
   justify-content:center;
   color:white;
-  font-size:28px;
+  font-size:30px;
 }
 
-/* TOAST */
-.toast{
-  position:fixed;
-  bottom:90px;
-  left:50%;
-  transform:translateX(-50%);
-  background:#111;
-  color:white;
-  padding:10px 18px;
+/* INPUTS */
+input, select{
+  width:100%;
+  margin-top:10px;
+  padding:12px;
   border-radius:12px;
-  opacity:0;
-  transition:0.3s;
-}
-.toast.show{
-  opacity:1;
+  border:1px solid #ddd;
 }
 </style>
 </head>
@@ -179,16 +160,24 @@ header{
 <button onclick="toggleCart()">🧺 <span id="count">0</span></button>
 
 <div class="cart" id="cartBox">
-  <h3>Panier</h3>
+  <h3>🛒 Panier</h3>
+
   <div id="cart"></div>
 
-  <p>Total: <span id="total">0</span>€</p>
+  <p><b>Total :</b> <span id="total">0</span>€</p>
 
-  <input id="clientName" placeholder="Nom">
-  <input id="clientAddress" placeholder="Adresse">
+  <!-- TYPE COMMANDE -->
+  <select id="orderType" onchange="toggleOrderType()">
+    <option value="delivery">🚚 Livraison</option>
+    <option value="pickup">📍 Retrait</option>
+  </select>
 
-  <button onclick="orderWhatsApp()">WhatsApp</button>
-  <button onclick="orderEmail()">Email</button>
+  <input id="clientName" placeholder="Nom complet">
+  <input id="clientAddress" placeholder="Adresse livraison">
+  <input id="clientPhone" placeholder="Numéro de téléphone">
+
+  <button onclick="orderWhatsApp()" class="add-btn">WhatsApp</button>
+  <button onclick="orderEmail()" class="add-btn">Email</button>
   <button onclick="clearCart()" style="background:red;color:white;">Vider</button>
 </div>
 
@@ -196,11 +185,9 @@ header{
 
 <a class="whatsapp-float" href="https://wa.me/33789583650">💬</a>
 
-<div class="toast" id="toast"></div>
-
 <script>
 
-/* SAFE STORAGE */
+/* SAFE LOAD */
 function loadCart(){
   try{
     return JSON.parse(localStorage.getItem("cart")) || [];
@@ -208,15 +195,6 @@ function loadCart(){
     localStorage.removeItem("cart");
     return [];
   }
-}
-
-/* TOAST */
-function showToast(msg){
-  const t = document.getElementById("toast");
-  t.textContent = msg;
-  t.classList.add("show");
-
-  setTimeout(()=>t.classList.remove("show"),2000);
 }
 
 /* APP */
@@ -244,18 +222,12 @@ const App = {
 
     this.save();
     this.renderCart();
-
-    showToast("Produit ajouté ✔");
-  },
-
-  getTotal(){
-    return this.cart.reduce((t,i)=>t+i.price*i.qty,0);
   },
 
   renderProducts(){
 
-    const box = document.getElementById("products");
-    const search = document.getElementById("search").value.toLowerCase();
+    const box=document.getElementById("products");
+    const search=document.getElementById("search").value.toLowerCase();
 
     box.innerHTML="";
 
@@ -263,7 +235,7 @@ const App = {
     .filter(p=>p.name.toLowerCase().includes(search))
     .forEach(p=>{
 
-      const card = document.createElement("div");
+      const card=document.createElement("div");
       card.className="card";
 
       card.innerHTML=`
@@ -272,7 +244,7 @@ const App = {
         <div class="price">${p.price}€</div>
       `;
 
-      const btn = document.createElement("button");
+      const btn=document.createElement("button");
       btn.className="add-btn";
       btn.textContent="Ajouter";
       btn.onclick=()=>this.add(p.name,p.price);
@@ -284,67 +256,108 @@ const App = {
 
   renderCart(){
 
-    const box = document.getElementById("cart");
+    const box=document.getElementById("cart");
     box.innerHTML="";
-
-    if(this.cart.length===0){
-      box.innerHTML="<p>Panier vide</p>";
-    }
 
     this.cart.forEach(i=>{
       const div=document.createElement("div");
-      div.innerHTML=`${i.name} x${i.qty}`;
+      div.textContent=`${i.name} x${i.qty}`;
       box.appendChild(div);
     });
 
-    document.getElementById("total").textContent=this.getTotal();
+    document.getElementById("total").textContent=
+      this.cart.reduce((t,i)=>t+i.price*i.qty,0);
+
     document.getElementById("count").textContent=
       this.cart.reduce((a,b)=>a+b.qty,0);
   }
 };
 
-/* UI */
+/* TOGGLE CART */
 function toggleCart(){
   const c=document.getElementById("cartBox");
-  c.style.display = c.style.display==="block"?"none":"block";
+  c.style.display=c.style.display==="block"?"none":"block";
 }
 
-/* ACTIONS */
+/* SHOW/HIDE INPUTS */
+function toggleOrderType(){
+
+  const type=document.getElementById("orderType").value;
+
+  const address=document.getElementById("clientAddress");
+  const phone=document.getElementById("clientPhone");
+
+  if(type==="pickup"){
+    address.style.display="none";
+    phone.style.display="none";
+  }else{
+    address.style.display="block";
+    phone.style.display="block";
+  }
+}
+
+/* WHATSAPP */
 function orderWhatsApp(){
-  let name=document.getElementById("clientName").value;
-  let address=document.getElementById("clientAddress").value;
 
-  if(!name||!address) return showToast("Remplis les champs");
+  const name=document.getElementById("clientName").value;
+  const address=document.getElementById("clientAddress").value;
+  const phone=document.getElementById("clientPhone").value;
+  const type=document.getElementById("orderType").value;
 
-  let msg=`Commande\n${name}\n${address}\n`;
+  if(!name) return alert("Nom requis");
+
+  if(type==="delivery"){
+    if(!address || !phone)
+      return alert("Adresse + téléphone requis");
+  }
+
+  let msg=`🛒 Maison Kimouzz\n\n👤 ${name}\n`;
+
+  if(type==="delivery"){
+    msg+=`🚚 Livraison\n📍 ${address}\n📞 ${phone}\n\n`;
+  }else{
+    msg+=`📍 Retrait sur place\n\n`;
+  }
+
+  let total=0;
 
   App.cart.forEach(i=>{
     msg+=`- ${i.name} x${i.qty}\n`;
+    total+=i.price*i.qty;
   });
 
-  window.open("https://wa.me/33789583650?text="+encodeURIComponent(msg));
+  msg+=`\n💰 Total: ${total}€`;
+
+  window.open(
+    "https://wa.me/33789583650?text="+encodeURIComponent(msg)
+  );
 }
 
+/* EMAIL */
 function orderEmail(){
-  let body="Commande\n";
+
+  let body="Commande\n\n";
 
   App.cart.forEach(i=>{
     body+=`${i.name} x${i.qty}\n`;
   });
 
-  window.location.href="mailto:maisonkimouzzz@gmail.com?subject=Commande&body="+encodeURIComponent(body);
+  window.location.href=
+    "mailto:maisonkimouzzz@gmail.com?subject=Commande&body="
+    + encodeURIComponent(body);
 }
 
+/* CLEAR */
 function clearCart(){
   App.cart=[];
   App.save();
   App.renderCart();
-  showToast("Panier vidé 🗑");
 }
 
 /* INIT */
 App.renderProducts();
 App.renderCart();
+toggleOrderType();
 
 </script>
 
