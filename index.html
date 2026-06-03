@@ -18,7 +18,6 @@ body{
   color:#1f1f1f;
 }
 
-/* HEADER */
 header{
   position:sticky;
   top:0;
@@ -30,7 +29,6 @@ header{
   z-index:10;
 }
 
-/* HERO */
 .hero{
   background:linear-gradient(135deg,#0f172a,#1e293b);
   color:white;
@@ -39,7 +37,6 @@ header{
   border-radius:0 0 25px 25px;
 }
 
-/* PRODUCTS */
 .products{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
@@ -66,7 +63,6 @@ button{
   border-radius:10px;
 }
 
-/* CART BUTTON */
 .cart-btn{
   position:fixed;
   right:20px;
@@ -78,7 +74,6 @@ button{
   z-index:20;
 }
 
-/* CART */
 .cart{
   position:fixed;
   right:20px;
@@ -89,12 +84,6 @@ button{
   padding:15px;
   box-shadow:0 10px 30px rgba(0,0,0,0.15);
   display:none;
-  animation:fade .2s ease;
-}
-
-@keyframes fade{
-  from{opacity:0;transform:translateY(-10px)}
-  to{opacity:1;transform:translateY(0)}
 }
 
 .item{
@@ -119,7 +108,6 @@ button{
   color:white;
 }
 
-/* INPUTS */
 input{
   width:100%;
   padding:8px;
@@ -128,7 +116,6 @@ input{
   border:1px solid #ddd;
 }
 
-/* ACTION BUTTONS */
 .btn{
   width:100%;
   margin-top:8px;
@@ -142,44 +129,10 @@ input{
 .red{background:#ef4444;}
 .dark{background:#0f172a;}
 
-/* STATUS */
 .status{
   font-size:13px;
   margin-top:8px;
   color:green;
-}
-
-/* WHATSAPP FLOAT */
-.whatsapp{
-  position:fixed;
-  bottom:20px;
-  right:20px;
-  background:#25d366;
-  color:white;
-  width:55px;
-  height:55px;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:24px;
-  text-decoration:none;
-  box-shadow:0 10px 25px rgba(0,0,0,0.25);
-  z-index:50;
-}
-
-/* TOAST */
-.toast{
-  position:fixed;
-  bottom:90px;
-  left:50%;
-  transform:translateX(-50%);
-  background:#111;
-  color:white;
-  padding:10px 15px;
-  border-radius:10px;
-  display:none;
-  z-index:100;
 }
 
 footer{
@@ -223,10 +176,6 @@ footer{
 
 <div class="products" id="products"></div>
 
-<a class="whatsapp" href="https://wa.me/33789583650">💬</a>
-
-<div class="toast" id="toast"></div>
-
 <footer>
   📍 Chiconi • 📞 0789583650 • 📩 maisonkimouzzz@gmail.com
 </footer>
@@ -246,7 +195,6 @@ function save(){
   localStorage.setItem("cart", JSON.stringify(cart));
 }
 
-/* ADD */
 function add(name, price){
   let f = cart.find(i=>i.name===name);
   if(f) f.qty++;
@@ -254,10 +202,8 @@ function add(name, price){
 
   save();
   renderCart();
-  toast("Ajouté au panier");
 }
 
-/* CART UPDATE */
 function increase(i){
   cart[i].qty++;
   save();
@@ -272,7 +218,6 @@ function decrease(i){
   renderCart();
 }
 
-/* RENDER */
 function renderProducts(){
   let box=document.getElementById("products");
   box.innerHTML="";
@@ -289,7 +234,7 @@ function renderProducts(){
   });
 }
 
-/* CART */
+/* ✅ LIVRAISON MODIFIÉE */
 function renderCart(){
   let box=document.getElementById("cart");
   let total=0, count=0;
@@ -319,39 +264,35 @@ function renderCart(){
     `;
   });
 
-  let delivery = total>=70?0:5;
-  document.getElementById("total").innerText = total + delivery;
+  document.getElementById("total").innerText = total;
   document.getElementById("count").innerText = count;
 
   box.innerHTML+=`
     <div class="status">
-      ${delivery===0?"🚚 Livraison gratuite dès 70€":"🚚 Livraison : 5€"}
+      ${total>=70
+        ? "🚚 Livraison gratuite activée"
+        : "📍 Moins de 70€ → retrait obligatoire à Chiconi"}
     </div>
   `;
 }
 
-/* CLEAR */
 function clearCart(){
   cart=[];
   save();
   renderCart();
-  toast("Panier vidé");
 }
 
-/* TOGGLE */
 function toggleCart(){
   let c=document.getElementById("cartBox");
   c.style.display = c.style.display==="block"?"none":"block";
 }
 
-/* MAPS */
 function openMaps(){
   let a=document.getElementById("clientAddress").value;
   if(!a) return alert("Adresse manquante");
   window.open("https://www.google.com/maps/search/"+encodeURIComponent(a));
 }
 
-/* WHATSAPP */
 function orderWhatsApp(){
   if(cart.length===0) return alert("Panier vide");
 
@@ -368,30 +309,17 @@ function orderWhatsApp(){
     total+=i.price*i.qty;
   });
 
-  let delivery=total>=70?0:5;
-
-  msg+=`\n🚚 Livraison: ${delivery===0?"Gratuite dès 70€":"5€"}`;
-  msg+=`\n💰 Total: ${total+delivery}€`;
+  msg+=`\n💰 Total: ${total}€`;
 
   window.open("https://wa.me/33789583650?text="+encodeURIComponent(msg));
 
   cart=[];
   save();
   renderCart();
-  toast("Commande envoyée");
 }
 
-/* EMAIL */
 function orderEmail(){
-  alert("Garde ton système WhatsApp 👍 (email optionnel)");
-}
-
-/* TOAST */
-function toast(t){
-  let x=document.getElementById("toast");
-  x.innerText=t;
-  x.style.display="block";
-  setTimeout(()=>x.style.display="none",1500);
+  alert("Utilise WhatsApp 👍");
 }
 
 renderProducts();
