@@ -40,7 +40,6 @@ header{
   z-index:10;
 }
 
-/* CART BTN */
 .cart-btn{
   background:#0f172a;
   color:white;
@@ -52,7 +51,6 @@ header{
   cursor:pointer;
 }
 
-/* HERO */
 .hero{
   background:#0f172a;
   color:white;
@@ -60,7 +58,6 @@ header{
   padding:50px 20px;
 }
 
-/* SEARCH */
 .search-box{
   display:flex;
   justify-content:center;
@@ -132,7 +129,6 @@ header{
   overflow:auto;
 }
 
-/* CLOSE BTN */
 .close-cart{
   background:#ef4444;
   color:white;
@@ -193,6 +189,7 @@ header{
 <div class="cart" id="cartBox">
 
   <h3>🛒 Panier</h3>
+
   <button class="close-cart" onclick="closeCart()">Fermer ✖</button>
 
   <div id="cart"></div>
@@ -203,6 +200,12 @@ header{
     <option value="pickup">📦 Retrait</option>
     <option value="delivery">🚚 Livraison</option>
   </select>
+
+  <p id="deliveryInfo" style="font-size:12px;color:green;margin-top:8px;"></p>
+
+  <button onclick="closeCart()" style="background:#0f172a;color:white;width:100%;margin-top:10px;padding:12px;border-radius:12px;border:none;">
+    Continuer mes achats 🛍️
+  </button>
 
   <input id="clientName" placeholder="Nom et prénom">
   <input id="clientAddress" placeholder="Adresse (livraison uniquement)">
@@ -217,7 +220,6 @@ header{
 
 </div>
 
-<!-- PRODUCTS -->
 <div class="products" id="products"></div>
 
 <a class="whatsapp-float" href="https://wa.me/33789583650">💬</a>
@@ -228,7 +230,6 @@ function loadCart(){
   try{
     return JSON.parse(localStorage.getItem("cart")) || [];
   }catch(e){
-    localStorage.removeItem("cart");
     return [];
   }
 }
@@ -294,11 +295,23 @@ const App = {
       box.appendChild(div);
     });
 
-    document.getElementById("total").textContent=
-      this.cart.reduce((t,i)=>t+i.price*i.qty,0);
+    const total=this.cart.reduce((t,i)=>t+i.price*i.qty,0);
 
+    document.getElementById("total").textContent=total;
     document.getElementById("count").textContent=
       this.cart.reduce((a,b)=>a+b.qty,0);
+
+    const orderType=document.getElementById("orderType");
+    const info=document.getElementById("deliveryInfo");
+
+    if(total>=70){
+      orderType.value="delivery";
+      orderType.disabled=true;
+      info.textContent="🚚 Livraison activée automatiquement (commande ≥ 70€)";
+    } else {
+      orderType.disabled=false;
+      info.textContent="";
+    }
   }
 };
 
@@ -324,12 +337,13 @@ function toggleCart(){
 /* WHATSAPP */
 function orderWhatsApp(){
 
-  let type=document.getElementById("orderType").value;
+  let total=App.cart.reduce((t,i)=>t+i.price*i.qty,0);
+
+  let type = total>=70 ? "delivery" : document.getElementById("orderType").value;
+
   let name=document.getElementById("clientName").value;
   let address=document.getElementById("clientAddress").value;
   let phone=document.getElementById("clientPhone").value;
-
-  let total=App.cart.reduce((t,i)=>t+i.price*i.qty,0);
 
   if(App.cart.length===0) return alert("Panier vide");
 
@@ -345,7 +359,7 @@ function orderWhatsApp(){
   } else {
 
     if(!name || !phone)
-      return alert("Nom + Téléphone requis pour retrait");
+      return alert("Nom + Téléphone requis");
 
     msg+=`📦 Retrait\n281 route ampadza 97670 Chiconi\n${name}\n${phone}\n`;
   }
@@ -358,7 +372,7 @@ function orderWhatsApp(){
 
   msg+=`\n💰 Total : ${total}€`;
 
-  if(total>=70) msg+=`\n🚚 Livraison gratuite`;
+  if(total>=60) msg+=`\n🚚 Livraison gratuite`;
 
   window.open("https://wa.me/33789583650?text="+encodeURIComponent(msg));
 
