@@ -311,3 +311,46 @@ function toggleCart(){
 }
 
 /* WHATSAPP */
+function orderWhatsApp(){
+  if(cart.length===0) return;
+
+  let msg = "🛒 Commande Maison Kimouzz\n\n";
+  let total = 0;
+
+  cart.forEach(i=>{
+    msg += `- ${i.name} x${i.qty} : ${i.price*i.qty}€\n`;
+    total += i.price*i.qty;
+  });
+
+  msg += `\n💰 Total : ${total}€`;
+
+  window.open("https://wa.me/33789583650?text="+encodeURIComponent(msg));
+}
+
+/* EMAIL */
+function orderEmail(){
+  if(cart.length===0) return;
+
+  let subject = "Commande Maison Kimouzz";
+  let body = "🛒 Commande Maison Kimouzz\n\n";
+  let total = 0;
+
+  cart.forEach(i=>{
+    body += `- ${i.name} x${i.qty} : ${i.price*i.qty}€\n`;
+    total += i.price*i.qty;
+  });
+
+  body += `\n💰 Total : ${total}€`;
+
+  window.location.href =
+    "mailto:maisonkimouzz@gmail.com?subject=" +
+    encodeURIComponent(subject) +
+    "&body=" +
+    encodeURIComponent(body);
+}
+
+renderProducts();
+</script>
+
+</body>
+</html>
