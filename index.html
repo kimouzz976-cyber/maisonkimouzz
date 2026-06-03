@@ -3,329 +3,201 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Maison Kimouzz</title>
+<title>Maison Kimouzz - Boutique Tropicale</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins', sans-serif;
+}
 
 body{
-  margin:0;
-  font-family:'Inter', sans-serif;
-  background:#f6f7fb;
-  color:#1f1f1f;
+  background:#f4f7fb;
+  color:#222;
 }
 
 /* HEADER */
 header{
-  position:sticky;
-  top:0;
-  z-index:1000;
-  background:#fff;
-  padding:15px;
+  background:linear-gradient(135deg,#ffb703,#fb8500);
+  padding:20px;
+  color:white;
   text-align:center;
-  font-weight:700;
-  box-shadow:0 2px 10px rgba(0,0,0,0.06);
+}
+
+header h1{
+  font-size:28px;
+}
+
+nav{
+  margin-top:10px;
+}
+
+nav a{
+  color:white;
+  margin:0 10px;
+  text-decoration:none;
+  font-weight:600;
 }
 
 /* HERO */
 .hero{
-  background:linear-gradient(135deg,#0f172a,#1e293b);
-  color:white;
-  text-align:center;
   padding:60px 20px;
-}
-
-/* DELIVERY */
-.delivery-banner{
   text-align:center;
-  padding:10px;
-  background:#fff7ed;
-  color:#9a3412;
-  font-weight:600;
+  background:#023047;
+  color:white;
 }
 
-/* SEARCH */
-.search{
-  display:flex;
-  justify-content:center;
-  margin:20px;
+.hero h2{
+  font-size:28px;
+  margin-bottom:10px;
 }
 
-.search input{
-  width:90%;
-  max-width:420px;
-  padding:12px;
-  border-radius:10px;
-  border:1px solid #ddd;
+.btn{
+  display:inline-block;
+  margin-top:15px;
+  padding:12px 20px;
+  background:#ffb703;
+  color:#000;
+  font-weight:bold;
+  border-radius:8px;
+  text-decoration:none;
 }
 
-/* PRODUCTS */
+/* PRODUITS */
 .products{
+  padding:40px 20px;
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-  gap:15px;
-  padding:20px;
+  grid-template-columns:repeat(auto-fit, minmax(250px, 1fr));
+  gap:20px;
 }
 
 .card{
   background:white;
-  border-radius:15px;
-  padding:15px;
-  text-align:center;
-  box-shadow:0 5px 15px rgba(0,0,0,0.06);
+  border-radius:12px;
+  overflow:hidden;
+  box-shadow:0 5px 15px rgba(0,0,0,0.1);
+  transition:0.3s;
+}
+
+.card:hover{
+  transform:translateY(-5px);
 }
 
 .card img{
   width:100%;
-  height:120px;
+  height:180px;
   object-fit:cover;
-  border-radius:10px;
+}
+
+.card-content{
+  padding:15px;
 }
 
 .price{
-  color:green;
+  color:#fb8500;
+  font-weight:bold;
+  margin:10px 0;
+}
+
+.buy{
+  display:block;
+  text-align:center;
+  padding:10px;
+  background:#25D366;
+  color:white;
+  text-decoration:none;
+  border-radius:8px;
   font-weight:bold;
 }
 
-/* CART */
-.cart-btn{
-  position:fixed;
-  right:15px;
-  top:80px;
-  background:#111827;
+/* CONTACT */
+.contact{
+  padding:40px 20px;
+  background:#eee;
+  text-align:center;
+}
+
+footer{
+  background:#023047;
   color:white;
-  padding:10px 14px;
-  border-radius:50px;
-  cursor:pointer;
-}
-
-.cart{
-  position:fixed;
-  right:15px;
-  top:130px;
-  width:320px;
-  background:white;
-  padding:15px;
-  border-radius:15px;
-  display:none;
-  box-shadow:0 10px 25px rgba(0,0,0,0.15);
-}
-
-/* INPUTS */
-input, textarea{
-  width:100%;
-  margin-top:5px;
-  padding:8px;
-  border-radius:8px;
-  border:1px solid #ddd;
-  margin-bottom:8px;
-}
-
-/* BUTTONS */
-button{
-  width:100%;
-  padding:10px;
-  border:none;
-  border-radius:8px;
-  cursor:pointer;
-  font-weight:600;
-}
-
-.add{background:#111827;color:white;}
-.whatsapp{background:#22c55e;color:white;}
-.email{background:#3b82f6;color:white;}
-.clear{background:#ef4444;color:white;}
-
-.item{
-  display:flex;
-  justify-content:space-between;
-  border-bottom:1px solid #eee;
-  padding:5px 0;
+  text-align:center;
+  padding:20px;
+  margin-top:20px;
 }
 
 /* MOBILE */
 @media(max-width:600px){
-  .cart{width:90%; right:5%;}
+  header h1{
+    font-size:22px;
+  }
+
+  .hero h2{
+    font-size:22px;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<header>🌴 Maison Kimouzz</header>
+<header>
+  <h1>Maison Kimouzz 🌴</h1>
+  <nav>
+    <a href="#products">Produits</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
 
-<div class="hero">
-  <h1>🥭 Produits de Mayotte</h1>
-  <p>Frais • Local • Rapide 🚚</p>
-</div>
+<section class="hero">
+  <h2>Produits tropicaux de qualité</h2>
+  <p>Commande rapide via WhatsApp 🚀</p>
+  <a class="btn" href="#products">Voir les produits</a>
+</section>
 
-<div class="delivery-banner">
-🚚 Livraison gratuite dès 70€ | Sinon retrait à Chiconi
-</div>
+<section id="products" class="products">
 
-<div class="search">
-<input id="search" placeholder="Rechercher..." oninput="renderProducts()">
-</div>
+  <div class="card">
+    <img src="https://images.unsplash.com/photo-1604908177522-040a8d4c0f4d" loading="lazy">
+    <div class="card-content">
+      <h3>Produit Tropical 1</h3>
+      <p class="price">10€</p>
+      <a class="buy" href="https://wa.me/27789583650?text=Bonjour%20je%20veux%20commander%20Produit%201">Commander</a>
+    </div>
+  </div>
 
-<button class="cart-btn" onclick="toggleCart()">🧺 <span id="count">0</span></button>
+  <div class="card">
+    <img src="https://images.unsplash.com/photo-1502741338009-cac2772e18bc" loading="lazy">
+    <div class="card-content">
+      <h3>Produit Tropical 2</h3>
+      <p class="price">15€</p>
+      <a class="buy" href="https://wa.me/27789583650?text=Bonjour%20je%20veux%20commander%20Produit%202">Commander</a>
+    </div>
+  </div>
 
-<div class="cart" id="cartBox">
+  <div class="card">
+    <img src="https://images.unsplash.com/photo-1542838132-92c53300491e" loading="lazy">
+    <div class="card-content">
+      <h3>Produit Tropical 3</h3>
+      <p class="price">20€</p>
+      <a class="buy" href="https://wa.me/27789583650?text=Bonjour%20je%20veux%20commander%20Produit%203">Commander</a>
+    </div>
+  </div>
 
-<h3>🧾 Panier</h3>
+</section>
 
-<div id="cart"></div>
+<section id="contact" class="contact">
+  <h2>Contact</h2>
+  <p>Email : <b>maisonkimouzzz@gmail.com</b></p>
+  <p>WhatsApp : 078 958 3650</p>
+</section>
 
-<p id="deliveryInfo"></p>
-
-<p><b>Total: <span id="total">0</span>€</b></p>
-
-<!-- CLIENT INFO -->
-<input id="name" placeholder="Nom">
-<input id="phone" placeholder="Téléphone">
-<textarea id="address" placeholder="Adresse"></textarea>
-
-<button class="whatsapp" onclick="orderWhatsApp()">Commander WhatsApp</button>
-<button class="email" onclick="orderEmail()">Commander Email</button>
-<button class="clear" onclick="clearCart()">Vider</button>
-
-</div>
-
-<div class="products" id="products"></div>
-
-<footer style="text-align:center;padding:30px;background:#111827;color:white;margin-top:30px;">
-<p>📩 maisonkimouzzz@gmail.com</p>
-<p>📞 0789583650</p>
-<p>📍 Chiconi - Mayotte</p>
+<footer>
+  <p>© 2026 Maison Kimouzz - Tous droits réservés</p>
 </footer>
-
-<script>
-
-const products = [
-  {name:"Banane", price:20, img:"https://via.placeholder.com/300x200?text=Banane"},
-  {name:"Œufs", price:8, img:"https://via.placeholder.com/300x200?text=Oeufs"},
-  {name:"Poule", price:10, img:"https://via.placeholder.com/300x200?text=Poule"},
-  {name:"Canard", price:35, img:"https://via.placeholder.com/300x200?text=Canard"}
-];
-
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-function saveCart(){
-  localStorage.setItem("cart", JSON.stringify(cart));
-}
-
-function renderProducts(){
-  let search = document.getElementById("search").value.toLowerCase();
-  let box = document.getElementById("products");
-  box.innerHTML = "";
-
-  products.filter(p=>p.name.toLowerCase().includes(search))
-  .forEach(p=>{
-    box.innerHTML += `
-      <div class="card">
-        <img src="${p.img}">
-        <h3>${p.name}</h3>
-        <p class="price">${p.price}€</p>
-        <button class="add" onclick="add('${p.name}',${p.price})">Ajouter</button>
-      </div>
-    `;
-  });
-}
-
-function add(name,price){
-  cart.push({name,price});
-  saveCart();
-  renderCart();
-}
-
-function renderCart(){
-  let box = document.getElementById("cart");
-  let total = 0;
-
-  box.innerHTML = "";
-
-  cart.forEach((i,index)=>{
-    total += i.price;
-    box.innerHTML += `
-      <div class="item">
-        ${i.name}
-        <span onclick="removeItem(${index})" style="color:red">x</span>
-      </div>
-    `;
-  });
-
-  document.getElementById("total").innerText = total;
-  document.getElementById("count").innerText = cart.length;
-
-  let delivery = document.getElementById("deliveryInfo");
-  if(total >= 70){
-    delivery.innerText = "🚚 Livraison GRATUITE";
-  } else {
-    delivery.innerText = "📦 Retrait à Chiconi";
-  }
-
-  saveCart();
-}
-
-function removeItem(i){
-  cart.splice(i,1);
-  renderCart();
-}
-
-function clearCart(){
-  cart = [];
-  renderCart();
-}
-
-function toggleCart(){
-  let c = document.getElementById("cartBox");
-  c.style.display = c.style.display==="block" ? "none" : "block";
-}
-
-/* WHATSAPP */
-function orderWhatsApp(){
-  if(cart.length===0) return;
-
-  let name = document.getElementById("name").value;
-  let phone = document.getElementById("phone").value;
-  let address = document.getElementById("address").value;
-
-  let msg = "🛒 Commande Maison Kimouzz\n\n";
-  let total = 0;
-
-  cart.forEach(i=>{
-    msg += "- " + i.name + " : " + i.price + "€\n";
-    total += i.price;
-  });
-
-  msg += "\n💰 Total : " + total + "€";
-  msg += total >= 70 ? "\n🚚 Livraison gratuite" : "\n📦 Retrait à Chiconi";
-  msg += "\n\n👤 " + name + "\n📞 " + phone + "\n📍 " + address;
-
-  window.open("https://wa.me/33789583650?text="+encodeURIComponent(msg));
-}
-
-/* EMAIL */
-function orderEmail(){
-  let subject = "Commande Maison Kimouzz";
-  let body = "Commande:\n\n";
-  let total = 0;
-
-  cart.forEach(i=>{
-    body += "- " + i.name + " : " + i.price + "€\n";
-    total += i.price;
-  });
-
-  body += "\nTotal: " + total + "€";
-  body += total >= 70 ? "\nLivraison gratuite" : "\nRetrait à Chiconi";
-
-  window.location.href =
-    "mailto:maisonkimouzzz@gmail.com?subject="+encodeURIComponent(subject)+"&body="+encodeURIComponent(body);
-}
-
-renderProducts();
-renderCart();
-
-</script>
 
 </body>
 </html>
