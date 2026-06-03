@@ -3,9 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Maison Kimouzz V4</title>
+<title>Maison Kimouzz — Startup Platform</title>
 
-<!-- FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
@@ -15,25 +14,33 @@ body{margin:0;font-family:Arial;background:#f6f7fb}
 
 /* HEADER */
 header{
-background:#0f172a;
-color:white;
-padding:15px;
 display:flex;
 justify-content:space-between;
 align-items:center;
+padding:15px;
+background:#0f172a;
+color:white;
 position:sticky;
 top:0;
 }
 
 /* HERO */
 .hero{
-background:#111827;
+background:#0f172a;
 color:white;
 text-align:center;
-padding:60px 20px;
+padding:70px 20px;
 }
 
-/* GRID */
+.hero h1{font-size:42px}
+.hero p{opacity:.8}
+
+/* SECTIONS */
+.section{
+padding:40px 20px;
+text-align:center;
+}
+
 .grid{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
@@ -61,20 +68,6 @@ font-weight:bold;
 .green{background:#16a34a;color:white}
 .red{background:#ef4444;color:white}
 
-/* CART */
-.cart{
-position:fixed;
-right:0;
-top:0;
-width:380px;
-height:100%;
-background:white;
-padding:15px;
-overflow:auto;
-display:none;
-z-index:999;
-}
-
 /* AUTH */
 #auth{
 position:fixed;
@@ -98,13 +91,18 @@ padding:10px;
 margin:5px 0;
 }
 
-/* ADMIN */
-#admin{
+/* CART */
+.cart{
+position:fixed;
+right:0;
+top:0;
+width:380px;
+height:100%;
+background:white;
+padding:15px;
 display:none;
-padding:20px;
-background:#fff;
-margin:20px;
-border-radius:12px;
+overflow:auto;
+z-index:999;
 }
 </style>
 </head>
@@ -115,7 +113,6 @@ border-radius:12px;
 <div id="auth">
 <div class="auth-box">
 <h3>🌴 Maison Kimouzz</h3>
-
 <input id="email" placeholder="Email">
 <input id="password" type="password" placeholder="Mot de passe">
 
@@ -126,17 +123,44 @@ border-radius:12px;
 
 <!-- HEADER -->
 <header>
-<div>🌴 Kimouzz V4</div>
+<div>🌴 Kimouzz Startup</div>
 <div>🪙 <span id="kmz">0</span> KMZ <button onclick="toggleCart()">🛒</button></div>
 </header>
 
-<!-- HERO -->
+<!-- HERO INVESTOR -->
 <section class="hero">
-<h1>🌴 Produire • Consommer • Transformer</h1>
-<p>Mayotte — Agriculture • Pêche • Élevage • Restaurants</p>
+<h1>🌴 Maison Kimouzz</h1>
+<p>Marketplace locale — Agriculture • Pêche • Élevage • Restauration</p>
 </section>
 
-<!-- PRODUITS -->
+<!-- VISION (INVESTOR READY) -->
+<section class="section">
+<h2>💡 Vision</h2>
+<p>Construire une économie locale autonome à Mayotte en connectant producteurs, restaurants et consommateurs via une plateforme digitale.</p>
+</section>
+
+<!-- PROBLEM -->
+<section class="section">
+<h2>⚠️ Problème</h2>
+<div class="grid">
+<div class="card">Dépendance aux importations</div>
+<div class="card">Prix élevés</div>
+<div class="card">Producteurs isolés</div>
+</div>
+</section>
+
+<!-- SOLUTION -->
+<section class="section">
+<h2>✅ Solution</h2>
+<div class="grid">
+<div class="card">Marketplace locale</div>
+<div class="card">Restaurants intégrés</div>
+<div class="card">KMZ fidélité</div>
+<div class="card">Livraison locale</div>
+</div>
+</section>
+
+<!-- PRODUCTS -->
 <section class="grid" id="products"></section>
 
 <!-- RESTAURANTS -->
@@ -146,68 +170,71 @@ border-radius:12px;
 <div class="card">🥩 Boucherie locale</div>
 </section>
 
-<!-- ADMIN -->
-<div id="admin">
-<h2>🧑‍💼 Admin Dashboard</h2>
-<button onclick="loadOrders()">📦 Commandes</button>
-<button onclick="loadUsers()">👤 Users</button>
-<button onclick="loadStats()">📊 Stats KMZ</button>
-<div id="adminData"></div>
+<!-- BUSINESS MODEL -->
+<section class="section">
+<h2>💰 Business Model</h2>
+<div class="grid">
+<div class="card">Commission ventes (10–25%)</div>
+<div class="card">Abonnements restaurants</div>
+<div class="card">Frais livraison</div>
+<div class="card">KMZ fidélité</div>
 </div>
+</section>
+
+<!-- DASHBOARD (SIMPLE) -->
+<section class="section">
+<h2>📊 KPI (Prototype)</h2>
+<div class="grid">
+<div class="card">Utilisateurs</div>
+<div class="card">Commandes</div>
+<div class="card">KMZ circulant</div>
+</div>
+</section>
 
 <!-- CART -->
 <div class="cart" id="cart">
 <h3>🛒 Panier</h3>
-
 <div id="items"></div>
-
-<p><b>Total:</b> <span id="total">0</span>€</p>
+<p>Total: <span id="total">0</span>€</p>
 
 <button class="green" onclick="checkout()">Commander</button>
 <button class="red" onclick="clearCart()">Vider</button>
 <button onclick="toggleCart()">Fermer</button>
-
 </div>
 
 <script>
 
-/* ================= FIREBASE ================= */
-
-const firebaseConfig = {
-apiKey: "REMPLACE",
-authDomain: "REMPLACE",
-projectId: "REMPLACE",
-storageBucket: "REMPLACE",
-messagingSenderId: "REMPLACE",
-appId: "REMPLACE"
+/* FIREBASE */
+const firebaseConfig={
+apiKey:"REMPLACE",
+authDomain:"REMPLACE",
+projectId:"REMPLACE",
+storageBucket:"REMPLACE",
+messagingSenderId:"REMPLACE",
+appId:"REMPLACE"
 };
 
 firebase.initializeApp(firebaseConfig);
 
-const auth = firebase.auth();
-const db = firebase.firestore();
+const auth=firebase.auth();
+const db=firebase.firestore();
 
 let user=null;
+let cart=[];
 
-/* ================= AUTH ================= */
-
+/* AUTH */
 function register(){
 let e=document.getElementById("email").value;
 let p=document.getElementById("password").value;
 
 auth.createUserWithEmailAndPassword(e,p)
 .then(async u=>{
-
 await db.collection("users").doc(u.user.uid).set({
 kmz:0,
 role:"client"
 });
-
 user=u.user;
 document.getElementById("auth").style.display="none";
-
-checkRole();
-
 });
 }
 
@@ -219,58 +246,22 @@ auth.signInWithEmailAndPassword(e,p)
 .then(u=>{
 user=u.user;
 document.getElementById("auth").style.display="none";
-checkRole();
 });
 }
 
-/* ================= ROLE ================= */
-
-async function checkRole(){
-
-let doc=await db.collection("users").doc(user.uid).get();
-
-let role=doc.data().role;
-
-if(role==="admin"){
-document.getElementById("admin").style.display="block";
-}
-
-}
-
-/* ================= DATA ================= */
-
-let cart=[];
-
+/* PRODUCTS */
 const products=[
 {name:"Banane",price:20,icon:"🍌"},
 {name:"Œufs",price:8,icon:"🥚"},
-{name:"Poulet",price:12,icon:"🐔"},
 {name:"Poisson",price:25,icon:"🐟"},
-{name:"Fromage",price:15,icon:"🧀"},
-{name:"Mangue",price:6,icon:"🥭"}
+{name:"Poulet",price:12,icon:"🐔"}
 ];
 
-/* ================= KMZ ================= */
-
-async function addKMZ(amount){
-
-if(!user) return;
-
-db.collection("users").doc(user.uid).update({
-kmz: firebase.firestore.FieldValue.increment(amount)
-});
-
-}
-
-/* ================= PRODUCTS ================= */
-
 function renderProducts(){
-
 let box=document.getElementById("products");
 box.innerHTML="";
 
 products.forEach(p=>{
-
 let div=document.createElement("div");
 div.className="card";
 
@@ -283,35 +274,22 @@ div.innerHTML=`
 let btn=document.createElement("button");
 btn.className="primary";
 btn.innerText="Ajouter";
-
-btn.onclick=()=>{
-add(p);
-};
+btn.onclick=()=>add(p);
 
 div.appendChild(btn);
 box.appendChild(div);
-
 });
-
 }
 
 function add(p){
-
 let item=cart.find(i=>i.name===p.name);
-
 if(item) item.qty++;
 else cart.push({...p,qty:1});
-
-addKMZ(1);
-
 renderCart();
-
 }
 
-/* ================= CART ================= */
-
+/* CART */
 function renderCart(){
-
 let box=document.getElementById("items");
 box.innerHTML="";
 
@@ -319,14 +297,10 @@ let total=0;
 
 cart.forEach(i=>{
 total+=i.price*i.qty;
-
-let div=document.createElement("div");
-div.innerText=`${i.name} x${i.qty}`;
-box.appendChild(div);
+box.innerHTML+=`<div>${i.name} x${i.qty}</div>`;
 });
 
 document.getElementById("total").innerText=total;
-document.getElementById("kmz").innerText="LIVE";
 }
 
 function clearCart(){
@@ -334,98 +308,25 @@ cart=[];
 renderCart();
 }
 
-/* ================= CHECKOUT ================= */
-
+/* CHECKOUT */
 function checkout(){
-
 let total=cart.reduce((a,b)=>a+b.price*b.qty,0);
 
 db.collection("orders").add({
 user:user.uid,
 cart:cart,
 total:total,
-status:"pending",
 date:new Date()
 });
 
 alert("Commande envoyée 🚀");
-
 }
 
-/* ================= ADMIN ================= */
-
-function loadOrders(){
-
-db.collection("orders").get().then(snap=>{
-
-let html="";
-
-snap.forEach(d=>{
-
-let o=d.data();
-
-html+=`
-<div class="card">
-<b>Total:</b> ${o.total}€ <br>
-<b>Status:</b> ${o.status}
-</div>
-`;
-
-});
-
-document.getElementById("adminData").innerHTML=html;
-
-});
-
-}
-
-function loadUsers(){
-
-db.collection("users").get().then(snap=>{
-
-let html="";
-
-snap.forEach(d=>{
-
-html+=`
-<div class="card">
-KMZ: ${d.data().kmz}
-</div>
-`;
-
-});
-
-document.getElementById("adminData").innerHTML=html;
-
-});
-
-}
-
-function loadStats(){
-
-db.collection("users").get().then(snap=>{
-
-let total=0;
-
-snap.forEach(d=>{
-total+=d.data().kmz||0;
-});
-
-document.getElementById("adminData").innerHTML=
-"🪙 KMZ total: "+total;
-
-});
-
-}
-
-/* ================= UI ================= */
-
+/* UI */
 function toggleCart(){
 let c=document.getElementById("cart");
 c.style.display=c.style.display==="block"?"none":"block";
 }
-
-/* ================= INIT ================= */
 
 renderProducts();
 
