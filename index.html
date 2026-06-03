@@ -40,6 +40,11 @@ header{
   z-index:10;
 }
 
+header small{
+  font-weight:400;
+  color:#64748b;
+}
+
 .cart-btn{
   background:#0f172a;
   color:white;
@@ -50,7 +55,7 @@ header{
   cursor:pointer;
 }
 
-/* HERO (AMÉLIORÉ STARTUP) */
+/* HERO STARTUP */
 .hero{
   background: linear-gradient(135deg, #0f172a, #1e293b);
   color: white;
@@ -125,7 +130,7 @@ header{
   cursor:pointer;
 }
 
-/* OVERLAY */
+/* CART */
 .overlay{
   position:fixed;
   inset:0;
@@ -134,7 +139,6 @@ header{
   z-index:998;
 }
 
-/* CART */
 .cart{
   position:fixed;
   right:20px;
@@ -175,7 +179,7 @@ header{
   }
 }
 
-/* WHATSAPP FLOAT */
+/* WHATSAPP */
 .whatsapp-float{
   position:fixed;
   bottom:20px;
@@ -197,12 +201,13 @@ header{
 
 <div class="overlay" id="overlay" onclick="closeCart()"></div>
 
+<!-- HEADER AMÉLIORÉ -->
 <header>
-🌴 Maison Kimouzz
+🌴 Maison Kimouzz <small>• En construction</small>
 <button class="cart-btn" onclick="toggleCart()">🧺 <span id="count">0</span></button>
 </header>
 
-<!-- ✅ HERO STARTUP INTÉGRÉ -->
+<!-- HERO STARTUP -->
 <section class="hero">
   <div class="hero-content">
     <h1>Maison Kimouzz</h1>
@@ -214,6 +219,7 @@ header{
   </div>
 </section>
 
+<!-- SEARCH -->
 <div class="search-box">
 <input id="search" placeholder="Rechercher..." oninput="App.renderProducts()">
 </div>
@@ -249,31 +255,27 @@ Vider
 </button>
 </div>
 
+<!-- PRODUCTS -->
 <div class="products" id="products"></div>
 
+<!-- WHATSAPP FLOAT -->
 <a class="whatsapp-float" href="https://wa.me/33789583650">💬</a>
 
 <script>
 
-/* (TON JS RESTE INCHANGÉ) */
-
 function loadCart(){
-  try{
-    return JSON.parse(localStorage.getItem("cart")) || [];
-  }catch(e){
-    return [];
-  }
+  try{return JSON.parse(localStorage.getItem("cart"))||[];}
+  catch(e){return [];}
 }
 
-const App = {
+const App={
   products:[
     {name:"Banane",price:20,icon:"🍌"},
     {name:"Œufs",price:8,icon:"🥚"},
     {name:"Poule",price:10,icon:"🐔"},
     {name:"Canard",price:35,icon:"🦆"}
   ],
-
-  cart: loadCart(),
+  cart:loadCart(),
 
   save(){
     localStorage.setItem("cart",JSON.stringify(this.cart));
@@ -281,7 +283,7 @@ const App = {
 
   add(name,price){
     let item=this.cart.find(i=>i.name===name);
-    if(item) item.qty++;
+    if(item)item.qty++;
     else this.cart.push({name,price,qty:1});
     this.save();
     this.renderCart();
@@ -292,8 +294,7 @@ const App = {
     const search=document.getElementById("search").value.toLowerCase();
     box.innerHTML="";
 
-    this.products
-    .filter(p=>p.name.toLowerCase().includes(search))
+    this.products.filter(p=>p.name.toLowerCase().includes(search))
     .forEach(p=>{
       const card=document.createElement("div");
       card.className="card";
@@ -326,86 +327,37 @@ const App = {
 
     const total=this.cart.reduce((t,i)=>t+i.price*i.qty,0);
     document.getElementById("total").textContent=total;
-    document.getElementById("count").textContent=
-      this.cart.reduce((a,b)=>a+b.qty,0);
-
-    const orderType=document.getElementById("orderType");
-    const info=document.getElementById("deliveryInfo");
-
-    if(total>=70){
-      orderType.value="delivery";
-      orderType.disabled=true;
-      info.textContent="🚚 Livraison activée automatiquement (commande ≥ 70€)";
-    } else {
-      orderType.disabled=false;
-      info.textContent="";
-    }
+    document.getElementById("count").textContent=this.cart.reduce((a,b)=>a+b.qty,0);
   }
 };
 
+/* CART */
+function openCart(){document.getElementById("cartBox").style.display="block";document.getElementById("overlay").style.display="block";}
+function closeCart(){document.getElementById("cartBox").style.display="none";document.getElementById("overlay").style.display="none";}
+function toggleCart(){document.getElementById("cartBox").style.display==="block"?closeCart():openCart();}
+
 /* COMMANDES */
 function orderChoice(){
-  if(App.cart.length === 0) return alert("Panier vide");
-
-  let choice = prompt("Commander via :\n1 = WhatsApp\n2 = Email");
-
-  if(choice === "1") orderWhatsApp();
-  else if(choice === "2") orderEmail();
-  else alert("Choix invalide");
-}
-
-function openCart(){
-  document.getElementById("cartBox").style.display="block";
-  document.getElementById("overlay").style.display="block";
-}
-
-function closeCart(){
-  document.getElementById("cartBox").style.display="none";
-  document.getElementById("overlay").style.display="none";
-}
-
-function toggleCart(){
-  const c=document.getElementById("cartBox");
-  if(c.style.display==="block") closeCart();
-  else openCart();
+  if(App.cart.length===0)return alert("Panier vide");
+  let c=prompt("1 WhatsApp / 2 Email");
+  if(c==="1")orderWhatsApp();
+  else if(c==="2")orderEmail();
 }
 
 function orderWhatsApp(){
-  let total=App.cart.reduce((t,i)=>t+i.price*i.qty,0);
-  let type = document.getElementById("orderType").value;
-
-  let name=document.getElementById("clientName").value;
-  let address=document.getElementById("clientAddress").value;
-  let phone=document.getElementById("clientPhone").value;
-
-  let msg=`🛒 Maison Kimouzz\n\n`;
-
-  App.cart.forEach(i=>{
-    msg+=`- ${i.name} x${i.qty}\n`;
-  });
-
-  msg+=`\n💰 Total : ${total}€`;
-
+  let msg="🛒 Maison Kimouzz\n\n";
+  App.cart.forEach(i=>msg+=`${i.name} x${i.qty}\n`);
   window.open("https://wa.me/33789583650?text="+encodeURIComponent(msg));
-  closeCart();
 }
 
 function orderEmail(){
   let body="Commande Maison Kimouzz\n\n";
-
-  App.cart.forEach(i=>{
-    body+=`${i.name} x${i.qty}\n`;
-  });
-
-  window.location.href =
-    "mailto:maisonkimouzzz@gmail.com?subject=Commande&body="
-    + encodeURIComponent(body);
+  App.cart.forEach(i=>body+=`${i.name} x${i.qty}\n`);
+  location.href="mailto:maisonkimouzzz@gmail.com?subject=Commande&body="+encodeURIComponent(body);
 }
 
 function clearCart(){
-  App.cart=[];
-  App.save();
-  App.renderCart();
+  App.cart=[];App.save();App.renderCart();
 }
 
 App.renderProducts();
