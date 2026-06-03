@@ -15,7 +15,6 @@ body{
   color:#1f1f1f;
 }
 
-/* HEADER */
 header{
   position:sticky;
   top:0;
@@ -27,7 +26,6 @@ header{
   box-shadow:0 2px 10px rgba(0,0,0,0.06);
 }
 
-/* HERO */
 .hero{
   background:linear-gradient(135deg,#0f172a,#1e293b);
   color:white;
@@ -36,7 +34,6 @@ header{
   border-radius:0 0 25px 25px;
 }
 
-/* SEARCH */
 .search{
   display:flex;
   justify-content:center;
@@ -51,7 +48,6 @@ header{
   border:1px solid #ddd;
 }
 
-/* PRODUCTS */
 .products{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
@@ -70,11 +66,8 @@ header{
 .icon{font-size:40px;}
 .price{color:#16a34a;font-weight:700;margin:8px 0;}
 
-button{
-  cursor:pointer;
-}
+button{cursor:pointer;}
 
-/* CART */
 .cart-btn{
   position:fixed;
   right:20px;
@@ -121,7 +114,6 @@ button{
   color:white;
 }
 
-/* INPUTS */
 input{
   width:100%;
   padding:8px;
@@ -130,7 +122,6 @@ input{
   border:1px solid #ddd;
 }
 
-/* BUTTONS */
 .btn{
   width:100%;
   margin-top:8px;
@@ -146,12 +137,20 @@ input{
 .red{background:#ef4444;}
 .dark{background:#0f172a;}
 
-.total{font-weight:700;margin-top:10px;}
-
 .status{
   font-size:13px;
   margin-top:8px;
   color:green;
+}
+
+.history{
+  font-size:12px;
+  margin-top:10px;
+  color:#555;
+  max-height:120px;
+  overflow:auto;
+  border-top:1px solid #eee;
+  padding-top:8px;
 }
 
 footer{
@@ -188,13 +187,15 @@ footer{
   <input id="clientName" placeholder="Nom complet">
   <input id="clientAddress" placeholder="Adresse de livraison">
 
-  <button class="btn dark" onclick="openMaps()">📍 Voir sur Google Maps</button>
-
-  <button class="btn green" onclick="orderWhatsApp()">Commander WhatsApp</button>
-  <button class="btn blue" onclick="orderEmail()">Commander Email</button>
-  <button class="btn red" onclick="clearCart()">Vider panier</button>
+  <button class="btn dark" onclick="openMaps()">📍 Maps</button>
+  <button class="btn green" onclick="orderWhatsApp()">WhatsApp</button>
+  <button class="btn blue" onclick="orderEmail()">Email</button>
+  <button class="btn red" onclick="clearCart()">Vider</button>
+  <button class="btn dark" onclick="toggleHistory()">Historique</button>
 
   <div class="status" id="status"></div>
+
+  <div class="history" id="history"></div>
 
 </div>
 
@@ -203,7 +204,7 @@ footer{
 <footer>
   <h2>Maison Kimouzz</h2>
   <p>📍 Chiconi</p>
-  <p>📩 maisonkimouzz@gmail.com</p>
+  <p>📩 maisonkimouzzz@gmail.com</p>
   <p>📞 0789583650</p>
 </footer>
 
@@ -218,12 +219,32 @@ const products = [
 
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 let client = JSON.parse(localStorage.getItem("client")) || {name:"", address:""};
+let history = JSON.parse(localStorage.getItem("history")) || [];
 
 document.getElementById("clientName").value = client.name;
 document.getElementById("clientAddress").value = client.address;
 
 function save(){
   localStorage.setItem("cart", JSON.stringify(cart));
+}
+
+function saveHistory(order){
+  history.push(order);
+  localStorage.setItem("history", JSON.stringify(history));
+  renderHistory();
+}
+
+function renderHistory(){
+  let box = document.getElementById("history");
+  box.innerHTML = "<b>Commandes :</b><br>";
+
+  history.slice(-5).reverse().forEach(o=>{
+    box.innerHTML += `• ${o}<br>`;
+  });
+}
+
+function getDelivery(total){
+  return total >= 70 ? 0 : 5;
 }
 
 function add(name, price){
@@ -255,8 +276,7 @@ function renderProducts(){
 
   box.innerHTML="";
 
-  products
-  .filter(p=>p.name.toLowerCase().includes(search))
+  products.filter(p=>p.name.toLowerCase().includes(search))
   .forEach(p=>{
     box.innerHTML+=`
       <div class="card">
@@ -283,7 +303,6 @@ function renderCart(){
     box.innerHTML+=`
       <div class="item">
         <div>${i.name}</div>
-
         <div class="qty">
           <button onclick="decrease(${index})">-</button>
           <span>${i.qty}</span>
@@ -293,8 +312,17 @@ function renderCart(){
     `;
   });
 
-  document.getElementById("total").innerText=total;
-  document.getElementById("count").innerText=count;
+  let delivery = getDelivery(total);
+  let final = total + delivery;
+
+  document.getElementById("total").innerText = final;
+  document.getElementById("count").innerText = count;
+
+  box.innerHTML += `
+    <div class="status">
+      ${delivery===0?"Livraison gratuite 🟢":"Livraison : 5€"}
+    </div>
+  `;
 }
 
 function toggleCart(){
@@ -314,56 +342,64 @@ document.addEventListener("input", saveClient);
 
 function openMaps(){
   let address=document.getElementById("clientAddress").value;
-  if(!address) return alert("Adresse vide");
   window.open("https://www.google.com/maps/search/"+encodeURIComponent(address));
 }
 
 function orderWhatsApp(){
-  if(cart.length===0) return alert("Panier vide");
-
   let name=document.getElementById("clientName").value;
   let address=document.getElementById("clientAddress").value;
 
-  if(!name||!address) return alert("Nom + adresse requis");
-
-  let msg=`🛒 Commande Maison Kimouzz\n\n👤 ${name}\n📍 ${address}\n\n`;
-
   let total=0;
+  let msg=`🛒 Commande\n\n👤 ${name}\n📍 ${address}\n\n`;
 
   cart.forEach(i=>{
-    msg+=`- ${i.name} x${i.qty} : ${i.price*i.qty}€\n`;
+    msg+=`- ${i.name} x${i.qty}\n`;
     total+=i.price*i.qty;
   });
 
-  msg+=`\n💰 Total : ${total}€`;
+  let delivery=getDelivery(total);
+
+  msg+=`\n🚚 Livraison : ${delivery===0?"Gratuite 🟢":"5€"}`;
+  msg+=`\n💰 Total : ${total+delivery}€`;
 
   window.open("https://wa.me/33789583650?text="+encodeURIComponent(msg));
+
+  saveHistory(`${name} - ${total+delivery}€ (WhatsApp)`);
 
   cart=[];
   save();
   renderCart();
+
   showStatus("Commande envoyée ✔");
 }
 
 function orderEmail(){
-  if(cart.length===0) return;
-
   let name=document.getElementById("clientName").value;
   let address=document.getElementById("clientAddress").value;
 
-  let body=`🛒 Commande Maison Kimouzz\n\n👤 ${name}\n📍 ${address}\n\n`;
-
   let total=0;
+  let body=`🛒 Commande\n\n👤 ${name}\n📍 ${address}\n\n`;
 
   cart.forEach(i=>{
     body+=`- ${i.name} x${i.qty}\n`;
     total+=i.price*i.qty;
   });
 
-  body+=`\n💰 Total : ${total}€`;
+  let delivery=getDelivery(total);
+
+  body+=`\n🚚 Livraison : ${delivery===0?"Gratuite 🟢":"5€"}`;
+  body+=`\n💰 Total : ${total+delivery}€`;
 
   window.location.href=
-    "mailto:maisonkimouzz@gmail.com?subject=Commande&body="+encodeURIComponent(body);
+    "mailto:maisonkimouzzz@gmail.com?subject=Commande Maison Kimouzz&body="+encodeURIComponent(body);
+
+  saveHistory(`${name} - ${total+delivery}€ (Email)`);
+
+  cart=[];
+  save();
+  renderCart();
+
+  showStatus("Email prêt ✔");
 }
 
 function clearCart(){
@@ -372,12 +408,18 @@ function clearCart(){
   renderCart();
 }
 
+function toggleHistory(){
+  let h=document.getElementById("history");
+  h.style.display = h.style.display==="none"?"block":"none";
+}
+
 function showStatus(msg){
   document.getElementById("status").innerText=msg;
 }
 
 renderProducts();
 renderCart();
+renderHistory();
 
 </script>
 
