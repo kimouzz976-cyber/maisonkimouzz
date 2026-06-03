@@ -32,10 +32,24 @@ header{
   top:0;
   background:white;
   padding:15px;
-  text-align:center;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
   font-weight:800;
   box-shadow:0 2px 10px rgba(0,0,0,0.05);
   z-index:10;
+}
+
+/* CART BTN TOP RIGHT */
+.cart-btn{
+  background:#0f172a;
+  color:white;
+  border:none;
+  width:45px;
+  height:45px;
+  border-radius:50%;
+  font-size:16px;
+  cursor:pointer;
 }
 
 /* HERO */
@@ -91,21 +105,6 @@ header{
   cursor:pointer;
 }
 
-/* CART BTN */
-.cart-btn{
-  position:fixed;
-  right:20px;
-  top:90px;
-  background:#0f172a;
-  color:white;
-  border:none;
-  width:60px;
-  height:60px;
-  border-radius:50%;
-  font-size:18px;
-  z-index:1000;
-}
-
 /* OVERLAY */
 .overlay{
   position:fixed;
@@ -119,7 +118,7 @@ header{
 .cart{
   position:fixed;
   right:20px;
-  top:140px;
+  top:70px;
   width:360px;
   background:white;
   border-radius:18px;
@@ -127,40 +126,6 @@ header{
   display:none;
   z-index:999;
   box-shadow:0 15px 35px rgba(0,0,0,0.2);
-  animation:pop .2s ease;
-}
-
-@keyframes pop{
-  from{transform:translateY(-10px);opacity:0}
-  to{transform:translateY(0);opacity:1}
-}
-
-/* CLOSE */
-.close-cart{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:10px;
-}
-
-.close-btn{
-  background:#ef4444;
-  color:white;
-  border:none;
-  padding:6px 10px;
-  border-radius:8px;
-  cursor:pointer;
-}
-
-/* CONTINUE */
-.continue-btn{
-  margin-top:10px;
-  width:100%;
-  padding:10px;
-  border-radius:12px;
-  border:none;
-  background:#e5e7eb;
-  cursor:pointer;
 }
 
 /* MOBILE */
@@ -188,7 +153,6 @@ header{
   justify-content:center;
   color:white;
   font-size:28px;
-  z-index:1000;
 }
 </style>
 </head>
@@ -197,7 +161,13 @@ header{
 
 <div class="overlay" id="overlay" onclick="closeCart()"></div>
 
-<header>🌴 Maison Kimouzz</header>
+<header>
+  🌴 Maison Kimouzz
+
+  <button class="cart-btn" onclick="toggleCart()">
+    🧺 <span id="count">0</span>
+  </button>
+</header>
 
 <section class="hero">
   <h1>Produits frais de Mayotte</h1>
@@ -207,33 +177,28 @@ header{
   <input id="search" placeholder="Rechercher..." oninput="App.renderProducts()">
 </div>
 
-<button class="cart-btn" onclick="toggleCart()">🧺 <span id="count">0</span></button>
-
+<!-- CART -->
 <div class="cart" id="cartBox">
 
-  <div class="close-cart">
-    <h3>🛒 Panier</h3>
-    <button class="close-btn" onclick="closeCart()">✖</button>
-  </div>
+  <h3>🛒 Panier</h3>
 
   <div id="cart"></div>
 
   <p><b>Total :</b> <span id="total">0</span>€</p>
 
-  <!-- TYPE COMMANDE -->
+  <!-- TYPE -->
   <select id="orderType" style="width:100%;padding:10px;margin-top:10px;border-radius:10px;">
     <option value="pickup">📦 Retrait</option>
     <option value="delivery">🚚 Livraison</option>
   </select>
 
+  <!-- DELIVERY / PICKUP INFO -->
   <input id="clientName" placeholder="Nom et prénom">
-  <input id="clientAddress" placeholder="Adresse">
+  <input id="clientAddress" placeholder="Adresse (livraison uniquement)">
   <input id="clientPhone" placeholder="Téléphone">
 
   <button onclick="orderWhatsApp()" class="add-btn">WhatsApp</button>
   <button onclick="orderEmail()" class="add-btn">Email</button>
-
-  <button class="continue-btn" onclick="closeCart()">← Continuer mes achats</button>
 
   <button onclick="clearCart()" style="background:red;color:white;width:100%;margin-top:8px;padding:12px;border-radius:12px;border:none;">
     Vider
@@ -241,6 +206,7 @@ header{
 
 </div>
 
+<!-- PRODUCTS -->
 <div class="products" id="products"></div>
 
 <a class="whatsapp-float" href="https://wa.me/33789583650">💬</a>
@@ -280,8 +246,6 @@ const App = {
 
     this.save();
     this.renderCart();
-
-    document.getElementById("cartBox").style.display="block";
   },
 
   renderProducts(){
@@ -333,6 +297,7 @@ const App = {
   }
 };
 
+/* CART */
 function openCart(){
   document.getElementById("cartBox").style.display="block";
   document.getElementById("overlay").style.display="block";
@@ -349,7 +314,7 @@ function toggleCart(){
   else openCart();
 }
 
-/* WHATSAPP FINAL */
+/* WHATSAPP */
 function orderWhatsApp(){
 
   let type=document.getElementById("orderType").value;
@@ -366,14 +331,16 @@ function orderWhatsApp(){
   if(type==="delivery"){
 
     if(!name || !address || !phone)
-      return alert("Remplis Nom + Adresse + Téléphone");
+      return alert("Nom + Adresse + Téléphone requis");
 
-    msg+=`🚚 Livraison\n`;
-    msg+=`${name}\n${address}\n${phone}\n`;
+    msg+=`🚚 Livraison\n${name}\n${address}\n${phone}\n`;
 
-  }else{
+  } else {
 
-    msg+=`📦 Retrait\n281 route ampadza 97670 chiconi\n`;
+    if(!name || !phone)
+      return alert("Nom + Téléphone requis pour retrait");
+
+    msg+=`📦 Retrait\n281 route ampadza 97670 Chiconi\n${name}\n${phone}\n`;
   }
 
   msg+="\n";
@@ -399,12 +366,14 @@ function orderEmail(){
   let body="Commande Maison Kimouzz\n\n";
 
   if(type==="delivery"){
-    body+="Livraison\n";
+    body+="🚚 Livraison\n";
     body+=document.getElementById("clientName").value+"\n";
     body+=document.getElementById("clientAddress").value+"\n";
     body+=document.getElementById("clientPhone").value+"\n\n";
-  }else{
-    body+="Retrait: 281 route ampadza 97670 chiconi\n\n";
+  } else {
+    body+="📦 Retrait\n281 route ampadza 97670 Chiconi\n";
+    body+=document.getElementById("clientName").value+"\n";
+    body+=document.getElementById("clientPhone").value+"\n\n";
   }
 
   App.cart.forEach(i=>{
@@ -415,6 +384,7 @@ function orderEmail(){
     "mailto:maisonkimouzzz@gmail.com?subject=Commande&body="+encodeURIComponent(body);
 }
 
+/* CLEAR */
 function clearCart(){
   App.cart=[];
   App.save();
