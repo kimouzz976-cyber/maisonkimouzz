@@ -100,6 +100,24 @@ header a{
   outline:none;
 }
 
+/* CATEGORY */
+.category-bar{
+  text-align:center;
+  padding:10px;
+}
+
+.category-btn{
+  width:auto;
+  display:inline-block;
+  margin:5px;
+  padding:12px;
+  border-radius:12px;
+  background:#0f172a;
+  color:white;
+  border:none;
+  cursor:pointer;
+}
+
 /* PRODUCTS */
 .products{
   display:grid;
@@ -236,7 +254,6 @@ header a{
 
 <div class="overlay" id="overlay" onclick="closeCart()"></div>
 
-<!-- HEADER -->
 <header>
 🌴 Maison Kimouzz
 
@@ -247,7 +264,6 @@ header a{
 <button class="cart-btn" onclick="toggleCart()">🧺 <span id="count">0</span></button>
 </header>
 
-<!-- HERO -->
 <section class="hero">
   <div class="hero-content">
     <h1>Maison Kimouzz</h1>
@@ -258,9 +274,14 @@ header a{
   </div>
 </section>
 
-<!-- SEARCH -->
 <div class="search-box">
 <input id="search" placeholder="Rechercher..." oninput="App.renderProducts()">
+</div>
+
+<!-- CATÉGORIES -->
+<div class="category-bar">
+  <button class="category-btn" onclick="filterCategory('all')">Tous</button>
+  <button class="category-btn" onclick="filterCategory('legumes')">🥬 Légumes</button>
 </div>
 
 <!-- CART -->
@@ -305,10 +326,16 @@ header a{
 
 </section>
 
-<!-- WHATSAPP -->
 <a class="whatsapp-float" href="https://wa.me/33789583650">💬</a>
 
 <script>
+
+let currentCategory = "all";
+
+function filterCategory(cat){
+  currentCategory = cat;
+  App.renderProducts();
+}
 
 function loadCart(){
   try{return JSON.parse(localStorage.getItem("cart"))||[];}
@@ -320,8 +347,14 @@ const App={
     {name:"Banane",price:20,icon:"🍌"},
     {name:"Œufs",price:8,icon:"🥚"},
     {name:"Poule",price:10,icon:"🐔"},
-    {name:"Canard",price:35,icon:"🦆"}
+    {name:"Canard",price:35,icon:"🦆"},
+
+    // 🥬 LÉGUMES
+    {name:"Tomate",price:5,icon:"🍅"},
+    {name:"Salade",price:3,icon:"🥬"},
+    {name:"Concombre",price:4,icon:"🥒"}
   ],
+
   cart:loadCart(),
 
   save(){
@@ -341,7 +374,17 @@ const App={
     const search=document.getElementById("search").value.toLowerCase();
     box.innerHTML="";
 
-    this.products.filter(p=>p.name.toLowerCase().includes(search))
+    this.products
+    .filter(p=>{
+      const searchMatch = p.name.toLowerCase().includes(search);
+
+      const categoryMatch =
+        currentCategory === "all" ||
+        (currentCategory === "legumes" &&
+        ["Tomate","Salade","Concombre"].includes(p.name));
+
+      return searchMatch && categoryMatch;
+    })
     .forEach(p=>{
       const card=document.createElement("div");
       card.className="card";
@@ -379,7 +422,6 @@ const App={
   }
 };
 
-/* CART */
 function openCart(){document.getElementById("cartBox").style.display="block";document.getElementById("overlay").style.display="block";}
 function closeCart(){document.getElementById("cartBox").style.display="none";document.getElementById("overlay").style.display="none";}
 function toggleCart(){document.getElementById("cartBox").style.display==="block"?closeCart():openCart();}
