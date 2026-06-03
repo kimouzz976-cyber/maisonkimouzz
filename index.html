@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Maison Kimouzz - Tropical Market Pro</title>
+<title>Maison Kimouzz</title>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
@@ -47,17 +47,6 @@ header{
   margin-top:10px;
 }
 
-.hero button{
-  margin-top:20px;
-  padding:12px 22px;
-  border:none;
-  border-radius:10px;
-  background:#22c55e;
-  color:white;
-  font-weight:600;
-  cursor:pointer;
-}
-
 /* SEARCH */
 .search{
   display:flex;
@@ -75,7 +64,7 @@ header{
   background:white;
 }
 
-/* PRODUITS */
+/* PRODUCTS */
 .products{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
@@ -83,7 +72,6 @@ header{
   padding:30px;
 }
 
-/* CARD */
 .card{
   background:white;
   border-radius:16px;
@@ -103,11 +91,6 @@ header{
   margin-bottom:10px;
 }
 
-.card h3{
-  margin:8px 0;
-  font-size:18px;
-}
-
 .price{
   color:#16a34a;
   font-weight:700;
@@ -125,11 +108,7 @@ header{
   cursor:pointer;
 }
 
-.card button:hover{
-  background:#1e293b;
-}
-
-/* CART BUTTON */
+/* CART */
 .cart-btn{
   position:fixed;
   right:20px;
@@ -142,7 +121,6 @@ header{
   font-size:14px;
 }
 
-/* CART */
 .cart{
   position:fixed;
   right:20px;
@@ -180,6 +158,18 @@ header{
   cursor:pointer;
 }
 
+.email-btn{
+  width:100%;
+  margin-top:8px;
+  padding:10px;
+  border:none;
+  border-radius:10px;
+  background:#3b82f6;
+  color:white;
+  font-weight:600;
+  cursor:pointer;
+}
+
 .clear-btn{
   width:100%;
   margin-top:8px;
@@ -205,7 +195,7 @@ footer{
 
 <body>
 
-<header>🌴 Maison Kimouzz - Tropical Market Pro</header>
+<header>🌴 Maison Kimouzz</header>
 
 <div class="hero">
   <h1>🥭 Saveurs de Mayotte</h1>
@@ -221,7 +211,9 @@ footer{
 <div class="cart" id="cartBox">
   <div id="cart"></div>
   <div class="total">Total : <span id="total">0</span>€</div>
-  <button class="order-btn" onclick="order()">Commander WhatsApp</button>
+
+  <button class="order-btn" onclick="orderWhatsApp()">Commander WhatsApp</button>
+  <button class="email-btn" onclick="orderEmail()">Commander Email</button>
   <button class="clear-btn" onclick="clearCart()">Vider</button>
 </div>
 
@@ -239,7 +231,7 @@ footer{
 const products = [
   {name:"Banane", price:20, icon:"🍌"},
   {name:"Œufs", price:8, icon:"🥚"},
-  {name:"Poulet", price:10, icon:"🍗"},
+  {name:"Poule", price:10, icon:"🐔"},
   {name:"Canard", price:35, icon:"🦆"}
 ];
 
@@ -306,7 +298,8 @@ function toggleCart(){
   c.style.display = c.style.display==="block" ? "none" : "block";
 }
 
-function order(){
+/* WHATSAPP */
+function orderWhatsApp(){
   if(cart.length===0) return;
 
   let msg = "🛒 Commande Maison Kimouzz\n\n";
@@ -320,6 +313,28 @@ function order(){
   msg += "\n💰 Total : " + total + "€";
 
   window.open("https://wa.me/33789583650?text="+encodeURIComponent(msg));
+}
+
+/* EMAIL */
+function orderEmail(){
+  if(cart.length===0) return;
+
+  let subject = "Commande Maison Kimouzz";
+  let body = "🛒 Commande Maison Kimouzz\n\n";
+  let total = 0;
+
+  cart.forEach(i=>{
+    body += "- " + i.name + " : " + i.price + "€\n";
+    total += i.price;
+  });
+
+  body += "\n💰 Total : " + total + "€";
+
+  window.location.href =
+    "mailto:maisonkimouzz@gmail.com?subject=" +
+    encodeURIComponent(subject) +
+    "&body=" +
+    encodeURIComponent(body);
 }
 
 renderProducts();
