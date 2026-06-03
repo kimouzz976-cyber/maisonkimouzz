@@ -1,213 +1,338 @@
-<section id="products" class="products-section">
-
-  <h2>🛒 Nos produits</h2>
-
-  <!-- SEARCH + FILTER -->
-  <div class="tools">
-    <input type="text" id="search" placeholder="Rechercher un produit...">
-
-    <div class="filters">
-      <button onclick="filterProducts('all')">Tous</button>
-      <button onclick="filterProducts('fruits')">Fruits</button>
-      <button onclick="filterProducts('boissons')">Boissons</button>
-      <button onclick="filterProducts('promo')">Promotions</button>
-    </div>
-  </div>
-
-  <!-- CART -->
-  <div class="cart">
-    🛍️ Panier : <span id="cart-count">0</span>
-    <button onclick="checkoutCart()">Commander le panier</button>
-  </div>
-
-  <!-- PRODUCTS -->
-  <div id="products-container" class="grid"></div>
-</section>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maison Kimouzz - Tropical Market</title>
 
 <style>
-.products-section{
-  padding:60px 20px;
-  background:#fff;
-  color:#111;
-  text-align:center;
-}
-
-#search{
-  width:100%;
-  padding:12px;
-  margin-bottom:15px;
-  border-radius:10px;
-  border:1px solid #ddd;
-}
-
-.filters button{
-  margin:5px;
-  padding:10px 15px;
-  border:none;
-  border-radius:20px;
-  background:#ff7b00;
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
   color:white;
-  cursor:pointer;
+  background: linear-gradient(180deg,#ffb703,#fb8500,#023047);
 }
 
-.cart{
-  margin:20px auto;
+/* HEADER */
+header{
+  position:sticky;
+  top:0;
+  z-index:1000;
   padding:15px;
-  background:#f5f5f5;
-  border-radius:10px;
-  max-width:400px;
+  text-align:center;
+  background:rgba(0,0,0,0.4);
+  backdrop-filter: blur(10px);
 }
 
-.cart button{
-  margin-left:10px;
-  padding:8px 12px;
+/* HERO */
+.hero{
+  text-align:center;
+  padding:60px 20px;
+  background:rgba(0,0,0,0.25);
+}
+
+.hero h1{font-size:40px;margin:0;}
+.hero p{color:#ffe8a3;font-size:18px;}
+
+.hero button{
+  margin-top:15px;
+  padding:12px 20px;
   border:none;
+  border-radius:25px;
   background:#25D366;
-  color:white;
-  border-radius:8px;
+  font-weight:bold;
   cursor:pointer;
 }
 
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
-  gap:20px;
+/* SEARCH */
+.search{
+  text-align:center;
+  margin-top:15px;
 }
 
+.search input{
+  width:80%;
+  max-width:400px;
+  padding:10px;
+  border-radius:20px;
+  border:none;
+  outline:none;
+}
+
+/* PRODUITS */
+.products{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:20px;
+  padding:25px;
+}
+
+/* CARD */
 .card{
-  background:white;
-  border-radius:15px;
-  box-shadow:0 5px 15px rgba(0,0,0,0.1);
-  overflow:hidden;
+  background:rgba(255,255,255,0.15);
+  backdrop-filter: blur(10px);
+  padding:15px;
+  border-radius:18px;
+  text-align:center;
   transition:0.3s;
+  border:1px solid rgba(255,255,255,0.2);
 }
 
 .card:hover{
-  transform:translateY(-5px);
+  transform:translateY(-8px) scale(1.03);
+  box-shadow:0 10px 25px rgba(0,0,0,0.3);
 }
 
-.card img{
-  width:100%;
-  height:160px;
-  object-fit:cover;
-}
-
-.card h3{
+/* ICON */
+.icon{
+  font-size:55px;
   margin:10px 0;
 }
 
-.price{
-  color:#ff7b00;
+/* BADGE */
+.badge{
+  background:#ffdd00;
+  color:black;
+  font-size:12px;
+  padding:3px 8px;
+  border-radius:10px;
+  display:inline-block;
   font-weight:bold;
 }
 
+/* PRICE */
+.price{
+  color:#ffe066;
+  font-weight:bold;
+  margin:8px 0;
+}
+
+/* BUTTON */
 .card button{
-  margin:5px;
-  padding:8px;
+  width:100%;
+  padding:10px;
   border:none;
-  border-radius:8px;
+  border-radius:12px;
+  background:linear-gradient(90deg,#ffdd00,#ff7b00);
+  font-weight:bold;
   cursor:pointer;
 }
 
-.add{
-  background:#007bff;
-  color:white;
+/* PANIER */
+.cart{
+  position:fixed;
+  right:15px;
+  top:90px;
+  width:300px;
+  background:rgba(0,0,0,0.65);
+  padding:15px;
+  border-radius:15px;
+  max-height:70vh;
+  overflow:auto;
 }
 
-.whatsapp{
-  background:#25D366;
+/* ITEM */
+.item{
+  display:flex;
+  justify-content:space-between;
+  margin:5px 0;
+  font-size:14px;
+}
+
+/* TOTAL */
+.total{
+  margin-top:10px;
+  font-weight:bold;
+  font-size:18px;
+  color:#ffe066;
+}
+
+/* BUTTONS */
+.order-btn, .clear-btn{
+  width:100%;
+  margin-top:10px;
+  padding:12px;
+  border:none;
+  border-radius:12px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.order-btn{background:#25D366;}
+.clear-btn{background:#ff3b3b; color:white;}
+
+/* FLOAT BTN TOP */
+.top-btn{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  background:#000;
   color:white;
+  border:none;
+  padding:10px 15px;
+  border-radius:50px;
+  cursor:pointer;
+}
+
+/* FOOTER */
+footer{
+  text-align:center;
+  padding:30px;
+  background:rgba(0,0,0,0.4);
+  margin-top:40px;
+}
+
+/* MOBILE */
+@media(max-width:768px){
+  .cart{
+    position:static;
+    width:90%;
+    margin:20px auto;
+  }
 }
 </style>
+</head>
+
+<body>
+
+<header>
+🌴 Maison Kimouzz - Produits tropicaux
+</header>
+
+<div class="hero">
+  <h1>🥭 Saveurs de Mayotte</h1>
+  <p>Produits frais • locaux • livraison rapide 🚚</p>
+  <button onclick="document.querySelector('.products').scrollIntoView({behavior:'smooth'})">
+    Commander maintenant
+  </button>
+
+  <div class="search">
+    <input type="text" id="search" placeholder="🔎 Rechercher..." onkeyup="filterProducts()">
+  </div>
+</div>
+
+<!-- PRODUITS -->
+<div class="products" id="products">
+
+  <div class="card">
+    <div class="badge">Populaire</div>
+    <div class="icon">🍌</div>
+    <h3>Banane</h3>
+    <div class="price">20€ / kg</div>
+    <button onclick="add('Banane',20)">Ajouter</button>
+  </div>
+
+  <div class="card">
+    <div class="icon">🥚</div>
+    <h3>Œufs</h3>
+    <div class="price">8€ / plateau</div>
+    <button onclick="add('Œufs',8)">Ajouter</button>
+  </div>
+
+  <div class="card">
+    <div class="icon">🍗</div>
+    <h3>Poulet</h3>
+    <div class="price">10€</div>
+    <button onclick="add('Poulet',10)">Ajouter</button>
+  </div>
+
+  <div class="card">
+    <div class="icon">🦆</div>
+    <h3>Canard</h3>
+    <div class="price">35€ - 40€</div>
+    <button onclick="add('Canard',35)">Ajouter</button>
+  </div>
+
+</div>
+
+<!-- PANIER -->
+<div class="cart">
+  <h3>🧺 Panier (<span id="count">0</span>)</h3>
+  <div id="cart"></div>
+
+  <div class="total">
+    Total : <span id="total">0</span>€
+  </div>
+
+  <button id="orderBtn" class="order-btn" onclick="order()">Commander WhatsApp</button>
+  <button class="clear-btn" onclick="clearCart()">Vider panier</button>
+</div>
+
+<button class="top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})">⬆</button>
+
+<footer>
+  <h2>Maison Kimouzz</h2>
+  <p>📍 281 route Ampadza, 97670 Chiconi</p>
+  <p>📩 maisonkimouzz@gmail.com</p>
+</footer>
 
 <script>
-
-// 🔥 PRODUITS
-const products = [
-  { name:"Mangue fraîche", price:"2€", img:"mangue.jpg", category:"fruits" },
-  { name:"Banane", price:"1.5€", img:"banane.jpg", category:"fruits" },
-  { name:"Jus tropical", price:"3€", img:"jus.jpg", category:"boissons" },
-  { name:"Ananas promo", price:"2€", img:"ananas.jpg", category:"promo" }
-];
-
 let cart = [];
-let currentCategory = "all";
 
-// DISPLAY
-function displayProducts(list){
-  const container = document.getElementById("products-container");
-  container.innerHTML = "";
+function add(name, price){
+  cart.push({name, price});
+  render();
 
-  list.forEach(p => {
-    container.innerHTML += `
-      <div class="card">
-        <img src="${p.img}">
-        <h3>${p.name}</h3>
-        <div class="price">${p.price}</div>
+  // petite animation
+  alert(name + " ajouté 🛒");
+}
 
-        <button class="add" onclick="addToCart('${p.name}', '${p.price}')">
-          Ajouter 🛒
-        </button>
+function clearCart(){
+  cart = [];
+  render();
+}
 
-        <button class="whatsapp" onclick="order('${p.name}')">
-          WhatsApp
-        </button>
+function filterProducts(){
+  let input = document.getElementById("search").value.toLowerCase();
+  document.querySelectorAll(".card").forEach(card=>{
+    card.style.display = card.innerText.toLowerCase().includes(input) ? "block" : "none";
+  });
+}
+
+function render(){
+  let cartDiv = document.getElementById("cart");
+  let total = 0;
+
+  cartDiv.innerHTML = "";
+
+  cart.forEach((item,i)=>{
+    total += item.price;
+
+    cartDiv.innerHTML += `
+      <div class="item">
+        ${item.name} - ${item.price}€
+        <span onclick="removeItem(${i})" style="color:red;cursor:pointer">x</span>
       </div>
     `;
   });
+
+  document.getElementById("total").innerText = total;
+  document.getElementById("count").innerText = cart.length;
+
+  document.getElementById("orderBtn").disabled = cart.length === 0;
 }
 
-// ADD TO CART
-function addToCart(name, price){
-  cart.push({name, price});
-  document.getElementById("cart-count").innerText = cart.length;
+function removeItem(i){
+  cart.splice(i,1);
+  render();
 }
 
-// CHECKOUT CART
-function checkoutCart(){
-  if(cart.length === 0){
-    alert("Panier vide !");
-    return;
-  }
+function order(){
+  if(cart.length === 0) return;
 
-  const phone = "33789583650"; // ✅ TON NUMÉRO
-  let message = "Bonjour, je veux commander :%0A";
+  let msg = "🛒 Commande Maison Kimouzz\n\n";
+  let total = 0;
 
-  cart.forEach(p => {
-    message += `- ${p.name} (${p.price})%0A`;
+  cart.forEach(item=>{
+    msg += "- " + item.name + " : " + item.price + "€\n";
+    total += item.price;
   });
 
-  window.open(`https://wa.me/${phone}?text=${message}`, "_blank");
+  msg += "\n💰 Total : " + total + "€";
+
+  window.open("https://wa.me/33789583650?text=" + encodeURIComponent(msg), "_blank");
 }
-
-// SINGLE ORDER
-function order(name){
-  const phone = "33789583650";
-  const message = `Bonjour, je veux commander : ${name}`;
-  window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, "_blank");
-}
-
-// FILTER
-function filterProducts(cat){
-  currentCategory = cat;
-  applyFilters();
-}
-
-// SEARCH + FILTER
-document.getElementById("search").addEventListener("input", applyFilters);
-
-function applyFilters(){
-  const search = document.getElementById("search").value.toLowerCase();
-
-  let filtered = products.filter(p =>
-    (currentCategory === "all" || p.category === currentCategory) &&
-    p.name.toLowerCase().includes(search)
-  );
-
-  displayProducts(filtered);
-}
-
-// INIT
-displayProducts(products);
-
 </script>
+
+</body>
+</html>
