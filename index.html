@@ -35,6 +35,7 @@ header{
   text-align:center;
   font-weight:800;
   box-shadow:0 2px 10px rgba(0,0,0,0.05);
+  z-index:10;
 }
 
 /* HERO */
@@ -59,7 +60,6 @@ header{
   border-radius:12px;
   border:none;
   outline:none;
-  box-shadow:0 5px 15px rgba(0,0,0,0.05);
 }
 
 /* PRODUCTS */
@@ -78,10 +78,7 @@ header{
   box-shadow:0 10px 20px rgba(0,0,0,0.05);
 }
 
-.price{
-  color:#16a34a;
-  font-weight:800;
-}
+.price{color:#16a34a;font-weight:800;}
 
 .add-btn{
   margin-top:10px;
@@ -94,17 +91,65 @@ header{
   cursor:pointer;
 }
 
-/* CART */
+/* CART BUTTON */
+.cart-btn{
+  position:fixed;
+  right:20px;
+  top:90px;
+  background:#0f172a;
+  color:white;
+  border:none;
+  width:60px;
+  height:60px;
+  border-radius:50%;
+  font-size:18px;
+  z-index:1000;
+}
+
+/* OVERLAY */
+.overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.4);
+  display:none;
+  z-index:998;
+}
+
+/* CART (drawer pro) */
 .cart{
   position:fixed;
   right:20px;
   top:140px;
-  width:340px;
+  width:360px;
   background:white;
   border-radius:18px;
   padding:15px;
   display:none;
+  z-index:999;
   box-shadow:0 15px 35px rgba(0,0,0,0.2);
+  animation:pop .2s ease;
+}
+
+@keyframes pop{
+  from{transform:translateY(-10px);opacity:0}
+  to{transform:translateY(0);opacity:1}
+}
+
+/* CLOSE HEADER */
+.close-cart{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:10px;
+}
+
+.close-btn{
+  background:#ef4444;
+  color:white;
+  border:none;
+  padding:6px 10px;
+  border-radius:8px;
+  cursor:pointer;
 }
 
 /* MOBILE */
@@ -131,21 +176,16 @@ header{
   align-items:center;
   justify-content:center;
   color:white;
-  font-size:30px;
-}
-
-/* INPUTS */
-input, select{
-  width:100%;
-  margin-top:10px;
-  padding:12px;
-  border-radius:12px;
-  border:1px solid #ddd;
+  font-size:28px;
+  z-index:1000;
 }
 </style>
 </head>
 
 <body>
+
+<!-- OVERLAY -->
+<div class="overlay" id="overlay" onclick="closeCart()"></div>
 
 <header>🌴 Maison Kimouzz</header>
 
@@ -157,30 +197,30 @@ input, select{
   <input id="search" placeholder="Rechercher..." oninput="App.renderProducts()">
 </div>
 
-<button onclick="toggleCart()">🧺 <span id="count">0</span></button>
+<!-- CART BTN -->
+<button class="cart-btn" onclick="toggleCart()">🧺 <span id="count">0</span></button>
 
+<!-- CART -->
 <div class="cart" id="cartBox">
-  <h3>🛒 Panier</h3>
+
+  <div class="close-cart">
+    <h3>🛒 Panier</h3>
+    <button class="close-btn" onclick="closeCart()">✖</button>
+  </div>
 
   <div id="cart"></div>
 
   <p><b>Total :</b> <span id="total">0</span>€</p>
 
-  <!-- TYPE COMMANDE -->
-  <select id="orderType" onchange="toggleOrderType()">
-    <option value="delivery">🚚 Livraison</option>
-    <option value="pickup">📍 Retrait</option>
-  </select>
-
-  <input id="clientName" placeholder="Nom complet">
-  <input id="clientAddress" placeholder="Adresse livraison">
-  <input id="clientPhone" placeholder="Numéro de téléphone">
+  <input id="clientName" placeholder="Nom">
+  <input id="clientAddress" placeholder="Adresse">
 
   <button onclick="orderWhatsApp()" class="add-btn">WhatsApp</button>
   <button onclick="orderEmail()" class="add-btn">Email</button>
   <button onclick="clearCart()" style="background:red;color:white;">Vider</button>
 </div>
 
+<!-- PRODUCTS -->
 <div class="products" id="products"></div>
 
 <a class="whatsapp-float" href="https://wa.me/33789583650">💬</a>
@@ -215,13 +255,15 @@ const App = {
 
   add(name,price){
 
-    let item = this.cart.find(i=>i.name===name);
+    let item=this.cart.find(i=>i.name===name);
 
     if(item) item.qty++;
     else this.cart.push({name,price,qty:1});
 
     this.save();
     this.renderCart();
+
+    showToast("Ajouté ✔");
   },
 
   renderProducts(){
@@ -273,67 +315,48 @@ const App = {
   }
 };
 
-/* TOGGLE CART */
+/* CART CONTROL */
+function openCart(){
+  document.getElementById("cartBox").style.display="block";
+  document.getElementById("overlay").style.display="block";
+}
+
+function closeCart(){
+  document.getElementById("cartBox").style.display="none";
+  document.getElementById("overlay").style.display="none";
+}
+
 function toggleCart(){
   const c=document.getElementById("cartBox");
-  c.style.display=c.style.display==="block"?"none":"block";
+
+  if(c.style.display==="block") closeCart();
+  else openCart();
 }
 
-/* SHOW/HIDE INPUTS */
-function toggleOrderType(){
-
-  const type=document.getElementById("orderType").value;
-
-  const address=document.getElementById("clientAddress");
-  const phone=document.getElementById("clientPhone");
-
-  if(type==="pickup"){
-    address.style.display="none";
-    phone.style.display="none";
-  }else{
-    address.style.display="block";
-    phone.style.display="block";
-  }
+/* TOAST */
+function showToast(msg){
+  alert(msg);
 }
 
-/* WHATSAPP */
+/* ACTIONS */
 function orderWhatsApp(){
 
-  const name=document.getElementById("clientName").value;
-  const address=document.getElementById("clientAddress").value;
-  const phone=document.getElementById("clientPhone").value;
-  const type=document.getElementById("orderType").value;
+  let name=document.getElementById("clientName").value;
+  let address=document.getElementById("clientAddress").value;
 
-  if(!name) return alert("Nom requis");
+  if(!name||!address) return alert("Nom + adresse requis");
 
-  if(type==="delivery"){
-    if(!address || !phone)
-      return alert("Adresse + téléphone requis");
-  }
-
-  let msg=`🛒 Maison Kimouzz\n\n👤 ${name}\n`;
-
-  if(type==="delivery"){
-    msg+=`🚚 Livraison\n📍 ${address}\n📞 ${phone}\n\n`;
-  }else{
-    msg+=`📍 Retrait sur place\n\n`;
-  }
-
-  let total=0;
+  let msg=`🛒 Maison Kimouzz\n\n${name}\n${address}\n\n`;
 
   App.cart.forEach(i=>{
     msg+=`- ${i.name} x${i.qty}\n`;
-    total+=i.price*i.qty;
   });
 
-  msg+=`\n💰 Total: ${total}€`;
+  window.open("https://wa.me/33789583650?text="+encodeURIComponent(msg));
 
-  window.open(
-    "https://wa.me/33789583650?text="+encodeURIComponent(msg)
-  );
+  closeCart();
 }
 
-/* EMAIL */
 function orderEmail(){
 
   let body="Commande\n\n";
@@ -345,9 +368,10 @@ function orderEmail(){
   window.location.href=
     "mailto:maisonkimouzzz@gmail.com?subject=Commande&body="
     + encodeURIComponent(body);
+
+  closeCart();
 }
 
-/* CLEAR */
 function clearCart(){
   App.cart=[];
   App.save();
@@ -357,7 +381,6 @@ function clearCart(){
 /* INIT */
 App.renderProducts();
 App.renderCart();
-toggleOrderType();
 
 </script>
 
