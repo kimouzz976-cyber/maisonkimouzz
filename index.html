@@ -176,13 +176,13 @@ footer{
 
   <div class="total">Total : <span id="total">0</span>€</div>
 
-  <input id="clientName" placeholder="Nom">
-  <input id="clientAddress" placeholder="Adresse">
+  <input id="clientName" placeholder="Nom complet">
+  <input id="clientAddress" placeholder="Adresse de livraison">
 
   <button class="btn dark" onclick="openMaps()">Maps</button>
   <button class="btn green" onclick="orderWhatsApp()">WhatsApp</button>
   <button class="btn blue" onclick="orderEmail()">Email</button>
-  <button class="btn red" onclick="clearCart()">Vider</button>
+  <button class="btn red" onclick="clearCart()">Vider panier</button>
 
   <div class="status" id="status"></div>
 </div>
@@ -306,6 +306,13 @@ function renderCart(){
 
   box.innerHTML="";
 
+  if(cart.length === 0){
+    box.innerHTML="<p>🛒 Panier vide</p>";
+    document.getElementById("total").innerText = 0;
+    document.getElementById("count").innerText = 0;
+    return;
+  }
+
   cart.forEach((i,index)=>{
     total += i.price*i.qty;
     count += i.qty;
@@ -336,7 +343,7 @@ function renderCart(){
 }
 
 /* ========================= */
-/* UI ACTIONS */
+/* ACTIONS */
 /* ========================= */
 
 function toggleCart(){
@@ -352,7 +359,7 @@ function openMaps(){
 }
 
 /* ========================= */
-/* ORDER WHATSAPP */
+/* WHATSAPP */
 /* ========================= */
 
 function orderWhatsApp(){
@@ -427,7 +434,9 @@ function orderEmail(){
 /* ========================= */
 
 function showStatus(msg){
-  document.getElementById("status").innerText=msg;
+  let s=document.getElementById("status");
+  s.innerText=msg;
+  setTimeout(()=>{ s.innerText=""; },3000);
 }
 
 /* ========================= */
