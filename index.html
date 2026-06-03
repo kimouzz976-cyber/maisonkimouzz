@@ -67,14 +67,14 @@ header a{
   justify-content:center;
   align-items:center;
   min-height: 60vh;
-  position:relative; /* AJOUT */
+  position:relative;
 }
 
 .hero-content{
   max-width: 850px;
 }
 
-/* 🔥 AJOUT BOUTON SUPPORT */
+/* bouton support (dans le hero) */
 .support-center{
   position:absolute;
   top:18px;
@@ -282,14 +282,11 @@ header a{
 <header>
 🌴 Maison Kimouzz
 
-<div>
-<a href="#support">🤝 Nous soutenir</a>
-</div>
+<!-- ❌ SUPPRIMÉ : Nous soutenir ici -->
 
 <button class="cart-btn" onclick="toggleCart()">🧺 <span id="count">0</span></button>
 </header>
 
-<!-- 🔥 HERO AVEC BOUTON -->
 <section class="hero">
 
   <div class="support-center">
@@ -310,13 +307,11 @@ header a{
 <input id="search" placeholder="Rechercher..." oninput="App.renderProducts()">
 </div>
 
-<!-- CATÉGORIES -->
 <div class="category-bar">
   <button class="category-btn" onclick="filterCategory('all')">Tous</button>
   <button class="category-btn" onclick="filterCategory('legumes')">🥬 Légumes</button>
 </div>
 
-<!-- CART -->
 <div class="cart" id="cartBox">
 <h3>🛒 Panier</h3>
 <button class="close-cart" onclick="closeCart()">Fermer ✖</button>
@@ -328,10 +323,8 @@ header a{
 <button onclick="clearCart()" class="add-btn" style="background:red;">Vider</button>
 </div>
 
-<!-- PRODUCTS -->
 <div class="products" id="products"></div>
 
-<!-- SUPPORT -->
 <section id="support" class="support">
 
 <h2>🤝 Nous soutenir</h2>
@@ -361,7 +354,6 @@ header a{
 <a class="whatsapp-float" href="https://wa.me/33789583650">💬</a>
 
 <script>
-
 let currentCategory = "all";
 
 function filterCategory(cat){
@@ -401,9 +393,7 @@ const App={
 
   renderProducts(){
     const box=document.getElementById("products");
-    const search=document.getElementById("search").value.toLowerCase();
     box.innerHTML="";
-
     this.products.forEach(p=>{
       const card=document.createElement("div");
       card.className="card";
@@ -427,7 +417,6 @@ const App={
   renderCart(){
     const box=document.getElementById("cart");
     box.innerHTML="";
-
     this.cart.forEach(i=>{
       const div=document.createElement("div");
       div.textContent=`${i.name} x${i.qty}`;
@@ -447,7 +436,6 @@ function toggleCart(){document.getElementById("cartBox").style.display==="block"
 
 App.renderProducts();
 App.renderCart();
-
 </script>
 
 </body>
