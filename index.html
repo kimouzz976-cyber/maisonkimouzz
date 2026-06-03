@@ -3,17 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Maison Kimouzz V2</title>
+
+<title>Maison Kimouzz V3</title>
 
 <meta name="theme-color" content="#0f172a">
 
+<!-- FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
 <style>
-body{
-margin:0;
-font-family:Arial;
-background:#f6f7fb;
-color:#111;
-}
+body{margin:0;font-family:Arial;background:#f6f7fb;color:#111}
 
 /* HEADER */
 header{
@@ -25,19 +26,17 @@ background:#0f172a;
 color:white;
 position:sticky;
 top:0;
-z-index:10;
 }
 
 /* HERO */
 .hero{
-padding:60px 20px;
-text-align:center;
 background:#111827;
 color:white;
+text-align:center;
+padding:60px 20px;
 }
-
-.hero h1{font-size:40px;}
-.hero p{opacity:.8}
+.hero h1{font-size:38px}
+.hero h2{color:#4ade80}
 
 /* GRID */
 .grid{
@@ -63,10 +62,9 @@ cursor:pointer;
 font-weight:bold;
 }
 
-.primary{background:#0f172a;color:white;}
-.green{background:#16a34a;color:white;}
-.orange{background:#f59e0b;color:white;}
-.red{background:#ef4444;color:white;}
+.primary{background:#0f172a;color:white}
+.green{background:#16a34a;color:white}
+.red{background:#ef4444;color:white}
 
 /* CART */
 .cart{
@@ -76,15 +74,15 @@ top:0;
 width:380px;
 height:100%;
 background:white;
-box-shadow:-10px 0 30px rgba(0,0,0,.2);
 padding:15px;
 overflow:auto;
 display:none;
 z-index:999;
+box-shadow:-10px 0 30px rgba(0,0,0,.2);
 }
 
-/* LOGIN */
-.login{
+/* AUTH */
+#auth{
 position:fixed;
 inset:0;
 background:rgba(0,0,0,.6);
@@ -94,10 +92,10 @@ justify-content:center;
 z-index:9999;
 }
 
-.login-box{
+.auth-box{
 background:white;
 padding:20px;
-border-radius:15px;
+border-radius:12px;
 width:300px;
 }
 
@@ -112,36 +110,42 @@ background:#16a34a;
 color:white;
 padding:10px;
 border-radius:10px;
-margin-top:10px;
 }
 </style>
 </head>
 
 <body>
 
-<!-- 🔐 LOGIN -->
-<div class="login" id="loginBox">
-<div class="login-box">
+<!-- 🔐 AUTH -->
+<div id="auth">
+<div class="auth-box">
 <h3>🌴 Maison Kimouzz</h3>
-<p>Créer ou entrer votre profil</p>
-<input id="username" placeholder="Nom utilisateur">
-<button class="primary" onclick="login()">Entrer</button>
+
+<input id="email" placeholder="Email">
+<input id="password" type="password" placeholder="Mot de passe">
+
+<button class="primary" onclick="login()">Connexion</button>
+<button class="green" onclick="register()">Créer compte</button>
 </div>
 </div>
 
 <!-- HEADER -->
 <header>
-<div>🌴 Kimouzz V2</div>
-<div>
-🪙 <span id="kmz">0</span> KMZ
-<button onclick="toggleCart()">🛒</button>
-</div>
+<div>🌴 Kimouzz V3</div>
+<div>🪙 <span id="kmz">0</span> KMZ <button onclick="toggleCart()">🛒</button></div>
 </header>
 
 <!-- HERO -->
 <section class="hero">
-<h1>Produire • Consommer • Local</h1>
-<p>Mayotte — Agriculture • Pêche • Élevage • Restauration</p>
+<h1>🌴 Produire localement</h1>
+<h2>Nourrir Mayotte</h2>
+<p>Agriculture • Pêche • Élevage • Restauration</p>
+</section>
+
+<!-- VISION -->
+<section style="padding:30px;text-align:center;">
+<h2>🌍 Notre mission</h2>
+<p>Construire une économie locale autonome à Mayotte.</p>
 </section>
 
 <!-- PRODUCTS -->
@@ -149,7 +153,7 @@ margin-top:10px;
 
 <!-- RESTAURANTS -->
 <section class="grid">
-<div class="card">🐟 Restaurant poisson local</div>
+<div class="card">🐟 Poisson local</div>
 <div class="card">🥘 Cuisine mahoraise</div>
 <div class="card">🥩 Boucherie locale</div>
 </section>
@@ -157,62 +161,89 @@ margin-top:10px;
 <!-- CART -->
 <div class="cart" id="cart">
 <h3>🛒 Panier</h3>
-<div id="cartItems"></div>
+
+<div id="items"></div>
 
 <p><b>Total:</b> <span id="total">0</span>€</p>
-
-<p class="kmz">🪙 KMZ gagnés: <span id="kmzGain">0</span></p>
+<p class="kmz">🪙 KMZ</p>
 
 <button class="green" onclick="checkout()">Commander</button>
 <button class="red" onclick="clearCart()">Vider</button>
 <button onclick="toggleCart()">Fermer</button>
+
 </div>
 
 <script>
 
-/* =========================
-   DATA SYSTEM
-========================= */
+/* ================= FIREBASE ================= */
 
-let user = JSON.parse(localStorage.getItem("user")) || null;
-let kmz = Number(localStorage.getItem("kmz")) || 0;
+const firebaseConfig = {
+apiKey: "REMPLACE",
+authDomain: "REMPLACE",
+projectId: "REMPLACE",
+storageBucket: "REMPLACE",
+messagingSenderId: "REMPLACE",
+appId: "REMPLACE"
+};
 
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
+firebase.initializeApp(firebaseConfig);
 
-const products = [
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+let user=null;
+
+/* ================= AUTH ================= */
+
+function register(){
+let e=document.getElementById("email").value;
+let p=document.getElementById("password").value;
+
+auth.createUserWithEmailAndPassword(e,p)
+.then(async u=>{
+await db.collection("users").doc(u.user.uid).set({kmz:0});
+user=u.user;
+document.getElementById("auth").style.display="none";
+});
+}
+
+function login(){
+let e=document.getElementById("email").value;
+let p=document.getElementById("password").value;
+
+auth.signInWithEmailAndPassword(e,p)
+.then(u=>{
+user=u.user;
+document.getElementById("auth").style.display="none";
+});
+}
+
+/* ================= DATA ================= */
+
+let cart=[];
+
+const products=[
 {name:"Banane",price:20,icon:"🍌"},
 {name:"Œufs",price:8,icon:"🥚"},
 {name:"Poulet",price:12,icon:"🐔"},
 {name:"Poisson",price:25,icon:"🐟"},
-{name:"Fromage",price:15,icon:"🧀"},
-{name:"Mangue",price:6,icon:"🥭"}
+{name:"Fromage",price:15,icon:"🧀"}
 ];
 
-/* =========================
-   LOGIN
-========================= */
+/* ================= KMZ ================= */
 
-function login(){
-let name=document.getElementById("username").value;
-if(!name) return;
+async function addKMZ(amount){
+if(!user) return;
 
-user={name};
-localStorage.setItem("user",JSON.stringify(user));
-
-document.getElementById("loginBox").style.display="none";
-render();
+db.collection("users").doc(user.uid).update({
+kmz: firebase.firestore.FieldValue.increment(amount)
+});
 }
 
-if(user){
-document.getElementById("loginBox").style.display="none";
-}
-
-/* =========================
-   PRODUCTS
-========================= */
+/* ================= PRODUCTS ================= */
 
 function renderProducts(){
-const box=document.getElementById("products");
+let box=document.getElementById("products");
 box.innerHTML="";
 
 products.forEach(p=>{
@@ -230,7 +261,7 @@ btn.className="primary";
 btn.innerText="Ajouter";
 
 btn.onclick=()=>{
-addToCart(p);
+add(p);
 };
 
 div.appendChild(btn);
@@ -238,104 +269,69 @@ box.appendChild(div);
 });
 }
 
-/* =========================
-   CART SYSTEM
-========================= */
-
-function addToCart(p){
+function add(p){
 
 let item=cart.find(i=>i.name===p.name);
 
 if(item) item.qty++;
 else cart.push({...p,qty:1});
 
-kmz += 1; // 🪙 reward
+addKMZ(1);
 
-save();
-render();
+renderCart();
 }
+
+/* ================= CART ================= */
 
 function renderCart(){
 
-let box=document.getElementById("cartItems");
+let box=document.getElementById("items");
 box.innerHTML="";
 
 let total=0;
 
 cart.forEach(i=>{
-total += i.price*i.qty;
+total+=i.price*i.qty;
 
 let div=document.createElement("div");
-div.innerHTML=`
-${i.name} x${i.qty}
-`;
-
+div.innerText=`${i.name} x${i.qty}`;
 box.appendChild(div);
 });
 
 document.getElementById("total").innerText=total;
-document.getElementById("kmz").innerText=kmz;
-document.getElementById("kmzGain").innerText=kmz;
 }
 
 function clearCart(){
 cart=[];
-save();
-render();
-}
-
-/* =========================
-   CHECKOUT
-========================= */
-
-function checkout(){
-
-if(cart.length===0) return alert("Panier vide");
-
-let msg="Commande Kimouzz\n\n";
-
-msg += "Client: " + user.name + "\n\n";
-
-cart.forEach(i=>{
-msg += `${i.name} x${i.qty}\n`;
-});
-
-let total=cart.reduce((a,b)=>a+b.price*b.qty,0);
-
-msg += "\nTotal: " + total + "€";
-msg += "\nKMZ: " + kmz;
-
-window.open("https://wa.me/33789583650?text="+encodeURIComponent(msg));
-}
-
-/* =========================
-   STORAGE
-========================= */
-
-function save(){
-localStorage.setItem("cart",JSON.stringify(cart));
-localStorage.setItem("kmz",kmz);
-}
-
-/* =========================
-   UI
-========================= */
-
-function toggleCart(){
-let c=document.getElementById("cart");
-c.style.display = c.style.display==="block"?"none":"block";
-}
-
-/* =========================
-   MAIN
-========================= */
-
-function render(){
-renderProducts();
 renderCart();
 }
 
-render();
+/* ================= CHECKOUT ================= */
+
+function checkout(){
+
+let total=cart.reduce((a,b)=>a+b.price*b.qty,0);
+
+db.collection("orders").add({
+user:user.uid,
+cart:cart,
+total:total,
+date:new Date()
+});
+
+window.open("https://wa.me/33789583650?text="+encodeURIComponent("Commande: "+total));
+}
+
+/* ================= UI ================= */
+
+function toggleCart(){
+let c=document.getElementById("cart");
+c.style.display=c.style.display==="block"?"none":"block";
+}
+
+/* ================= INIT ================= */
+
+renderProducts();
 
 </script>
 
