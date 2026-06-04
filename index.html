@@ -52,16 +52,11 @@ header{
 
 /* HERO */
 .hero{
-  background: linear-gradient(135deg, #0f172a, #1e293b);
+  background:#0f172a;
   color:white;
   text-align:center;
-  padding:80px 20px;
-  min-height:60vh;
-  position:relative;
+  padding:50px 20px;
 }
-
-.hero h1{font-size:3rem;margin-bottom:20px;}
-.hero p{opacity:0.9;line-height:1.6}
 
 /* SEARCH */
 .search-box{
@@ -76,22 +71,7 @@ header{
   padding:14px;
   border-radius:12px;
   border:none;
-}
-
-/* CATEGORY */
-.category-bar{
-  text-align:center;
-  padding:10px;
-}
-
-.category-btn{
-  margin:5px;
-  padding:12px;
-  border-radius:12px;
-  background:#0f172a;
-  color:white;
-  border:none;
-  cursor:pointer;
+  outline:none;
 }
 
 /* PRODUCTS */
@@ -126,7 +106,7 @@ header{
   cursor:pointer;
 }
 
-/* CART */
+/* OVERLAY */
 .overlay{
   position:fixed;
   inset:0;
@@ -135,6 +115,7 @@ header{
   z-index:998;
 }
 
+/* CART */
 .cart{
   position:fixed;
   right:20px;
@@ -146,11 +127,22 @@ header{
   display:none;
   z-index:999;
   box-shadow:0 15px 35px rgba(0,0,0,0.2);
+  max-height:80vh;
+  overflow:auto;
+}
+
+.close-cart{
+  background:#ef4444;
+  color:white;
+  border:none;
+  padding:8px 12px;
+  border-radius:10px;
+  cursor:pointer;
+  margin-bottom:10px;
 }
 
 /* MOBILE */
 @media(max-width:768px){
-  .hero h1{font-size:2.2rem;}
   .cart{
     width:100%;
     height:100vh;
@@ -158,6 +150,22 @@ header{
     right:0;
     border-radius:0;
   }
+}
+
+/* WHATSAPP FLOAT */
+.whatsapp-float{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  width:60px;
+  height:60px;
+  background:#25d366;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:white;
+  font-size:28px;
 }
 </style>
 </head>
@@ -172,127 +180,159 @@ header{
 </header>
 
 <section class="hero">
-  <h1>Maison Kimouzz</h1>
-  <p>Produits frais locaux et circuit court à Mayotte.</p>
+<h1>Produits frais de Mayotte</h1>
 </section>
 
 <div class="search-box">
 <input id="search" placeholder="Rechercher..." oninput="App.renderProducts()">
 </div>
 
-<div class="category-bar">
-  <button class="category-btn" onclick="filterCategory('all')">Tous</button>
-  <button class="category-btn" onclick="filterCategory('legumes')">🥬 Légumes</button>
-</div>
-
-<div class="products" id="products"></div>
-
+<!-- CART -->
 <div class="cart" id="cartBox">
 <h3>🛒 Panier</h3>
-<button onclick="closeCart()">Fermer ✖</button>
+
+<button class="close-cart" onclick="closeCart()">Fermer ✖</button>
 
 <div id="cart"></div>
 
 <p><b>Total :</b> <span id="total">0</span>€</p>
 
-<button onclick="clearCart()" class="add-btn" style="background:red;">Vider</button>
+<select id="orderType" style="width:100%;padding:10px;margin-top:10px;border-radius:10px;">
+<option value="pickup">📦 Retrait</option>
+<option value="delivery">🚚 Livraison</option>
+</select>
+
+<p id="deliveryInfo" style="font-size:12px;color:green;margin-top:8px;"></p>
+
+<!-- 🧾 NOUVEAU BOUTON -->
+<button onclick="orderChoice()" class="add-btn">
+🧾 Commander
+</button>
+
+<input id="clientName" placeholder="Nom et prénom">
+<input id="clientAddress" placeholder="Adresse (livraison uniquement)">
+<input id="clientPhone" placeholder="Téléphone">
+
+<button onclick="orderWhatsApp()" class="add-btn">
+💬 WhatsApp
+</button>
+
+<button onclick="orderEmail()" class="add-btn">
+✉️ Email
+</button>
+
+<button onclick="clearCart()" style="background:red;color:white;width:100%;margin-top:8px;padding:12px;border-radius:12px;border:none;">
+Vider
+</button>
 </div>
+
+<div class="products" id="products"></div>
+
+<a class="whatsapp-float" href="https://wa.me/33789583650">💬</a>
 
 <script>
 
-let currentCategory = "all";
-
-function filterCategory(cat){
-  currentCategory = cat;
-  App.renderProducts();
-}
-
 function loadCart(){
-  try{return JSON.parse(localStorage.getItem("cart"))||[];}
-  catch(e){return [];}
-}
-
-const App={
-
-products:[
-  {name:"Banane",price:20,icon:"🍌",category:"legumes"},
-  {name:"Œufs",price:8,icon:"🥚",category:"legumes"},
-  {name:"Poule",price:10,icon:"🐔",category:"legumes"},
-  {name:"Canard",price:35,icon:"🦆",category:"legumes"},
-  {name:"Tomate",price:5,icon:"🍅",category:"legumes"},
-  {name:"Salade",price:3,icon:"🥬",category:"legumes"},
-  {name:"Concombre",price:4,icon:"🥒",category:"legumes"}
-],
-
-cart:loadCart(),
-
-save(){
-  localStorage.setItem("cart",JSON.stringify(this.cart));
-},
-
-add(name,price){
-  let item=this.cart.find(i=>i.name===name);
-  if(item)item.qty++;
-  else this.cart.push({name,price,qty:1});
-  this.save();
-  this.renderCart();
-},
-
-renderProducts(){
-  const box=document.getElementById("products");
-  box.innerHTML="";
-
-  let list=this.products;
-
-  if(currentCategory!=="all"){
-    list=list.filter(p=>p.category===currentCategory);
+  try{
+    return JSON.parse(localStorage.getItem("cart")) || [];
+  }catch(e){
+    return [];
   }
-
-  list.forEach(p=>{
-    const card=document.createElement("div");
-    card.className="card";
-
-    card.innerHTML=`
-      <div style="font-size:50px">${p.icon}</div>
-      <h3>${p.name}</h3>
-      <div class="price">${p.price}€</div>
-    `;
-
-    const btn=document.createElement("button");
-    btn.className="add-btn";
-    btn.textContent="Ajouter";
-    btn.onclick=()=>this.add(p.name,p.price);
-
-    card.appendChild(btn);
-    box.appendChild(card);
-  });
-},
-
-renderCart(){
-  const box=document.getElementById("cart");
-  box.innerHTML="";
-
-  this.cart.forEach(i=>{
-    const div=document.createElement("div");
-    div.textContent=`${i.name} x${i.qty}`;
-    box.appendChild(div);
-  });
-
-  const total=this.cart.reduce((t,i)=>t+i.price*i.qty,0);
-  document.getElementById("total").textContent=total;
-  document.getElementById("count").textContent=
-    this.cart.reduce((a,b)=>a+b.qty,0);
 }
 
+const App = {
+  products:[
+    {name:"Banane",price:20,icon:"🍌"},
+    {name:"Œufs",price:8,icon:"🥚"},
+    {name:"Poule",price:10,icon:"🐔"},
+    {name:"Canard",price:35,icon:"🦆"}
+  ],
+
+  cart: loadCart(),
+
+  save(){
+    localStorage.setItem("cart",JSON.stringify(this.cart));
+  },
+
+  add(name,price){
+    let item=this.cart.find(i=>i.name===name);
+    if(item) item.qty++;
+    else this.cart.push({name,price,qty:1});
+    this.save();
+    this.renderCart();
+  },
+
+  renderProducts(){
+    const box=document.getElementById("products");
+    const search=document.getElementById("search").value.toLowerCase();
+    box.innerHTML="";
+
+    this.products
+    .filter(p=>p.name.toLowerCase().includes(search))
+    .forEach(p=>{
+      const card=document.createElement("div");
+      card.className="card";
+
+      card.innerHTML=`
+        <div style="font-size:50px">${p.icon}</div>
+        <h3>${p.name}</h3>
+        <div class="price">${p.price}€</div>
+      `;
+
+      const btn=document.createElement("button");
+      btn.className="add-btn";
+      btn.textContent="Ajouter";
+      btn.onclick=()=>this.add(p.name,p.price);
+
+      card.appendChild(btn);
+      box.appendChild(card);
+    });
+  },
+
+  renderCart(){
+    const box=document.getElementById("cart");
+    box.innerHTML="";
+
+    this.cart.forEach(i=>{
+      const div=document.createElement("div");
+      div.textContent=`${i.name} x${i.qty}`;
+      box.appendChild(div);
+    });
+
+    const total=this.cart.reduce((t,i)=>t+i.price*i.qty,0);
+    document.getElementById("total").textContent=total;
+    document.getElementById("count").textContent=
+      this.cart.reduce((a,b)=>a+b.qty,0);
+
+    const orderType=document.getElementById("orderType");
+    const info=document.getElementById("deliveryInfo");
+
+    if(total>=70){
+      orderType.value="delivery";
+      orderType.disabled=true;
+      info.textContent="🚚 Livraison activée automatiquement (commande ≥ 70€)";
+    } else {
+      orderType.disabled=false;
+      info.textContent="";
+    }
+  }
 };
 
-function toggleCart(){
-  const box=document.getElementById("cartBox");
-  const overlay=document.getElementById("overlay");
+/* 🧾 CHOIX COMMANDE */
+function orderChoice(){
+  if(App.cart.length === 0) return alert("Panier vide");
 
-  const show=box.style.display!=="block";
-  box.style.display=show?"block":"none";
-  overlay.style.display=show?"block":"none";
+  let choice = prompt("Commander via :\n1 = WhatsApp\n2 = Email");
+
+  if(choice === "1") orderWhatsApp();
+  else if(choice === "2") orderEmail();
+  else alert("Choix invalide");
+}
+
+/* CART */
+function openCart(){
+  document.getElementById("cartBox").style.display="block";
+  document.getElementById("overlay").style.display="block";
 }
 
 function closeCart(){
@@ -300,6 +340,76 @@ function closeCart(){
   document.getElementById("overlay").style.display="none";
 }
 
+function toggleCart(){
+  const c=document.getElementById("cartBox");
+  if(c.style.display==="block") closeCart();
+  else openCart();
+}
+
+/* WHATSAPP */
+function orderWhatsApp(){
+
+  let total=App.cart.reduce((t,i)=>t+i.price*i.qty,0);
+  let type = document.getElementById("orderType").value;
+
+  let name=document.getElementById("clientName").value;
+  let address=document.getElementById("clientAddress").value;
+  let phone=document.getElementById("clientPhone").value;
+
+  if(App.cart.length===0) return alert("Panier vide");
+
+  let msg=`🛒 Maison Kimouzz\n\n`;
+
+  if(type==="delivery"){
+    if(!name || !address || !phone)
+      return alert("Nom + Adresse + Téléphone requis");
+
+    msg+=`🚚 Livraison\n${name}\n${address}\n${phone}\n`;
+  } else {
+    if(!name || !phone)
+      return alert("Nom + Téléphone requis");
+
+    msg+=`📦 Retrait\n281 route ampadza 97670 Chiconi\n${name}\n${phone}\n`;
+  }
+
+  App.cart.forEach(i=>{
+    msg+=`- ${i.name} x${i.qty}\n`;
+  });
+
+  msg+=`\n💰 Total : ${total}€`;
+
+  window.open("https://wa.me/33789583650?text="+encodeURIComponent(msg));
+  closeCart();
+}
+
+/* EMAIL (OBJET = COMMANDE) */
+function orderEmail(){
+
+  let type=document.getElementById("orderType").value;
+
+  let body="Commande Maison Kimouzz\n\n";
+
+  if(type==="delivery"){
+    body+="🚚 Livraison\n";
+    body+=document.getElementById("clientName").value+"\n";
+    body+=document.getElementById("clientAddress").value+"\n";
+    body+=document.getElementById("clientPhone").value+"\n\n";
+  } else {
+    body+="📦 Retrait\n281 route ampadza 97670 Chiconi\n";
+    body+=document.getElementById("clientName").value+"\n";
+    body+=document.getElementById("clientPhone").value+"\n\n";
+  }
+
+  App.cart.forEach(i=>{
+    body+=`${i.name} x${i.qty}\n`;
+  });
+
+  window.location.href =
+    "mailto:maisonkimouzzz@gmail.com?subject=Commande&body="
+    + encodeURIComponent(body);
+}
+
+/* CLEAR */
 function clearCart(){
   App.cart=[];
   App.save();
