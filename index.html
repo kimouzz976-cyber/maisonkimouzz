@@ -182,16 +182,101 @@ nav a:hover { color:var(--dark); }
 .step-text p { font-size:.82rem; color:rgba(255,255,255,.55); margin:0; line-height:1.5; }
 
 /* REVIEWS */
-.reviews-section { max-width:1200px; margin:0 auto; padding:70px 24px; }
-.reviews-section h2 { font-family:'Playfair Display',serif; font-size:2rem; font-weight:900; margin-bottom:36px; text-align:center; }
-.reviews-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(270px,1fr)); gap:20px; }
-.review-card { background:white; padding:24px; border-radius:18px; box-shadow:0 4px 20px rgba(0,0,0,.06); }
-.stars { color:var(--accent); font-size:1.1rem; margin-bottom:12px; }
-.review-text { font-size:.9rem; line-height:1.6; color:#444; margin-bottom:16px; }
-.reviewer { display:flex; align-items:center; gap:10px; }
-.reviewer-avatar { width:38px; height:38px; border-radius:50%; background:var(--gray-light); display:flex; align-items:center; justify-content:center; font-size:1.2rem; }
-.reviewer-name { font-weight:700; font-size:.85rem; }
-.reviewer-loc { font-size:.75rem; color:var(--gray); }
+/* BETA BANNER */
+.beta-banner {
+  background: linear-gradient(90deg, #1a3a1c, #2d6a2f);
+  color: white;
+  text-align: center;
+  padding: 12px 20px;
+  font-size: .85rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  position: relative;
+  z-index: 199;
+}
+.beta-banner .beta-badge {
+  background: var(--accent); color: var(--dark);
+  padding: 3px 10px; border-radius: 99px; font-size: .72rem;
+  font-weight: 800; text-transform: uppercase; letter-spacing: .05em;
+  white-space: nowrap;
+}
+.beta-banner span { opacity: .9; }
+.beta-close {
+  position: absolute; right: 16px; top: 50%; transform: translateY(-50%);
+  background: none; border: none; color: rgba(255,255,255,.6);
+  font-size: 1rem; cursor: pointer; line-height: 1;
+}
+.beta-close:hover { color: white; }
+
+/* COMMENTS SECTION */
+.comments-section { background: white; border-top: 1px solid rgba(0,0,0,.07); padding: 70px 24px; }
+.comments-inner { max-width: 900px; margin: 0 auto; }
+.comments-inner > h2 { font-family:'Playfair Display',serif; font-size:2rem; font-weight:900; margin-bottom:8px; text-align:center; }
+.comments-sub { text-align:center; color:var(--gray); font-size:.9rem; margin-bottom:40px; }
+
+/* Write form */
+.comment-form {
+  background: var(--cream); border-radius: 20px; padding: 28px;
+  margin-bottom: 40px; border: 1.5px solid rgba(0,0,0,.07);
+}
+.comment-form h3 { font-size:1.05rem; font-weight:700; margin-bottom:20px; }
+.cf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+.cf-field { display: flex; flex-direction: column; gap: 6px; }
+.cf-field label { font-size:.75rem; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:var(--gray); }
+.cf-field input, .cf-field select, .cf-field textarea {
+  padding: 11px 14px; border-radius: 12px;
+  border: 1.5px solid rgba(0,0,0,.1); font-family:'DM Sans',sans-serif;
+  font-size: .9rem; outline: none; background: white; transition: border-color .2s;
+}
+.cf-field input:focus, .cf-field select:focus, .cf-field textarea:focus { border-color: var(--green); }
+.cf-field textarea { resize: vertical; min-height: 90px; }
+.cf-full { grid-column: 1 / -1; }
+
+.star-picker { display: flex; gap: 6px; }
+.star-picker button {
+  background: none; border: none; font-size: 1.5rem; cursor: pointer;
+  color: #d1d5db; transition: color .15s; line-height: 1;
+}
+.star-picker button.lit { color: var(--accent); }
+
+.submit-comment-btn {
+  background: var(--dark); color: white; border: none;
+  padding: 13px 28px; border-radius: 12px; font-family:'DM Sans',sans-serif;
+  font-size: .95rem; font-weight: 700; cursor: pointer; transition: all .2s;
+  margin-top: 16px;
+}
+.submit-comment-btn:hover { background: var(--green); }
+
+/* Comment cards */
+.comments-list { display: flex; flex-direction: column; gap: 16px; }
+.comment-card {
+  background: var(--cream); border-radius: 18px; padding: 22px 24px;
+  border: 1.5px solid rgba(0,0,0,.06); animation: cardIn .4s ease both;
+  position: relative;
+}
+.comment-header { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+.comment-avatar {
+  width: 42px; height: 42px; border-radius: 50%;
+  background: var(--dark); color: white; display: flex; align-items: center;
+  justify-content: center; font-size: 1.1rem; font-weight: 700; flex-shrink: 0;
+}
+.comment-meta { flex: 1; }
+.comment-name { font-weight: 700; font-size: .95rem; }
+.comment-date { font-size: .75rem; color: var(--gray); }
+.comment-stars { color: var(--accent); font-size: .95rem; letter-spacing: 1px; }
+.comment-type-badge {
+  font-size: .72rem; font-weight: 700; padding: 3px 10px;
+  border-radius: 99px; text-transform: uppercase; letter-spacing: .04em;
+}
+.type-produits { background: #dcfce7; color: #166534; }
+.type-service  { background: #dbeafe; color: #1e40af; }
+.type-general  { background: #fef9c3; color: #854d0e; }
+.comment-text { font-size: .88rem; line-height: 1.65; color: #444; margin-top: 8px; }
+.no-comments { text-align: center; padding: 40px 20px; color: var(--gray); font-size: .95rem; }
+.no-comments span { font-size: 2.2rem; display: block; margin-bottom: 10px; }
 
 /* SUPPORT */
 .support-section { background:var(--cream); border-top:1px solid rgba(0,0,0,.07); padding:70px 24px; }
@@ -432,12 +517,20 @@ footer a { color:var(--accent); text-decoration:none; }
 <div class="overlay" id="overlay" onclick="closeCart()"></div>
 <div class="toast" id="toast"></div>
 
+<!-- BETA BANNER -->
+<div class="beta-banner" id="betaBanner">
+  <span class="beta-badge">🚧 Phase de test</span>
+  <span>Ce site est en cours de développement — il sera pleinement opérationnel très prochainement. Merci pour votre patience !</span>
+  <button class="beta-close" onclick="document.getElementById('betaBanner').style.display='none'" title="Fermer">✕</button>
+</div>
+
 <!-- HEADER -->
 <header>
   <div class="logo">🌴 Maison <span>Kimouzz</span></div>
   <nav>
     <a href="#boutique">Boutique</a>
     <a href="#livraison">Livraison</a>
+    <a href="#avis">Avis</a>
     <a href="#support">Nous soutenir</a>
   </nav>
   <button class="cart-btn" onclick="toggleCart()">
@@ -555,25 +648,52 @@ footer a { color:var(--accent); text-decoration:none; }
   </div>
 </section>
 
-<!-- AVIS -->
-<section class="reviews-section">
-  <h2>Ce qu'ils disent de nous ❤️</h2>
-  <div class="reviews-grid">
-    <div class="review-card">
-      <div class="stars">★★★★★</div>
-      <p class="review-text">"Des produits vraiment frais, on sent que tout vient du coin. Les bananes étaient délicieuses ! Je recommande à 100%."</p>
-      <div class="reviewer"><div class="reviewer-avatar">👩</div><div><div class="reviewer-name">Fatima O.</div><div class="reviewer-loc">Mamoudzou</div></div></div>
+<!-- COMMENTAIRES -->
+<section class="comments-section" id="avis">
+  <div class="comments-inner">
+    <h2>💬 Avis & Commentaires</h2>
+    <p class="comments-sub">Partagez votre expérience avec nos produits et notre service. Votre avis nous aide à nous améliorer !</p>
+
+    <!-- Formulaire -->
+    <div class="comment-form">
+      <h3>✍️ Laisser un avis</h3>
+      <div class="cf-row">
+        <div class="cf-field">
+          <label>Votre prénom *</label>
+          <input type="text" id="cfName" placeholder="Fatima, Karim…" maxlength="40">
+        </div>
+        <div class="cf-field">
+          <label>Votre ville</label>
+          <input type="text" id="cfCity" placeholder="Mamoudzou, Koungou…" maxlength="40">
+        </div>
+        <div class="cf-field">
+          <label>Catégorie *</label>
+          <select id="cfType">
+            <option value="general">💬 Avis général</option>
+            <option value="produits">🍌 Produits</option>
+            <option value="service">🚐 Livraison / Service</option>
+          </select>
+        </div>
+        <div class="cf-field">
+          <label>Note *</label>
+          <div class="star-picker" id="starPicker">
+            <button data-v="1">★</button>
+            <button data-v="2">★</button>
+            <button data-v="3">★</button>
+            <button data-v="4">★</button>
+            <button data-v="5">★</button>
+          </div>
+        </div>
+        <div class="cf-field cf-full">
+          <label>Votre commentaire *</label>
+          <textarea id="cfText" placeholder="Dites-nous ce que vous avez pensé des produits, de la livraison, du service…"></textarea>
+        </div>
+      </div>
+      <button class="submit-comment-btn" onclick="Comments.submit()">Publier mon avis →</button>
     </div>
-    <div class="review-card">
-      <div class="stars">★★★★★</div>
-      <p class="review-text">"Enfin une boutique locale sérieuse. La livraison était rapide et tout était bien emballé."</p>
-      <div class="reviewer"><div class="reviewer-avatar">👨</div><div><div class="reviewer-name">Karim A.</div><div class="reviewer-loc">Koungou</div></div></div>
-    </div>
-    <div class="review-card">
-      <div class="stars">★★★★☆</div>
-      <p class="review-text">"Super initiative pour valoriser les produits mahorais. Le poulet local est bien meilleur qu'en grande surface."</p>
-      <div class="reviewer"><div class="reviewer-avatar">👩‍🦱</div><div><div class="reviewer-name">Naïma S.</div><div class="reviewer-loc">Bandraboua</div></div></div>
-    </div>
+
+    <!-- Liste des avis -->
+    <div class="comments-list" id="commentsList"></div>
   </div>
 </section>
 
@@ -920,9 +1040,122 @@ function checkout() {
   window.open('https://wa.me/33789583650?text=' + msg, '_blank');
 }
 
-// INIT
-App.render();
-App.renderCart();
+// ─── COMMENTS ───
+const TYPE_LABELS = { general:'💬 Général', produits:'🍌 Produits', service:'🚐 Service' };
+const TYPE_CLASSES = { general:'type-general', produits:'type-produits', service:'type-service' };
+
+let selectedStars = 0;
+
+// Star picker interaction
+document.getElementById('starPicker').querySelectorAll('button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    selectedStars = Number(btn.dataset.v);
+    document.querySelectorAll('#starPicker button').forEach((b, i) => {
+      b.classList.toggle('lit', i < selectedStars);
+    });
+  });
+  btn.addEventListener('mouseover', () => {
+    const v = Number(btn.dataset.v);
+    document.querySelectorAll('#starPicker button').forEach((b, i) => {
+      b.classList.toggle('lit', i < v);
+    });
+  });
+});
+document.getElementById('starPicker').addEventListener('mouseleave', () => {
+  document.querySelectorAll('#starPicker button').forEach((b, i) => {
+    b.classList.toggle('lit', i < selectedStars);
+  });
+});
+
+const Comments = {
+  data: (function() {
+    try {
+      const saved = JSON.parse(localStorage.getItem('mk_comments'));
+      if (Array.isArray(saved)) return saved;
+    } catch(e) {}
+    // Seed with 3 starter comments so the section isn't empty
+    return [
+      { id:1, name:"Fatima O.", city:"Mamoudzou", type:"produits", stars:5, text:"Des produits vraiment frais, on sent que tout vient du coin. Les bananes étaient délicieuses ! Je recommande à 100%.", date:"2025-05-10" },
+      { id:2, name:"Karim A.", city:"Koungou", type:"service", stars:5, text:"La livraison était rapide et tout était bien emballé. Enfin une boutique locale sérieuse !", date:"2025-05-18" },
+      { id:3, name:"Naïma S.", city:"Bandraboua", type:"general", stars:4, text:"Super initiative pour valoriser les produits mahorais. Le poulet local est bien meilleur qu'en grande surface.", date:"2025-06-01" },
+    ];
+  })(),
+
+  save() { localStorage.setItem('mk_comments', JSON.stringify(this.data)); },
+
+  submit() {
+    const name = document.getElementById('cfName').value.trim();
+    const city = document.getElementById('cfCity').value.trim();
+    const type = document.getElementById('cfType').value;
+    const text = document.getElementById('cfText').value.trim();
+
+    if (!name) { showToast('⚠️ Indiquez votre prénom'); return; }
+    if (!text)  { showToast('⚠️ Écrivez votre commentaire'); return; }
+    if (!selectedStars) { showToast('⚠️ Choisissez une note ⭐'); return; }
+
+    const newComment = {
+      id: Date.now(),
+      name, city, type, text,
+      stars: selectedStars,
+      date: new Date().toISOString().split('T')[0]
+    };
+    this.data.unshift(newComment);
+    this.save();
+    this.render();
+
+    // Reset form
+    document.getElementById('cfName').value = '';
+    document.getElementById('cfCity').value = '';
+    document.getElementById('cfText').value = '';
+    document.getElementById('cfType').value = 'general';
+    selectedStars = 0;
+    document.querySelectorAll('#starPicker button').forEach(b => b.classList.remove('lit'));
+
+    showToast('✅ Votre avis a été publié, merci !');
+  },
+
+  render() {
+    const list = document.getElementById('commentsList');
+    list.innerHTML = '';
+
+    if (this.data.length === 0) {
+      list.innerHTML = '<div class="no-comments"><span>💬</span>Aucun avis pour le moment.<br>Soyez le premier à partager votre expérience !</div>';
+      return;
+    }
+
+    this.data.forEach((c, idx) => {
+      const card = document.createElement('div');
+      card.className = 'comment-card';
+      card.style.animationDelay = (idx * 0.04) + 's';
+
+      const initials = c.name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0,2);
+      const starsStr = '★'.repeat(c.stars) + '☆'.repeat(5 - c.stars);
+      const dateStr = new Date(c.date).toLocaleDateString('fr-FR', { day:'numeric', month:'long', year:'numeric' });
+
+      card.innerHTML =
+        '<div class="comment-header">' +
+          '<div class="comment-avatar">' + initials + '</div>' +
+          '<div class="comment-meta">' +
+            '<div class="comment-name">' + escHtml(c.name) + (c.city ? ' <span style="font-weight:400;color:var(--gray);font-size:.8rem">· ' + escHtml(c.city) + '</span>' : '') + '</div>' +
+            '<div class="comment-date">' + dateStr + '</div>' +
+          '</div>' +
+          '<div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">' +
+            '<div class="comment-stars">' + starsStr + '</div>' +
+            '<span class="comment-type-badge ' + TYPE_CLASSES[c.type] + '">' + TYPE_LABELS[c.type] + '</span>' +
+          '</div>' +
+        '</div>' +
+        '<div class="comment-text">' + escHtml(c.text) + '</div>';
+
+      list.appendChild(card);
+    });
+  }
+};
+
+function escHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+Comments.render();
 
 // ─── ADMIN ───
 const ADMIN_PASSWORD = "kimouzz2025";
@@ -1064,4 +1297,4 @@ const Admin = {
 };
 </script>
 </body>
-            </html>
+</html>
