@@ -181,7 +181,6 @@ nav a:hover { color:var(--dark); }
 .step-text strong { display:block; margin-bottom:4px; font-size:.95rem; }
 .step-text p { font-size:.82rem; color:rgba(255,255,255,.55); margin:0; line-height:1.5; }
 
-/* REVIEWS */
 /* BETA BANNER */
 .beta-banner {
   background: linear-gradient(90deg, #1a3a1c, #2d6a2f);
@@ -211,25 +210,41 @@ nav a:hover { color:var(--dark); }
 }
 .beta-close:hover { color: white; }
 
-/* COMMENTS SECTION */
-.comments-section { background: white; border-top: 1px solid rgba(0,0,0,.07); padding: 70px 24px; }
-.comments-inner { max-width: 900px; margin: 0 auto; }
+/* ═══════════════════════════════════════════
+   COMMENTS SECTION — FIXED (no page overflow)
+   ═══════════════════════════════════════════ */
+.comments-section {
+  background: white;
+  border-top: 1px solid rgba(0,0,0,.07);
+  padding: 70px 24px;
+  overflow-x: hidden;   /* ← empêche le débordement horizontal */
+}
+.comments-inner { max-width: 900px; margin: 0 auto; width: 100%; }
 .comments-inner > h2 { font-family:'Playfair Display',serif; font-size:2rem; font-weight:900; margin-bottom:8px; text-align:center; }
 .comments-sub { text-align:center; color:var(--gray); font-size:.9rem; margin-bottom:40px; }
 
-/* Write form */
+/* Formulaire */
 .comment-form {
   background: var(--cream); border-radius: 20px; padding: 28px;
   margin-bottom: 40px; border: 1.5px solid rgba(0,0,0,.07);
+  width: 100%; box-sizing: border-box;
 }
 .comment-form h3 { font-size:1.05rem; font-weight:700; margin-bottom:20px; }
-.cf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+
+/* CORRECTION PRINCIPALE : auto-fit empêche le dépassement sur mobile */
+.cf-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+  margin-bottom: 14px;
+}
 .cf-field { display: flex; flex-direction: column; gap: 6px; }
 .cf-field label { font-size:.75rem; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:var(--gray); }
 .cf-field input, .cf-field select, .cf-field textarea {
   padding: 11px 14px; border-radius: 12px;
   border: 1.5px solid rgba(0,0,0,.1); font-family:'DM Sans',sans-serif;
   font-size: .9rem; outline: none; background: white; transition: border-color .2s;
+  width: 100%; box-sizing: border-box;
 }
 .cf-field input:focus, .cf-field select:focus, .cf-field textarea:focus { border-color: var(--green); }
 .cf-field textarea { resize: vertical; min-height: 90px; }
@@ -250,31 +265,32 @@ nav a:hover { color:var(--dark); }
 }
 .submit-comment-btn:hover { background: var(--green); }
 
-/* Comment cards */
+/* Cartes de commentaires */
 .comments-list { display: flex; flex-direction: column; gap: 16px; }
 .comment-card {
   background: var(--cream); border-radius: 18px; padding: 22px 24px;
   border: 1.5px solid rgba(0,0,0,.06); animation: cardIn .4s ease both;
-  position: relative;
+  position: relative; width: 100%; box-sizing: border-box;
 }
-.comment-header { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+.comment-header { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; flex-wrap: wrap; }
 .comment-avatar {
   width: 42px; height: 42px; border-radius: 50%;
   background: var(--dark); color: white; display: flex; align-items: center;
   justify-content: center; font-size: 1.1rem; font-weight: 700; flex-shrink: 0;
 }
-.comment-meta { flex: 1; }
-.comment-name { font-weight: 700; font-size: .95rem; }
+.comment-meta { flex: 1; min-width: 0; }
+.comment-name { font-weight: 700; font-size: .95rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .comment-date { font-size: .75rem; color: var(--gray); }
 .comment-stars { color: var(--accent); font-size: .95rem; letter-spacing: 1px; }
 .comment-type-badge {
   font-size: .72rem; font-weight: 700; padding: 3px 10px;
   border-radius: 99px; text-transform: uppercase; letter-spacing: .04em;
+  white-space: nowrap;
 }
 .type-produits { background: #dcfce7; color: #166534; }
 .type-service  { background: #dbeafe; color: #1e40af; }
 .type-general  { background: #fef9c3; color: #854d0e; }
-.comment-text { font-size: .88rem; line-height: 1.65; color: #444; margin-top: 8px; }
+.comment-text { font-size: .88rem; line-height: 1.65; color: #444; margin-top: 8px; word-break: break-word; }
 .no-comments { text-align: center; padding: 40px 20px; color: var(--gray); font-size: .95rem; }
 .no-comments span { font-size: 2.2rem; display: block; margin-bottom: 10px; }
 
@@ -363,6 +379,12 @@ footer a { color:var(--accent); text-decoration:none; }
   .hero h1 { font-size:2.3rem; }
   .cart-panel { width:100%; }
   .stats-band { gap:30px; }
+  /* Commentaires : tout en colonne sur petit écran */
+  .cf-row { grid-template-columns: 1fr; }
+  .comments-section { padding: 48px 16px; }
+  .comment-form { padding: 20px 16px; }
+  .comment-card { padding: 16px; }
+  .comment-header { flex-wrap: wrap; gap: 8px; }
 }
 
 /* ─── ADMIN ─── */
@@ -376,7 +398,6 @@ footer a { color:var(--accent); text-decoration:none; }
 }
 .admin-trigger:hover { color:white; background:var(--green); }
 
-/* Login modal */
 .admin-login-overlay {
   position:fixed; inset:0; background:rgba(0,0,0,.6);
   display:none; align-items:center; justify-content:center;
@@ -410,7 +431,6 @@ footer a { color:var(--accent); text-decoration:none; }
 }
 .admin-login-box .login-error { color:#ef4444; font-size:.82rem; margin-bottom:10px; display:none; }
 
-/* Admin panel */
 .admin-panel {
   position:fixed; inset:0; background:var(--cream);
   z-index:700; overflow-y:auto; display:none;
@@ -430,23 +450,18 @@ footer a { color:var(--accent); text-decoration:none; }
   transition:background .2s;
 }
 .admin-close-btn:hover { background:rgba(255,255,255,.2); }
-
 .admin-content { max-width:1100px; margin:0 auto; padding:36px 24px 60px; }
-
 .admin-section { margin-bottom:48px; }
 .admin-section-title {
   font-family:'Playfair Display',serif; font-size:1.5rem; font-weight:900;
   margin-bottom:20px; display:flex; align-items:center; gap:10px;
 }
 .admin-section-title span { font-family:'DM Sans',sans-serif; font-size:.75rem; font-weight:600; color:var(--gray); background:var(--gray-light); padding:4px 10px; border-radius:99px; }
-
-/* Products table */
 .admin-table { width:100%; border-collapse:collapse; background:white; border-radius:16px; overflow:hidden; box-shadow:0 4px 20px rgba(0,0,0,.06); }
 .admin-table th { background:var(--dark); color:white; padding:14px 16px; text-align:left; font-size:.8rem; font-weight:600; text-transform:uppercase; letter-spacing:.05em; }
 .admin-table td { padding:14px 16px; border-bottom:1px solid rgba(0,0,0,.06); font-size:.9rem; vertical-align:middle; }
 .admin-table tr:last-child td { border-bottom:none; }
 .admin-table tr:hover td { background:#fafafa; }
-
 .admin-icon-cell { font-size:1.6rem; text-align:center; }
 .price-input {
   width:80px; padding:7px 10px; border-radius:8px;
@@ -461,7 +476,6 @@ footer a { color:var(--accent); text-decoration:none; }
   font-size:.85rem; outline:none; transition:border-color .2s; width:100%;
 }
 .name-input:focus, .desc-input:focus { border-color:var(--green); }
-
 .badge-select {
   padding:6px 10px; border-radius:8px; border:1.5px solid rgba(0,0,0,.12);
   font-family:'DM Sans',sans-serif; font-size:.82rem; outline:none; background:white;
@@ -478,8 +492,6 @@ footer a { color:var(--accent); text-decoration:none; }
   transition:all .2s; white-space:nowrap;
 }
 .save-row-btn:hover { background:var(--green); color:white; }
-
-/* Add product form */
 .add-product-form {
   background:white; border-radius:20px; padding:28px;
   box-shadow:0 4px 20px rgba(0,0,0,.06);
@@ -500,14 +512,12 @@ footer a { color:var(--accent); text-decoration:none; }
   cursor:pointer; transition:all .2s; display:flex; align-items:center; gap:8px;
 }
 .add-product-btn:hover { background:var(--green); }
-
 .admin-save-all-btn {
   background:var(--green); color:white; border:none; padding:14px 32px;
   border-radius:14px; font-family:'DM Sans',sans-serif; font-size:1rem; font-weight:700;
   cursor:pointer; transition:all .2s; width:100%;
 }
 .admin-save-all-btn:hover { background:var(--green-light); }
-
 .admin-info { background:#fffbea; border:1.5px solid var(--accent); border-radius:12px; padding:14px 18px; margin-bottom:24px; font-size:.85rem; color:#555; }
 .admin-info strong { color:var(--dark); }
 </style>
@@ -572,8 +582,6 @@ footer a { color:var(--accent); text-decoration:none; }
 <!-- BOUTIQUE -->
 <div id="boutique" class="shop-header">
   <h2>Notre boutique 🛒</h2>
-
-  <!-- Delivery Info Banner -->
   <div class="delivery-banner">
     <div class="db-icon">🚐</div>
     <div>
@@ -584,7 +592,6 @@ footer a { color:var(--accent); text-decoration:none; }
       </p>
     </div>
   </div>
-
   <div class="search-filter-row">
     <div class="search-wrap">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
@@ -611,7 +618,6 @@ footer a { color:var(--accent); text-decoration:none; }
     <div>
       <h2>Livraison & Retrait 🚐</h2>
       <p>Commandez en ligne et choisissez entre la livraison à domicile ou le retrait à notre point de collecte à Chiconi.</p>
-
       <div class="delivery-info-box">
         <p>
           🚚 <strong>Livraison à domicile</strong> : dès <strong>60€</strong> d'achat · délai 48h · Mayotte uniquement.<br><br>
@@ -654,7 +660,6 @@ footer a { color:var(--accent); text-decoration:none; }
     <h2>💬 Avis & Commentaires</h2>
     <p class="comments-sub">Partagez votre expérience avec nos produits et notre service. Votre avis nous aide à nous améliorer !</p>
 
-    <!-- Formulaire -->
     <div class="comment-form">
       <h3>✍️ Laisser un avis</h3>
       <div class="cf-row">
@@ -692,7 +697,6 @@ footer a { color:var(--accent); text-decoration:none; }
       <button class="submit-comment-btn" onclick="Comments.submit()">Publier mon avis →</button>
     </div>
 
-    <!-- Liste des avis -->
     <div class="comments-list" id="commentsList"></div>
   </div>
 </section>
@@ -738,7 +742,6 @@ footer a { color:var(--accent); text-decoration:none; }
 
 <a class="whatsapp-float" href="https://wa.me/33789583650" target="_blank" title="WhatsApp">💬</a>
 
-<!-- Admin trigger -->
 <button class="admin-trigger" onclick="openAdminLogin()" title="Administration">⚙️</button>
 
 <!-- Admin login modal -->
@@ -754,7 +757,7 @@ footer a { color:var(--accent); text-decoration:none; }
   </div>
 </div>
 
-<!-- Admin panel (full screen) -->
+<!-- Admin panel -->
 <div class="admin-panel" id="adminPanel">
   <div class="admin-topbar">
     <div>
@@ -767,7 +770,6 @@ footer a { color:var(--accent); text-decoration:none; }
     <div class="admin-info">
       💡 <strong>Utilisation :</strong> Modifiez directement dans le tableau, puis cliquez sur <strong>💾 Enregistrer tout</strong> en bas. Les changements s'appliquent immédiatement sur la boutique.
     </div>
-
     <div class="admin-section">
       <div class="admin-section-title">📦 Produits existants <span id="productCount"></span></div>
       <div style="overflow-x:auto">
@@ -787,7 +789,6 @@ footer a { color:var(--accent); text-decoration:none; }
         </table>
       </div>
     </div>
-
     <div class="admin-section">
       <div class="admin-section-title">➕ Ajouter un nouveau produit</div>
       <div class="add-product-form">
@@ -835,7 +836,6 @@ footer a { color:var(--accent); text-decoration:none; }
         <button class="add-product-btn" onclick="Admin.addProduct()">➕ Ajouter ce produit</button>
       </div>
     </div>
-
     <button class="admin-save-all-btn" onclick="Admin.saveAll()">💾 Enregistrer toutes les modifications</button>
   </div>
 </div>
@@ -845,23 +845,19 @@ const DELIVERY_MIN = 60;
 const PICKUP_ADDRESS = "281 route Ampadza, Chiconi 97670";
 
 const PRODUCTS = [
-  // Fruits
   { id:1,  name:"Banane locale",   price:20, icon:"🍌", cat:"fruits",  desc:"Régime entier de bananes fraîches de Mayotte.", badge:"Populaire" },
   { id:2,  name:"Noix de coco",    price:12, icon:"🥥", cat:"fruits",  desc:"Cocos fraîches récoltées localement.", badge:null },
   { id:3,  name:"Mangue",          price:15, icon:"🥭", cat:"fruits",  desc:"Mangues sucrées de saison.", badge:"Saison" },
   { id:4,  name:"Papaye",          price:8,  icon:"🍐", cat:"fruits",  desc:"Papayes mûres à point, cultivées à Mayotte.", badge:null },
   { id:5,  name:"Ananas",          price:10, icon:"🍍", cat:"fruits",  desc:"Ananas frais et juteux.", badge:null },
-  // Légumes
   { id:6,  name:"Tomate",          price:5,  icon:"🍅", cat:"legumes", desc:"Tomates rouges cultivées localement.", badge:null },
   { id:7,  name:"Salade verte",    price:3,  icon:"🥬", cat:"legumes", desc:"Laitue fraîche du jour.", badge:null },
   { id:8,  name:"Concombre",       price:4,  icon:"🥒", cat:"legumes", desc:"Concombres frais et croquants.", badge:null },
   { id:9,  name:"Aubergine",       price:4,  icon:"🫙", cat:"legumes", desc:"Aubergines locales fermes.", badge:null },
   { id:10, name:"Piment",          price:3,  icon:"🌶️", cat:"legumes", desc:"Piments frais, variétés locales.", badge:"Épicé" },
-  // Viandes
   { id:11, name:"Poule locale",    price:10, icon:"🐓", cat:"viandes", desc:"Poulet élevé en plein air à Mayotte.", badge:"Local" },
   { id:12, name:"Canard",          price:35, icon:"🦆", cat:"viandes", desc:"Canard entier, élevage local.", badge:null },
   { id:13, name:"Cabri",           price:45, icon:"🐐", cat:"viandes", desc:"Cabri de Mayotte, idéal pour le rougail.", badge:"Festif" },
-  // Oeufs & Miel
   { id:14, name:"Œufs (x12)",      price:8,  icon:"🥚", cat:"oeufs",  desc:"Œufs frais de poules locales.", badge:null },
   { id:15, name:"Miel local",      price:18, icon:"🍯", cat:"oeufs",  desc:"Miel artisanal de Mayotte.", badge:"Artisanal" },
 ];
@@ -989,7 +985,6 @@ const App = {
     document.getElementById('total').textContent = total + '€';
     document.getElementById('count').textContent = this.cart.reduce((a, b) => a + b.qty, 0);
 
-    // Delivery notice
     const notice = document.getElementById('cartDeliveryNotice');
     if (this.cart.length === 0) {
       notice.style.display = 'none';
@@ -1046,7 +1041,6 @@ const TYPE_CLASSES = { general:'type-general', produits:'type-produits', service
 
 let selectedStars = 0;
 
-// Star picker interaction
 document.getElementById('starPicker').querySelectorAll('button').forEach(btn => {
   btn.addEventListener('click', () => {
     selectedStars = Number(btn.dataset.v);
@@ -1073,7 +1067,6 @@ const Comments = {
       const saved = JSON.parse(localStorage.getItem('mk_comments'));
       if (Array.isArray(saved)) return saved;
     } catch(e) {}
-    // Seed with 3 starter comments so the section isn't empty
     return [
       { id:1, name:"Fatima O.", city:"Mamoudzou", type:"produits", stars:5, text:"Des produits vraiment frais, on sent que tout vient du coin. Les bananes étaient délicieuses ! Je recommande à 100%.", date:"2025-05-10" },
       { id:2, name:"Karim A.", city:"Koungou", type:"service", stars:5, text:"La livraison était rapide et tout était bien emballé. Enfin une boutique locale sérieuse !", date:"2025-05-18" },
@@ -1103,7 +1096,6 @@ const Comments = {
     this.save();
     this.render();
 
-    // Reset form
     document.getElementById('cfName').value = '';
     document.getElementById('cfCity').value = '';
     document.getElementById('cfText').value = '';
@@ -1160,7 +1152,6 @@ Comments.render();
 // ─── ADMIN ───
 const ADMIN_PASSWORD = "kimouzz2025";
 
-// Load any saved products from localStorage
 (function() {
   try {
     const saved = JSON.parse(localStorage.getItem("mk_products"));
@@ -1232,7 +1223,6 @@ const Admin = {
       tbody.appendChild(tr);
     });
 
-    // Events: live edit
     tbody.querySelectorAll('input[data-field], select[data-field]').forEach(el => {
       el.addEventListener('change', () => {
         const id = Number(el.dataset.id);
@@ -1245,7 +1235,6 @@ const Admin = {
       });
     });
 
-    // Delete
     tbody.querySelectorAll('.delete-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         if (!confirm('Supprimer ce produit ?')) return;
@@ -1273,14 +1262,12 @@ const Admin = {
     const newId = Math.max(0, ...PRODUCTS.map(p => p.id)) + 1;
     PRODUCTS.push({ id: newId, name, price, icon, cat, desc, badge });
     this.renderTable();
-    // Clear form
     ['newIcon','newName','newPrice','newDesc'].forEach(id => document.getElementById(id).value = '');
     document.getElementById('newBadge').value = '';
     showToast('✅ ' + icon + ' ' + name + ' ajouté !');
   },
 
   saveAll() {
-    // Flush all current input values to PRODUCTS before saving
     document.querySelectorAll('#adminTableBody input[data-field], #adminTableBody select[data-field]').forEach(el => {
       const id = Number(el.dataset.id);
       const field = el.dataset.field;
@@ -1295,6 +1282,9 @@ const Admin = {
     this.renderTable();
   }
 };
+
+App.render();
+App.renderCart();
 </script>
 </body>
-</html>
+                                                                                                           </html>
